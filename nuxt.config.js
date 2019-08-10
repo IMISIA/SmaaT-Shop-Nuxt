@@ -27,13 +27,22 @@ export default {
   ** Global CSS
   */
   css: [
+    '~/assets/Css/Styles.css'
   ],
 
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
+    { src : '~/plugins/jquery-3.4.1.min.js' , ssr : false }
   ],
+
+  devModules: [
+    '@nuxtjs/vuetify'
+  ],
+  vuetify: {
+    // rtl : true
+  },
 
   /*
   ** Nuxt.js modules
@@ -49,6 +58,7 @@ export default {
   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
+    baseURL : 'http://luxbuystore.ir/graphql' ,
   },
 
   /*

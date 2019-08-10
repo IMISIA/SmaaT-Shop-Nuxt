@@ -29,7 +29,6 @@ export const state = () => ({
 })
 
 export const mutations = {
-
     // Payloads : Prop , Val , Module , Obj_Assign
     Set_state( state , payload ) {
         if(payload.Module) {
@@ -42,5 +41,148 @@ export const mutations = {
             : state[payload.Prop] = payload.Val
         }
     }
+}
 
-  }
+export const actions = {
+    async nuxtServerInit ({ state } , { app }) {
+
+        let query = [
+            `
+                {
+                    categories {
+                        data {
+                            id
+                            title
+                            icon
+                            childs {
+                                id
+                                title
+                                logo {
+                                    id
+                                    file_name
+                                    medium
+                                }
+                                childs {
+                                    id 
+                                    title
+                                    childs {
+                                        id
+                                        title
+                                        childs {
+                                            id
+                                            title
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    cart {
+                        id
+                        count
+                        variation {
+                            id
+                            sales_price
+                            inventory
+                            warranty {
+                                title
+                            }
+                            color {
+                                name
+                            }
+                            size {
+                                name
+                            }
+                            product {
+                                id
+                                name
+                                slug
+                                photos {
+                                    id
+                                    file_name
+                                    small
+                                }
+                            }
+                        }
+                    }
+                    siteSetting {
+                        title
+                        theme_color
+                        is_enabled
+                        description
+                        phone
+                        address
+                        banner_link
+                        logo {
+                            id
+                            name
+                            small
+                        }
+                        banner {
+                            id
+                            name
+                            wide
+                        }
+                        header_banner {
+                            id
+                            name
+                            wide
+                        }
+                        watermark {
+                            id
+                            name
+                            small
+                        }
+                        slider {
+                            image {
+                            id
+                            name
+                            wide
+                            }
+                            title
+                            description
+                            button
+                            link
+                        }
+                        posters {
+                            image {
+                            id
+                            name
+                            medium
+                            }
+                            title
+                            description
+                            button
+                            link
+                        }
+                    }
+                    brands {
+                        data {
+                            id
+                            name
+                            logo {
+                                id
+                                file_name
+                                small
+                            }
+                        }
+                    }
+                }
+            
+            `
+        ]
+
+        let { data } = await app.$axios({
+            method : 'POST' ,
+            data : {
+                query : query[0]
+            }
+        })
+
+        state.Categories = data.data.categories.data;
+        state.Shopping_Cart = data.data.cart;
+        state.SiteSetting = data.data.siteSetting;
+        state.Brands = data.data.brands.data;
+
+    }
+}

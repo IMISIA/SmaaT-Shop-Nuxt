@@ -1,0 +1,36 @@
+html {
+  height: 100%;
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-family: "IranSans", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  font-color: #222222;
+  box-sizing: border-box;
+}
+html body {
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  outline: none;
+}
+*:before {
+  box-sizing: border-box;
+  margin: 0;
+  outline: none;
+}
+*:before {
+  box-sizing: border-box;
+  margin: 0;
+  outline: none !important;
+}
+*:focus {
+  outline: none !important;
+}
+
+/*# sourceMappingURL=Styles.css.map */

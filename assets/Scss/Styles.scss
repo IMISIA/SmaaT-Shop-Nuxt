@@ -22,12 +22,18 @@ html {
 * {
     box-sizing: border-box;
     margin: 0;
+    outline: none;
     &:before {
         box-sizing: border-box;
         margin: 0;
+        outline: none;
     }    
     &:before {
         box-sizing: border-box;
         margin: 0;
-    }    
+        outline: none !important;
+    }
+    &:focus {
+        outline: none !important;
+    }
 }
