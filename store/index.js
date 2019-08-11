@@ -9,7 +9,7 @@ export const state = () => ({
 
     SiteSetting : {} ,
 
-    User : {} ,
+    Me : {} ,
 
     Provinces : [] ,
     Cities : [] ,
@@ -54,14 +54,14 @@ export const actions = {
                             id
                             title
                             icon
+                            logo {
+                                id
+                                file_name
+                                medium
+                            }
                             childs {
                                 id
                                 title
-                                logo {
-                                    id
-                                    file_name
-                                    medium
-                                }
                                 childs {
                                     id 
                                     title
@@ -116,7 +116,7 @@ export const actions = {
                         logo {
                             id
                             name
-                            small
+                            medium
                         }
                         banner {
                             id
@@ -128,16 +128,11 @@ export const actions = {
                             name
                             wide
                         }
-                        watermark {
-                            id
-                            name
-                            small
-                        }
                         slider {
                             image {
-                            id
-                            name
-                            wide
+                                id
+                                name
+                                wide
                             }
                             title
                             description
@@ -146,9 +141,9 @@ export const actions = {
                         }
                         posters {
                             image {
-                            id
-                            name
-                            medium
+                                id
+                                name
+                                large
                             }
                             title
                             description

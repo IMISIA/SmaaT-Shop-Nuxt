@@ -1,6 +1,16 @@
 @import "variables";
 @import "mixin";
 
+@import "header";
+
+@font-face {
+    font-family: 'iransans';
+    src: url('~assets/Fonts/Iransans/Iransans.eot') format('eot'),
+         url('~assets/Fonts/Iransans/Iransans.woff') format('woff'),
+         url('~assets/Fonts/Iransans/Iransans.woff2') format('woff2'),
+         url('~assets/Fonts/Iransans/Iransans.ttf') format('truetype');
+}
+
 html {
     height: 100%;
     -ms-text-size-adjust: 100%;
@@ -8,7 +18,7 @@ html {
     -moz-osx-font-smoothing: grayscale;
     -webkit-font-smoothing: antialiased;
     font: {
-        family: "IranSans", sans-serif;
+        family: 'iransans', sans-serif;
         size: 14px;
         weight: 400;
         color: #222222
@@ -16,10 +26,12 @@ html {
     box-sizing: border-box;
     body {
         height: 100%;
+        background: #f5f5f5;
     }
 }
 
 * {
+    font-family: 'iransans', sans-serif;
     box-sizing: border-box;
     margin: 0;
     outline: none;
@@ -35,5 +47,47 @@ html {
     }
     &:focus {
         outline: none !important;
+    }
+}
+
+a {
+    text-decoration: none !important;
+}
+
+ul {
+    list-style-type: none;
+}
+
+article, aside, footer, header, nav, section {
+    display: block;
+}
+
+.rtl {
+    direction: rtl !important;
+}
+
+.ltr {
+    direction: ltr !important;
+}
+
+.bold {
+    font-weight: bold !important;
+}
+
+.rounded-7 {
+    border-radius: 7px !important;
+}
+
+.el-shadow {
+    box-shadow: 0 2px 12px 0 rgba(0,0,0,.1) !important;
+}
+
+.am-shadow {
+    box-shadow: 0 5px 10px -8px #00bcd421, 0 6px 25px -12px rgba(0,0,0,.1) !important;
+}
+
+@each $size in ( 10 , 12 , 13 , 14 , 18 , 20 ) {
+    .fs-#{$size} {
+        font-size: #{$size}px !important; 
     }
 }

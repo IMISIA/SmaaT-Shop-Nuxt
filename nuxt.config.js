@@ -27,21 +27,30 @@ export default {
   ** Global CSS
   */
   css: [
-    '~/assets/Css/Styles.css'
+    '~/assets/Css/Styles.css' ,
+    '~/assets/Fonts/Linearicons/style.css' ,
+    '~/assets/Fonts/Flaticon/flaticon.css'
   ],
 
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
-    { src : '~/plugins/jquery-3.4.1.min.js' , ssr : false }
-  ],
+    '~/plugins/element-ui' ,
+    '~/plugins/vuesax' ,
+    { src : '~/plugins/Swiper' , mode : 'client' } ,
+    { src : '~/plugins/other' , mode : 'client' } ,
+    { src : '~/plugins/jquery-3.4.1.min.js' , ssr : false } ,
+  ] ,
 
   devModules: [
     '@nuxtjs/vuetify'
   ],
   vuetify: {
     // rtl : true
+    icons: {
+      iconfont: 'mdi' | 'fa',  // default - only for display purposes
+    }
   },
 
   /*

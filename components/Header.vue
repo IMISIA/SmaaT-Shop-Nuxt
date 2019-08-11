@@ -1,0 +1,480 @@
+<template>
+    <div>
+        <header class="smt-header">
+            <div class="container-fuild py-2 px-5 px-xs-3">
+                <div class="row rtl py-md-2 mx-0">
+
+                    <div class="col-md-2 text-left text-md-right px-xs-0">
+
+                        <div class="hamburger hamburger--spin js-hamburger" v-if="Res"
+                            :class="{ 'is-active' : Ctg_drawer }" @click="Ctg_drawer = true">
+                            <div class="hamburger-box">
+                                <div class="hamburger-inner"></div>
+                            </div>
+                        </div>
+
+                        <nuxt-link to="/" class="d-inline-block">
+                            <img
+                                class="site-logo"
+                                :src=" SiteSetting.logo && SiteSetting.logo.medium ? Url + SiteSetting.logo.medium : '/images/none.png' "
+                                alt="logo">
+                        </nuxt-link>
+
+                    </div>
+
+                    <div class="col-md-10 ltr d-flex align-items-center px-xs-0 mt-xs-2">
+
+                        <template v-if="!Res">
+                            <!-- Shopping Cart -->
+                            <el-badge class="item" :value="Shopping_Cart.length">
+                                <vs-button class="cart-btn px-3" :color="web_color" type="filled"
+                                    icon-pack="lnr lnr-cart" icon="." icon-after>
+                                    سبد خرید    
+                                </vs-button>
+                            </el-badge>
+                                
+                            <!-- Login / Register -->
+                            <div class="mx-5">
+                                <vs-dropdown vs-custom-content vs-trigger-click>
+
+                                    <a class="login-text mx-4" href.prevent>
+                                        <v-icon light>keyboard_arrow_down</v-icon>
+                                        <template v-if="is_exist(Me)">
+                                            {{ Me.full_name.trim() || Me.username || Me.email }}
+                                            <v-avatar class="ml-2" :size="40" :color="web_color">
+                                                <img :src=" Me.avatar && Me.avatar.small ? Url + Me.avatar.small : '/images/user.png' " alt="avatar">
+                                            </v-avatar>
+                                        </template>
+                                        <template v-else>
+                                            ورود / ثبت نام
+                                        </template>
+                                    </a>
+
+                                    <vs-dropdown-menu class="loginx rtl">
+                                        <v-list dense shaped class="py-0" v-if="is_exist(Me)">
+                                            <v-list-item-group :color="web_color">
+
+                                                <v-list-item>
+                                                    <v-list-item-action class="pl-3">
+                                                        <i class="fs-20 ml-2 lnr lnr-user"></i>
+                                                    </v-list-item-action>
+                                                    <v-list-item-content>
+                                                        <v-list-item-title class="fs-13 text-right"> پنل کاربری </v-list-item-title>
+                                                    </v-list-item-content>
+                                                </v-list-item>
+
+                                                <v-list-item>
+                                                    <v-list-item-action class="pl-3">
+                                                        <i class="fs-20 ml-2 lnr lnr-exit"></i>
+                                                    </v-list-item-action>
+                                                    <v-list-item-content>
+                                                        <v-list-item-title class="fs-13 text-right"> خروج از حساب </v-list-item-title>
+                                                    </v-list-item-content>
+                                                </v-list-item>
+
+                                            </v-list-item-group>
+                                        </v-list>
+                                        
+                                        <div class="py-2 px-3" v-else>
+                                            <v-btn class="fs-13" :color="web_color" block dark>
+                                                ورود به سایت
+                                            </v-btn>
+
+                                            <div class="text-center mt-3">
+                                                <span class="text-muted fs-12"> کاربر جدید هستید؟ </span>
+                                                <el-link type="primary fs-12 mr-1">ثبت‌نام</el-link>
+                                            </div>
+                                        </div>
+                                    </vs-dropdown-menu>
+
+                                </vs-dropdown>
+                            </div>
+                        </template>
+
+                        <template v-else>
+                            <el-badge class="item mr-2" :value="Shopping_Cart.length">
+                                <span class="lnr lnr-cart h2"></span>
+                            </el-badge>
+                            <span class="lnr lnr-user h2 ml-2 mr-3"></span>
+                        </template>
+
+                        <div class="el-search d-flex rtl ml-auto" :class=" Res ? 'w-75' : 'w-50' ">
+                            <el-select
+                                class="w-100"
+                                v-model="Search"
+                                filterable
+                                remote
+                                placeholder="جستجو در فروشگاه ..."
+                                :remote-method="Search_Method"
+                                :loading="Loading_Search">
+                                <el-option
+                                    value="IMISIA">
+                                </el-option>
+                            </el-select>
+                            <el-button class="web-bg-fade text-white" slot="append" icon="el-icon-search"></el-button>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+            <div v-if="!Res && is_exist(Categories)" class="categories">
+                <ul class="rtl">
+                    <li class="ctg-item" v-for="ctg in Categories" :key="ctg.id">
+
+                        <nuxt-link to="/">
+                            {{ ctg.title }}
+                            <i class="lnr lnr-chevron-down mr-2" v-if="is_exist(ctg.childs)"></i>
+                        </nuxt-link>
+
+                        <div class="dropdown-menu mega-menu" v-if="is_exist(ctg.childs)">
+                            <div class="row mx-0 p-3">
+                                <div class="col-md-8">
+                                    <div class="row flex-column">
+                                        <div class="col-3 mb-1" v-for="sub_1 in ctg.childs" :key="sub_1.id">
+                                            <nuxt-link to="/">
+                                                <p class="sub_1 web-color">
+                                                    <i class="lnr lnr-chevron-left bold"></i>
+                                                    {{ sub_1.title }}
+                                                </p>
+                                            </nuxt-link>
+                                            <ul class="sub_2" v-if="is_exist(sub_1.childs)">
+                                                <li v-for="sub_2 in sub_1.childs" :key="sub_2.id">
+                                                    <nuxt-link to="/">
+                                                        {{ sub_2.title }}
+                                                    </nuxt-link>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <v-img
+                                        :src=" ctg.logo && ctg.logo.medium ? Url + ctg.logo.medium : '/images/mobile.jpg' "
+                                        class="mr-auto"
+                                        max-height="250"
+                                        max-width="250"
+                                        aspect-ratio="1"
+                                        cover
+                                    />
+                                </div>
+                            </div>
+                        </div>
+
+                    </li>
+                </ul>
+            </div>
+        </header>
+
+        <v-app>
+            <v-navigation-drawer v-model="Ctg_drawer" mobile-break-point fixed temporary width="300">
+
+                <div class="text-center p-3">
+                    <img
+                        class="site-logo"
+                        :src=" SiteSetting.logo && SiteSetting.logo.medium ? Url + SiteSetting.logo.medium : '/images/none.png' "
+                        alt="logo">
+                </div>
+
+                <span class="d-block border-top w-75 m-auto"></span>
+
+                <v-list class="Ctg-list" dense shaped>
+                    <template v-for="ctg in Categories">
+
+                        <v-list-group
+                            v-if="is_exist(ctg.childs)"
+                            :key="ctg.id"
+                            prepend-icon="fas fa-gem"
+                            :color="web_color"
+                            no-action>
+
+                            <template v-slot:activator>
+                                <v-list-item-title>
+                                    {{ ctg.title }}
+                                </v-list-item-title>
+                            </template>
+
+                            <template v-for="sub_1 in ctg.childs">
+
+                                <v-list-group
+                                    v-if="is_exist(sub_1.childs)"
+                                    :key="sub_1.id"
+                                    :color="web_color"
+                                    sub-group
+                                    no-action>
+
+                                    <template v-slot:activator>
+                                        <v-list-item-content>
+                                            <v-list-item-title>
+                                                {{ sub_1.title }}
+                                            </v-list-item-title>
+                                        </v-list-item-content>
+                                    </template>
+
+                                    <v-list-item v-for="sub_2 in sub_1.childs" :key="sub_2.id">
+                                        <v-list-item-title>
+                                            {{ sub_2.title }}
+                                        </v-list-item-title>
+                                    </v-list-item>
+
+                                </v-list-group>
+
+                                <v-list-item
+                                    v-else
+                                    :key="sub_1.id"
+                                    @click="Ctg_drawer = Ctg_drawer">
+                                    <v-list-item-title class="fs-12">
+                                        {{ sub_1.title }}
+                                    </v-list-item-title>
+                                </v-list-item>
+
+                            </template>
+
+                        </v-list-group>
+
+                        <v-list-item
+                            v-else
+                            :key="ctg.id"
+                            :color="web_color"
+                            @click="Ctg_drawer = Ctg_drawer">
+
+                            <v-list-item-icon>
+                                <v-icon>fas fa-gem</v-icon>
+                            </v-list-item-icon>
+
+                            <v-list-item-title>
+                                {{ ctg.title }}
+                            </v-list-item-title>
+
+                        </v-list-item>
+
+                    </template>
+
+                </v-list>
+
+            </v-navigation-drawer>
+        </v-app>
+    </div>
+</template>
+
+<script>
+
+    import { mapState } from 'vuex';
+    import mixin from '~/Mixins/mixin'
+
+    export default {
+
+        mixins : [mixin] ,
+
+        created() {
+            this.web_color = '#e91e63';
+            if(process.client) this.Dynamic_Color();
+        } ,
+
+        mounted() {
+            $('.categories').ready(function() {
+
+                $('li.ctg-item').hover(
+                    function () {
+                        $(this).find('div.mega-menu').addClass('d-block')
+                    } ,
+                    function () {
+                        $(this).find('div.mega-menu').removeClass('d-block')
+                    }
+                );
+
+                $('div.mega-menu').hover(
+                    function () {
+                        $(this).addClass('d-block')
+                    } ,
+                    function () {
+                        $(this).removeClass('d-block')
+                    }
+                );
+
+            })
+        } ,
+
+        data() {
+            return {
+                Ctg_drawer : false ,
+                Cart_drawer : false ,
+
+                Search : '' ,
+                Loading_Search : false ,
+            }
+        } ,
+
+        computed : {
+            ...mapState([
+                'Url' ,
+                'SiteSetting' ,
+                'Me' ,
+                'Shopping_Cart' ,
+                'Categories'
+            ])
+        } ,
+
+        methods : {
+
+            Dynamic_Color() {
+                var style = document.createElement('style');
+                style.type = 'text/css';
+                style.innerHTML = `
+
+                    /* =============== Colors =============== */
+
+                    .web-color {
+                        color : ${this.web_color} !important;
+                    }
+
+                    .web-color-light {
+                        color : ${this.web_color_light} !important;
+                    }
+
+                    .web-color-dark {
+                        color : ${this.web_color_dark} !important;
+                    }
+
+                    .web-color-fade {
+                        color : ${this.web_color_fade} !important;
+                    }
+
+                    /* =============== Backgrounds =============== */
+
+                    .web-bg {
+                        background: ${this.web_color} !important;
+                    }
+
+                    .web-bg-light {
+                        background: ${this.web_color_light} !important;
+                    }
+
+                    .web-bg-dark {
+                        background: ${this.web_color_dark} !important;
+                    }
+
+                    .web-bg-fade {
+                        background: ${this.web_color_fade} !important;
+                    }
+
+                    .web-bg-ultra-fade {
+                        background: ${this.web_color_ultra_fade} !important;
+                    }
+
+                    /* =============== Gradients =============== */
+
+                    .web-grd-to-light {
+                        background: -webkit-linear-gradient(90deg, ${this.web_color_light} 10%, ${this.web_color} 90%) !important;
+                        background: -moz-linear-gradient(90deg, ${this.web_color_light} 10%, ${this.web_color} 90%) !important;
+                        background: -o-linear-gradient(90deg, ${this.web_color_light} 10%, ${this.web_color} 90%) !important;
+                        background: linear-gradient(90deg, ${this.web_color_light} 10%, ${this.web_color} 90%) !important;
+                    }
+
+                    .web-grd-form-dark {
+                        background: -webkit-linear-gradient(90deg, ${this.web_color} 10%, ${this.web_color_dark} 90%) !important;
+                        background: -moz-linear-gradient(90deg, ${this.web_color} 10%, ${this.web_color_dark} 90%) !important;
+                        background: -o-linear-gradient(90deg, ${this.web_color} 10%, ${this.web_color_dark} 90%) !important;
+                        background: linear-gradient(90deg, ${this.web_color} 10%, ${this.web_color_dark} 90%) !important;
+                    }
+
+                    /* =============== Borders =============== */
+
+                    .web-border {
+                        border : 1px solid ${this.web_color} !important;
+                    }
+
+                    /* =============== Other =============== */
+
+                    .vs-dropdown--menu--after {
+                        background: ${this.web_color} !important;
+                    }
+
+                    .smt-header .el-input--suffix .el-input__inner ,
+                    .el-search .el-button {
+                        border-color: ${this.web_color} !important;
+                    }
+
+                    .vs-dropdown--menu {
+                        border-top-color: ${this.web_color} !important;
+                    }
+
+                `;
+                document.getElementsByTagName('head')[0].appendChild(style);
+            } ,
+
+            Search_Method(Str) {
+                console.log(Str);
+            }
+
+        }
+
+    }
+</script>
+
+<style lang="scss">
+
+    .Ctg-list.v-list {
+        transform: scaleX(-1);
+        padding: 8px;
+        .v-list-item__title {
+            transform: scaleX(-1);
+            text-align: right;
+            font-size: 12px !important;
+        }
+    }
+
+    .v-navigation-drawer {
+        .v-icon {
+            font-size: 18px !important;
+            margin-top: 4px;
+        }
+        .v-list-item__icon {
+            margin-right: 18px !important;
+        }
+    }
+
+    .con-vs-dropdown--menu {
+        .vs-dropdown--menu {
+            border-top: 2px solid;
+            z-index: 11;
+        }
+    }
+
+    .el-select__input ,
+    .el-input--suffix input {
+        font-size: 13px;
+        text-align: right;
+    }
+
+    .smt-header .el-input--suffix .el-input__inner {
+        background: #f9f9f9 !important;
+        color: #474747;
+        &::placeholder {
+            color: rgba(71, 71, 71, 0.6);
+        }
+        border-top-left-radius: 0px;
+        border-bottom-left-radius: 0px;
+    }
+
+    .el-link.el-link--primary {
+        color: #409EFF !important;
+    }
+
+    .el-search {
+        .el-button {
+            border-top-right-radius: 0px;
+            border-bottom-right-radius: 0px;
+            height: 40px;
+            padding: 0px 15px;
+            border-right: none;
+        }
+    }
+
+    .el-badge__content.is-fixed {
+        top: 5px !important;
+        right: 15px !important;
+    }
+
+</style>
