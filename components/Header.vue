@@ -3,8 +3,8 @@
         <header class="smt-header">
             <div class="container-fuild py-2 px-5 px-xs-3">
                 <div class="row rtl py-md-2 mx-0">
-
-                    <div class="col-md-2 text-left text-md-right px-xs-0">
+                    
+                    <div class="col-lg-2 col-md-3 text-left text-md-right px-xs-0">
 
                         <div class="hamburger hamburger--spin js-hamburger" v-if="Res"
                             :class="{ 'is-active' : Ctg_drawer }" @click="Ctg_drawer = true">
@@ -22,7 +22,7 @@
 
                     </div>
 
-                    <div class="col-md-10 ltr d-flex align-items-center px-xs-0 mt-xs-2">
+                    <div class="col-lg-10 col-md-9 ltr d-flex align-items-center px-xs-0 mt-xs-2">
 
                         <template v-if="!Res">
                             <!-- Shopping Cart -->
@@ -119,7 +119,7 @@
                 </div>
             </div>
 
-            <div v-if="!Res && is_exist(Categories)" class="categories">
+            <nav class="categories" v-if="!Res && is_exist(Categories)">
                 <ul class="rtl">
                     <li class="ctg-item" v-for="ctg in Categories" :key="ctg.id">
 
@@ -151,12 +151,14 @@
                                 </div>
                                 <div class="col-md-4">
                                     <v-img
-                                        :src=" ctg.logo && ctg.logo.medium ? Url + ctg.logo.medium : '/images/mobile.jpg' "
+                                        :src=" ctg.logo && ctg.logo.medium
+                                        ? Url + ctg.logo.medium
+                                        : SiteSetting.logo && SiteSetting.logo.medium ? Url + SiteSetting.logo.medium : '/images/none.png' "
                                         class="mr-auto"
                                         max-height="250"
                                         max-width="250"
                                         aspect-ratio="1"
-                                        cover
+                                        contain
                                     />
                                 </div>
                             </div>
@@ -164,7 +166,7 @@
 
                     </li>
                 </ul>
-            </div>
+            </nav>
         </header>
 
         <v-app>
@@ -270,6 +272,7 @@
         created() {
             this.web_color = '#e91e63';
             if(process.client) this.Dynamic_Color();
+            if(false && process.client) this.AutoSize();
         } ,
 
         mounted() {
@@ -290,6 +293,15 @@
                     } ,
                     function () {
                         $(this).removeClass('d-block')
+                    }
+                );
+
+                $('p.sub_1').hover(
+                    function () {
+                        $(this).removeClass('web-color').addClass('web-color-dark');
+                    } ,
+                    function () {
+                        $(this).removeClass('web-color-dark').addClass('web-color');
                     }
                 );
 
@@ -321,6 +333,7 @@
             Dynamic_Color() {
                 var style = document.createElement('style');
                 style.type = 'text/css';
+                style.id = 'web-color'
                 style.innerHTML = `
 
                     /* =============== Colors =============== */
@@ -396,8 +409,35 @@
                         border-color: ${this.web_color} !important;
                     }
 
-                    .vs-dropdown--menu {
+                    .vs-dropdown--menu ,
+                    .el-card.offer-slider ,
+                    .el-card.product-slider  {
                         border-top-color: ${this.web_color} !important;
+                    }
+
+                `;
+                document.getElementsByTagName('head')[0].appendChild(style);
+            } ,
+
+            AutoSize() {
+                var style = document.createElement('style');
+                style.type = 'text/css';
+                style.innerHTML = `
+
+                    .image-slider , .aside-poster {
+                        height: 400px;
+                    }
+
+                    @media (min-width: 600px) and (max-width: 1000px) {
+                        .image-slider , .aside-poster {
+                            height: 300px;
+                        }
+                    }
+
+                    @media (max-width: 600px) {
+                        .image-slider {
+                            height: 200px;
+                        }
                     }
 
                 `;

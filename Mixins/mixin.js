@@ -55,7 +55,7 @@ export default {
     } ,
 
     filters : {
-        num_to_fa(val) {
+        Num2Fa(val) {
             return val ? val.toLocaleString('fa-IR') : 0 ;
         }
     } ,

@@ -1,0 +1,231 @@
+@mixin transitions-card($time) {
+    -webkit-transition: #{$time}ms ease-out;
+    -moz-transition: #{$time}ms ease-out;
+    -o-transition: #{$time}ms ease-out;
+    transition: #{$time}ms ease-out;
+}
+
+@keyframes fadeIn-image-overlay{
+    0% {
+      opacity:0;
+    }
+    100% {
+      opacity:.5;
+    }
+}
+
+#card-component {
+    perspective: 800px;
+    width: 100%;
+    height: 340px;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    transition: transform 5s;
+    border-radius: 7px;
+    transition: box-shadow .5s;
+    &:hover {
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
+    }
+}
+
+.product-card {
+
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: 5px;
+    transform-style: preserve-3d;
+    @include transitions-card(100);
+
+    &.animate {
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
+        @include transitions-card(100);
+
+        .image-overlay {
+            display: block !important;
+        }
+
+        .product-info {
+            top: 90px !important;
+            border-top-right-radius: 20px !important;
+            border-top-left-radius: 20px !important;
+            @include transitions-card(300);
+            &.labled {
+                top: 140px !important;
+            }
+        }
+
+    }
+
+    .image-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: #222222;
+        display: none;
+        opacity: 0;
+        animation-name: fadeIn-image-overlay;
+        animation-fill-mode: forwards;
+        animation-duration: 300ms;
+    }
+
+    .product-info {
+        background: #fff;
+        position: absolute;
+        top: 220px;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 260px;
+        padding: 15px 25px;
+        @include transitions-card(300);
+
+        &.labled {
+            height: 200px;
+        }
+
+        .product-name {
+            color: #505253;
+            font-size: 13px;
+            max-width: 100%;
+            height: 40px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .product-price {
+            color: #484848;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .offer-price {
+            display: block;
+            position: relative;
+            font-size: 13px;
+            color: #9E9E9E;
+            margin-bottom: 5px;
+            &:after {
+                content: " ";
+                position: absolute;
+                background: currentColor;
+                width: 28%;
+                height: 1px;
+                top: 8px;
+                left: 50%;
+                border-radius: 50px;
+                transform: translateX(-50%) rotate(-5deg);
+            }
+        }
+
+        .text-color {
+            color: #505253;
+            font-size: 14px;
+        }
+
+        .colors div {
+            margin-top: 3px;
+            width: 15px;
+            height: 15px;
+            margin-right: 5px;
+            float: left;
+            span {
+                width: 15px;
+                height: 15px;
+                display: block;
+                border-radius: 50%;
+                border: 1.5px solid #eee;
+                transition: transform .3s;
+                &:hover {
+                    transform: scale(1.2);
+                }
+            }
+        }
+
+    }
+
+    .product-actions {
+        width: 100%;
+        position: absolute;
+        right: 0;
+        bottom: 18px;
+        z-index: 9;
+        padding: 0px 5px 5px 15px;
+        text-align: right;
+        div , button {
+            padding: 10px 8px 5px 8px;
+            display: inline-table;
+            width: 36px;
+            height: 36px;
+            background: #fff;
+            border-radius: 60px;
+            font-size: 18px;
+            line-height: 18px;
+            padding-top: 9px;
+            overflow: hidden;
+            color: #000;
+            position: relative;
+            border: 1px solid #eee;
+            -webkit-box-shadow: -1.5px 2px 3px 0px rgba(0, 0, 0, 0.2);
+            box-shadow: -1.5px 2px 3px 0px rgba(0, 0, 0, 0.2);
+            -webkit-transition: all 0.4s ease;
+            -o-transition: all 0.4s ease;
+            transition: all 0.4s ease;
+            text-align: left;
+
+            i {
+                display: inline-block;
+                color: #222222;
+            }
+        }
+
+        .addCart-btn {
+            padding-top: 8px;
+            span {
+                font-size: 12px;
+                color: #222222;
+                text-transform: uppercase;
+                position: absolute;
+                right: 19px;
+                top: 20px;
+                opacity: 0;
+                -webkit-transition: all 0.1s ease;
+                -o-transition: all 0.1s ease;
+                transition: all 0.1s ease;
+            }
+            &:hover {
+                width: 165px;
+                padding: 8px 13px 0;
+                text-align: left;
+                -webkit-transition: all 0.4s ease;
+                -o-transition: all 0.4s ease;
+                transition: all 0.4s ease;
+                span {
+                    opacity: 1;
+                    top: 10px;
+                    -webkit-transition: all 0.4s ease 0.3s;
+                    -o-transition: all 0.4s ease 0.3s;
+                    transition: all 0.4s ease 0.3s;
+                }
+                i {
+                    font-weight: bold;
+                    color: #44c28d;
+                }
+            }
+        }
+
+        .wishlist-btn:hover i {
+            font-weight: bold;
+            color: #D81B60;
+        }
+
+        .compare-btn:hover i {
+            font-weight: bold;
+            color: #00ACC1;
+        }
+
+    }
+
+}

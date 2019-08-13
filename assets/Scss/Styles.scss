@@ -3,6 +3,8 @@
 
 @import "header";
 
+@import "cart";
+
 @font-face {
     font-family: 'iransans';
     src: url('~assets/Fonts/Iransans/Iransans.eot') format('eot'),
@@ -48,6 +50,10 @@ html {
     &:focus {
         outline: none !important;
     }
+}
+
+main {
+    padding-top: 125px;
 }
 
 a {
