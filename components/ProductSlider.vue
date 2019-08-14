@@ -1,11 +1,11 @@
 <template>
     <section class="row m-0 rtl">
 
-        <div v-if="Product.data && Product.size"
-            :class="[ `col-md-${Product.size}` , dual ? (!firstOffers ? 'order-1' : 'order-2 pr-md-0 pt-3 pt-md-0') : '' ]">
+        <div v-if="Products.data && Products.size"
+            :class="[ `col-md-${Products.size}` , dual ? (!firstOffers ? 'order-1' : 'order-2 pr-md-0 pt-3 pt-md-0') : '' ]">
             <el-card class="product-slider">
                 <div slot="header" class="text-right bold">
-                    <span> {{ Product.title }} </span>
+                    <span> {{ Products.title }} </span>
                     <div class="d-inline">
                         <vs-button
                             class="next-product"
@@ -25,7 +25,7 @@
                 </div>
 
                 <swiper :options="SwiperOption">
-                    <swiper-slide class="py-2" v-for="(porduct,idx) in Product.data" :key="idx">
+                    <swiper-slide class="py-2" v-for="(porduct,idx) in Products.data" :key="idx">
                         <Cart :Product="porduct"/>
                     </swiper-slide>
                 </swiper>
@@ -51,7 +51,7 @@
     export default {
 
         props: {
-            Product: {
+            Products: {
                 type: Object ,
                 default() {
                     return {
@@ -84,18 +84,13 @@
 
         data() {
             return {
-                dual: !!this.Product.data && !!this.Offers.data ,
-
-                OfferSlider: {
-                    Start: false ,
-                    End: false
-                } ,
+                dual: !!this.Products.data && !!this.Offers.data ,
 
                 SwiperOption: {
-                    slidesPerView: this.Product.size / 2.4 ,
+                    slidesPerView: this.Products.size / 2.4 ,
                     spaceBetween: 5 ,
                     autoplay: {
-                        delay: 5000,
+                        delay: 10000,
                     } ,
                     navigation: {
                         nextEl: '.next-product',
@@ -103,19 +98,19 @@
                     } ,
                     breakpoints: {
                         1400: {
-                            slidesPerView: this.Product.size / 3
+                            slidesPerView: this.Products.size / 3
                         } ,
                         1200: {
-                            slidesPerView: this.Product.size / 3.5
+                            slidesPerView: this.Products.size / 3.5
                         } ,
                         1000: {
-                            slidesPerView: this.Product.size / 4
+                            slidesPerView: this.Products.size / 4
                         } ,
                         800: {
-                            slidesPerView: this.Product.size / 6
+                            slidesPerView: this.Products.size / 6
                         } ,
                         600: {
-                            slidesPerView: this.Product.size / 6.5
+                            slidesPerView: this.Products.size / 6.5
                         } ,
                         500: {
                             slidesPerView: 1
@@ -144,8 +139,8 @@
     }
 
     .next-product , .prev-product {
-        height: 24px !important;
-        width: 25px !important;
+        height: 23px !important;
+        width: 24px !important;
         padding: 3px !important;
         i {
             font-size: 19px !important;

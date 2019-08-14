@@ -14,10 +14,13 @@
         </a>
       </div>
 
-      <main id="app" class="position-relative">
-        <Header />
-        <nuxt class="p-2"/>
+      <Header />
+
+      <main id="app">
+        <nuxt />
       </main>
+
+      <Footer />
 
     </no-ssr>
   </div>
@@ -25,6 +28,7 @@
 
 <script>
   import Header from '~/components/Header.vue';
+  import Footer from '~/components/Footer.vue';
   import {
     mapState
   } from 'vuex';
@@ -32,7 +36,8 @@
   export default {
 
     components: {
-      Header
+      Header ,
+      Footer
     } ,
 
     computed: {

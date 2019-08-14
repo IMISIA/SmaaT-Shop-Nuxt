@@ -1,173 +1,171 @@
 <template>
-    <div>
-        <header class="smt-header">
-            <div class="container-fuild py-2 px-5 px-xs-3">
-                <div class="row rtl py-md-2 mx-0">
-                    
-                    <div class="col-lg-2 col-md-3 text-left text-md-right px-xs-0">
+    <header class="smt-header">
+        <div class="container-fuild py-2 px-5 px-xs-3">
+            <div class="row rtl py-md-2 mx-0">
+                
+                <div class="col-lg-2 col-md-3 text-left text-md-right px-xs-0">
 
-                        <div class="hamburger hamburger--spin js-hamburger" v-if="Res"
-                            :class="{ 'is-active' : Ctg_drawer }" @click="Ctg_drawer = true">
-                            <div class="hamburger-box">
-                                <div class="hamburger-inner"></div>
-                            </div>
+                    <div class="hamburger hamburger--spin js-hamburger" v-if="Res"
+                        :class="{ 'is-active' : Ctg_drawer }" @click="Ctg_drawer = true">
+                        <div class="hamburger-box">
+                            <div class="hamburger-inner"></div>
                         </div>
-
-                        <nuxt-link to="/" class="d-inline-block">
-                            <img
-                                class="site-logo"
-                                :src=" SiteSetting.logo && SiteSetting.logo.medium ? Url + SiteSetting.logo.medium : '/images/none.png' "
-                                alt="logo">
-                        </nuxt-link>
-
                     </div>
 
-                    <div class="col-lg-10 col-md-9 ltr d-flex align-items-center px-xs-0 mt-xs-2">
+                    <nuxt-link to="/" class="d-inline-block">
+                        <img
+                            class="site-logo"
+                            :src=" SiteSetting.logo && SiteSetting.logo.medium ? Url + SiteSetting.logo.medium : '/images/none.png' "
+                            alt="logo">
+                    </nuxt-link>
 
-                        <template v-if="!Res">
-                            <!-- Shopping Cart -->
-                            <el-badge class="item" :value="Shopping_Cart.length">
-                                <vs-button class="cart-btn px-3" :color="web_color" type="filled"
-                                    icon-pack="lnr lnr-cart" icon="." icon-after>
-                                    سبد خرید    
-                                </vs-button>
-                            </el-badge>
-                                
-                            <!-- Login / Register -->
-                            <div class="mx-5">
-                                <vs-dropdown vs-custom-content vs-trigger-click>
+                </div>
 
-                                    <a class="login-text mx-4" href.prevent>
-                                        <v-icon light>keyboard_arrow_down</v-icon>
-                                        <template v-if="is_exist(Me)">
-                                            {{ Me.full_name.trim() || Me.username || Me.email }}
-                                            <v-avatar class="ml-2" :size="40" :color="web_color">
-                                                <img :src=" Me.avatar && Me.avatar.small ? Url + Me.avatar.small : '/images/user.png' " alt="avatar">
-                                            </v-avatar>
-                                        </template>
-                                        <template v-else>
-                                            ورود / ثبت نام
-                                        </template>
-                                    </a>
+                <div class="col-lg-10 col-md-9 ltr d-flex align-items-center px-xs-0 mt-xs-2">
 
-                                    <vs-dropdown-menu class="loginx rtl">
-                                        <v-list dense shaped class="py-0" v-if="is_exist(Me)">
-                                            <v-list-item-group :color="web_color">
+                    <template v-if="!Res">
+                        <!-- Shopping Cart -->
+                        <el-badge class="item" :value="Shopping_Cart.length">
+                            <vs-button class="cart-btn px-3" :color="web_color" type="filled"
+                                icon-pack="lnr lnr-cart" icon="." icon-after>
+                                سبد خرید    
+                            </vs-button>
+                        </el-badge>
+                            
+                        <!-- Login / Register -->
+                        <div class="mx-5">
+                            <vs-dropdown vs-custom-content vs-trigger-click>
 
-                                                <v-list-item>
-                                                    <v-list-item-action class="pl-3">
-                                                        <i class="fs-20 ml-2 lnr lnr-user"></i>
-                                                    </v-list-item-action>
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="fs-13 text-right"> پنل کاربری </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-list-item>
+                                <a class="login-text mx-4" href.prevent>
+                                    <v-icon light>keyboard_arrow_down</v-icon>
+                                    <template v-if="is_exist(Me)">
+                                        {{ Me.full_name.trim() || Me.username || Me.email }}
+                                        <v-avatar class="ml-2" :size="40" :color="web_color">
+                                            <img :src=" Me.avatar && Me.avatar.small ? Url + Me.avatar.small : '/images/user.png' " alt="avatar">
+                                        </v-avatar>
+                                    </template>
+                                    <template v-else>
+                                        ورود / ثبت نام
+                                    </template>
+                                </a>
 
-                                                <v-list-item>
-                                                    <v-list-item-action class="pl-3">
-                                                        <i class="fs-20 ml-2 lnr lnr-exit"></i>
-                                                    </v-list-item-action>
-                                                    <v-list-item-content>
-                                                        <v-list-item-title class="fs-13 text-right"> خروج از حساب </v-list-item-title>
-                                                    </v-list-item-content>
-                                                </v-list-item>
+                                <vs-dropdown-menu class="loginx rtl">
+                                    <v-list dense shaped class="py-0" v-if="is_exist(Me)">
+                                        <v-list-item-group :color="web_color">
 
-                                            </v-list-item-group>
-                                        </v-list>
-                                        
-                                        <div class="py-2 px-3" v-else>
-                                            <v-btn class="fs-13" :color="web_color" block dark>
-                                                ورود به سایت
-                                            </v-btn>
+                                            <v-list-item>
+                                                <v-list-item-action class="pl-3">
+                                                    <i class="fs-20 ml-2 lnr lnr-user"></i>
+                                                </v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title class="fs-13 text-right"> پنل کاربری </v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
 
-                                            <div class="text-center mt-3">
-                                                <span class="text-muted fs-12"> کاربر جدید هستید؟ </span>
-                                                <el-link type="primary fs-12 mr-1">ثبت‌نام</el-link>
-                                            </div>
+                                            <v-list-item>
+                                                <v-list-item-action class="pl-3">
+                                                    <i class="fs-20 ml-2 lnr lnr-exit"></i>
+                                                </v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title class="fs-13 text-right"> خروج از حساب </v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+
+                                        </v-list-item-group>
+                                    </v-list>
+                                    
+                                    <div class="py-2 px-3" v-else>
+                                        <v-btn class="fs-13 rounded-7" :color="web_color" block dark>
+                                            ورود به سایت
+                                        </v-btn>
+
+                                        <div class="text-center mt-3">
+                                            <span class="text-muted fs-12"> کاربر جدید هستید؟ </span>
+                                            <el-link type="primary fs-12 mr-1">ثبت‌نام</el-link>
                                         </div>
-                                    </vs-dropdown-menu>
+                                    </div>
+                                </vs-dropdown-menu>
 
-                                </vs-dropdown>
-                            </div>
-                        </template>
-
-                        <template v-else>
-                            <el-badge class="item mr-2" :value="Shopping_Cart.length">
-                                <span class="lnr lnr-cart h2"></span>
-                            </el-badge>
-                            <span class="lnr lnr-user h2 ml-2 mr-3"></span>
-                        </template>
-
-                        <div class="el-search d-flex rtl ml-auto" :class=" Res ? 'w-75' : 'w-50' ">
-                            <el-select
-                                class="w-100"
-                                v-model="Search"
-                                filterable
-                                remote
-                                placeholder="جستجو در فروشگاه ..."
-                                :remote-method="Search_Method"
-                                :loading="Loading_Search">
-                                <el-option
-                                    value="IMISIA">
-                                </el-option>
-                            </el-select>
-                            <el-button class="web-bg-fade text-white" slot="append" icon="el-icon-search"></el-button>
+                            </vs-dropdown>
                         </div>
+                    </template>
 
+                    <template v-else>
+                        <el-badge class="item mr-2" :value="Shopping_Cart.length">
+                            <span class="lnr lnr-cart h2"></span>
+                        </el-badge>
+                        <span class="lnr lnr-user h2 ml-2 mr-3"></span>
+                    </template>
+
+                    <div class="el-search d-flex rtl ml-auto" :class=" Res ? 'w-75' : 'w-50' ">
+                        <el-select
+                            class="w-100"
+                            v-model="Search"
+                            filterable
+                            remote
+                            placeholder="جستجو در فروشگاه ..."
+                            :remote-method="Search_Method"
+                            :loading="Loading_Search">
+                            <el-option
+                                value="IMISIA">
+                            </el-option>
+                        </el-select>
+                        <el-button class="web-bg-fade text-white" slot="append" icon="el-icon-search"></el-button>
                     </div>
 
                 </div>
+
             </div>
+        </div>
 
-            <nav class="categories" v-if="!Res && is_exist(Categories)">
-                <ul class="rtl">
-                    <li class="ctg-item" v-for="ctg in Categories" :key="ctg.id">
+        <nav class="categories" v-if="!Res && is_exist(Categories)">
+            <ul class="rtl">
+                <li class="ctg-item" v-for="ctg in Categories" :key="ctg.id">
 
-                        <nuxt-link to="/">
-                            {{ ctg.title }}
-                            <i class="lnr lnr-chevron-down mr-2" v-if="is_exist(ctg.childs)"></i>
-                        </nuxt-link>
+                    <nuxt-link to="/">
+                        {{ ctg.title }}
+                        <i class="lnr lnr-chevron-down mr-2" v-if="is_exist(ctg.childs)"></i>
+                    </nuxt-link>
 
-                        <div class="dropdown-menu mega-menu" v-if="is_exist(ctg.childs)">
-                            <div class="row mx-0 p-3">
-                                <div class="col-md-8">
-                                    <div class="row flex-column">
-                                        <div class="col-3 mb-1" v-for="sub_1 in ctg.childs" :key="sub_1.id">
-                                            <nuxt-link to="/">
-                                                <p class="sub_1 web-color">
-                                                    <i class="lnr lnr-chevron-left bold"></i>
-                                                    {{ sub_1.title }}
-                                                </p>
-                                            </nuxt-link>
-                                            <ul class="sub_2" v-if="is_exist(sub_1.childs)">
-                                                <li v-for="sub_2 in sub_1.childs" :key="sub_2.id">
-                                                    <nuxt-link to="/">
-                                                        {{ sub_2.title }}
-                                                    </nuxt-link>
-                                                </li>
-                                            </ul>
-                                        </div>
+                    <div class="dropdown-menu mega-menu" v-if="is_exist(ctg.childs)">
+                        <div class="row mx-0 p-3">
+                            <div class="col-md-8">
+                                <div class="row flex-column">
+                                    <div class="col-3 mb-1" v-for="sub_1 in ctg.childs" :key="sub_1.id">
+                                        <nuxt-link to="/">
+                                            <p class="sub_1 web-color">
+                                                <i class="lnr lnr-chevron-left bold"></i>
+                                                {{ sub_1.title }}
+                                            </p>
+                                        </nuxt-link>
+                                        <ul class="sub_2" v-if="is_exist(sub_1.childs)">
+                                            <li v-for="sub_2 in sub_1.childs" :key="sub_2.id">
+                                                <nuxt-link to="/">
+                                                    {{ sub_2.title }}
+                                                </nuxt-link>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
-                                <div class="col-md-4">
-                                    <v-img
-                                        :src=" ctg.logo && ctg.logo.medium
-                                        ? Url + ctg.logo.medium
-                                        : SiteSetting.logo && SiteSetting.logo.medium ? Url + SiteSetting.logo.medium : '/images/none.png' "
-                                        class="mr-auto"
-                                        max-height="250"
-                                        max-width="250"
-                                        aspect-ratio="1"
-                                        contain
-                                    />
-                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <v-img
+                                    :src=" ctg.logo && ctg.logo.medium
+                                    ? Url + ctg.logo.medium
+                                    : SiteSetting.logo && SiteSetting.logo.medium ? Url + SiteSetting.logo.medium : '/images/none.png' "
+                                    class="mr-auto"
+                                    max-height="250"
+                                    max-width="250"
+                                    aspect-ratio="1"
+                                    contain
+                                />
                             </div>
                         </div>
+                    </div>
 
-                    </li>
-                </ul>
-            </nav>
-        </header>
+                </li>
+            </ul>
+        </nav>
 
         <v-app>
             <v-navigation-drawer v-model="Ctg_drawer" mobile-break-point fixed temporary width="300">
@@ -257,7 +255,7 @@
 
             </v-navigation-drawer>
         </v-app>
-    </div>
+    </header>
 </template>
 
 <script>
@@ -272,7 +270,7 @@
         created() {
             this.web_color = '#e91e63';
             if(process.client) this.Dynamic_Color();
-            if(false && process.client) this.AutoSize();
+            if(true && process.client) this.AutoSize();
         } ,
 
         mounted() {

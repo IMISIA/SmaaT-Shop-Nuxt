@@ -7,17 +7,21 @@
       </div>
 
       <div class="col-md-3 pt-3 pt-md-0">
-        <img class="aside-poster w-100"
+        <img class="aside-poster"
           src="https://dkstatics-public.digikala.com/digikala-adservice-banners/1000007945.gif" alt="پوستر" />
       </div>
     </div>
 
-    <div class="pt-3 pb-5">
-      <ProductSlider :Product="{
+    <div class="pt-3">
+      <ProductSlider :Products="{
         title: 'محصولات' ,
         data: Products ,
         size: 12
       }"/>
+    </div>
+
+    <div class="pt-3 pb-5">
+      <Posters :Posters="SiteSetting.posters"/>
     </div>
 
   </div>
@@ -26,6 +30,7 @@
 <script>
   import Slider from '~/components/Slider.vue';
   import ProductSlider from '~/components/ProductSlider.vue';
+  import Posters from '~/components/Posters.vue';
   import {
     mapState
   } from 'vuex';
@@ -90,7 +95,8 @@
 
     components: {
       Slider ,
-      ProductSlider
+      ProductSlider ,
+      Posters
     } ,
 
     computed: {

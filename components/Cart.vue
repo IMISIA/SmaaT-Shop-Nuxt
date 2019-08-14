@@ -5,7 +5,7 @@
             <nuxt-link to="/">
                 <v-img
                     :src=" is_exist(Product.photos) ? Url + Product.photos[0].medium : '/images/none.png' "
-                    height="220"
+                    height="200"
                     max-width="auto"
                     aspect-ratio="1"
                     contain
@@ -22,12 +22,14 @@
                     </nuxt-link>
 
                     <div class="product-price web-color">
-                        <span class="offer-price"> {{ 1500000 | Num2Fa }} </span>
+                        <div class="offer-price">
+                            <span v-if="false"> {{ 1500000 | Num2Fa }} </span>
+                        </div>
                         {{ Product.variation.sales_price | Num2Fa }}
-                        <span class="fs-13"> تومان </span>
+                        <span> تومان </span>
                     </div>
 
-                    <div class="pt-1 text-center mt-4" v-if="is_exist(Product.colors)">
+                    <div class="pt-1 text-center mt-2" v-if="is_exist(Product.colors)">
                         <div class="text-color"> رنگ ها </div>
                         <div class="colors d-flex justify-content-center">
                             <div v-for="(color,idx) in Product.colors.slice(0,4)" :key="idx">

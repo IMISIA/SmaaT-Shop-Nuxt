@@ -6,9 +6,9 @@
 header.smt-header {
   background: #fff;
   position: absolute;
-  top: 0;
   right: 0;
   left: 0;
+  z-index: 999;
 }
 header.smt-header .login-text {
   font-size: 14px;
@@ -185,26 +185,96 @@ header.smt-header .hamburger--spin.is-active .hamburger-inner::after {
   transition: bottom 0.1s ease-out, transform 0.22s 0.12s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
 
+footer {
+  background: #fafafa;
+  border-top: 1.5px solid #cfd8dc;
+  text-align: right;
+  margin-top: 40px;
+  padding: 25px 0px;
+}
+footer .footer-logo {
+  max-height: 80px;
+  max-width: 100%;
+}
+footer h1, footer .col-header {
+  direction: rtl;
+  color: #5d5959;
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+footer p.description {
+  font-size: 13px;
+  color: #767676;
+  line-height: 30px;
+  margin-bottom: 0;
+}
+footer hr {
+  background-color: #cfd8dc;
+  height: 0.1px;
+  width: 100%;
+}
+footer ul.col-list li {
+  font-size: 13px;
+  color: #767676;
+  line-height: 25px;
+  margin-bottom: 5px;
+}
+footer ul.col-list li a {
+  color: #767676;
+  transition: color 0.3s;
+}
+footer ul.col-list li a:hover {
+  color: #484848;
+}
+footer .trust-symbol {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+footer .trust-symbol div {
+  background: #fff;
+  padding: 10px;
+  border: 1px solid #c2c2c2;
+  border-radius: 4px;
+}
+footer .trust-symbol div img {
+  height: 100px;
+  width: 100px;
+}
+
+@media (max-width: 770px) {
+  footer .container {
+    padding-right: 1.5rem !important;
+    padding-left: 1.5rem !important;
+  }
+  footer .trust-symbol div img {
+    height: 70px;
+    width: 70px;
+  }
+}
 @keyframes fadeIn-image-overlay {
-  0% {
+  from {
     opacity: 0;
   }
-  100% {
+  to {
     opacity: 0.5;
   }
 }
 #card-component {
   perspective: 800px;
   width: 100%;
-  height: 340px;
+  height: 320px;
   overflow: hidden;
   transform-style: preserve-3d;
   transition: transform 5s;
   border-radius: 7px;
-  transition: box-shadow 0.5s;
+  transition: box-shadow 0.2s, transform 0.2s;
 }
 #card-component:hover {
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
 }
 
 .product-card {
@@ -229,13 +299,9 @@ header.smt-header .hamburger--spin.is-active .hamburger-inner::after {
   display: block !important;
 }
 .product-card.animate .product-info {
-  top: 90px !important;
+  top: 80px !important;
   border-top-right-radius: 20px !important;
   border-top-left-radius: 20px !important;
-  -webkit-transition: 300ms ease-out;
-  -moz-transition: 300ms ease-out;
-  -o-transition: 300ms ease-out;
-  transition: 300ms ease-out;
 }
 .product-card.animate .product-info.labled {
   top: 140px !important;
@@ -251,21 +317,19 @@ header.smt-header .hamburger--spin.is-active .hamburger-inner::after {
   opacity: 0;
   animation-name: fadeIn-image-overlay;
   animation-fill-mode: forwards;
-  animation-duration: 300ms;
+  animation-duration: 0.3s;
+  animation-delay: 0.1s;
 }
 .product-card .product-info {
   background: #fff;
   position: absolute;
-  top: 220px;
+  top: 200px;
   left: 0;
   right: 0;
   width: 100%;
-  height: 260px;
+  height: 240px;
   padding: 15px 25px;
-  -webkit-transition: 300ms ease-out;
-  -moz-transition: 300ms ease-out;
-  -o-transition: 300ms ease-out;
-  transition: 300ms ease-out;
+  transition: top 0.3s 0.2s, border-top-left-radius 0.3s 0.3s, border-top-right-radius 0.3s 0.3s;
 }
 .product-card .product-info.labled {
   height: 200px;
@@ -280,17 +344,21 @@ header.smt-header .hamburger--spin.is-active .hamburger-inner::after {
 }
 .product-card .product-info .product-price {
   color: #484848;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
+}
+.product-card .product-info .product-price span {
+  font-size: 12px;
 }
 .product-card .product-info .offer-price {
   display: block;
   position: relative;
+  height: 20px;
   font-size: 13px;
   color: #9E9E9E;
   margin-bottom: 5px;
 }
-.product-card .product-info .offer-price:after {
+.product-card .product-info .offer-price span:after {
   content: " ";
   position: absolute;
   background: currentColor;
@@ -430,11 +498,6 @@ html body {
 *:before {
   box-sizing: border-box;
   margin: 0;
-  outline: none;
-}
-*:before {
-  box-sizing: border-box;
-  margin: 0;
   outline: none !important;
 }
 *:focus {
@@ -503,6 +566,17 @@ article, aside, footer, header, nav, section {
 
 .fs-20 {
   font-size: 20px !important;
+}
+
+.slider .swiper-container, img.poster, .aside-poster {
+  width: 100%;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+}
+
+.image-slider {
+  width: 100%;
+  max-height: 400px;
 }
 
 /*# sourceMappingURL=Styles.css.map */

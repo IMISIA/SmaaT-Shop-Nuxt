@@ -7,9 +7,9 @@ header.smt-header {
 
     background: #fff;
     position: absolute;
-    top: 0;
     right: 0;
     left: 0;
+    z-index: 999;
 
     .login-text {
         font-size: 14px;

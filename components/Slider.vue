@@ -57,17 +57,3 @@
 
     }
 </script>
-
-<style>
-
-    .slider .swiper-container , .aside-poster {
-        border-radius: 5px;
-        box-shadow: 0 2px 4px 0 rgba(0,0,0,.1);
-    }
-
-    .image-slider {
-        width: 100%;
-        max-height: 400px;
-    }
-
-</style>
