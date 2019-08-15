@@ -270,7 +270,7 @@
         created() {
             this.web_color = '#e91e63';
             if(process.client) this.Dynamic_Color();
-            if(true && process.client) this.AutoSize();
+            if(false && process.client) this.AutoSize();
         } ,
 
         mounted() {

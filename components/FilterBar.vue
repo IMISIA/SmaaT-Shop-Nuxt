@@ -43,25 +43,36 @@
             </div>
         </el-card>
 
-
     </div>
 </template>
 
 <script>
-    // import mixin from '~/Mixins/mixin';
+    import mixin from '~/Mixins/mixin';
     import { mapState } from 'vuex';
 
     export default {
 
-        // mixins: [mixin] ,
+        mixins: [mixin] ,
 
         data() {
             return {
                 Params: {
-                    brands: [] ,
-                    sizes: [] ,
-                    colors: [] ,
-                    warranties: [] ,
+                    brands: {
+                        title: 'برند' ,
+                        value: []
+                    } ,
+                    sizes: {
+                        title: 'سایز' ,
+                        value: []
+                    } ,
+                    colors: {
+                        title: 'رنگ' ,
+                        value: []
+                    } ,
+                    warranties: {
+                        title: 'گارانتی' ,
+                        value: []
+                    } ,
                     query: '' ,
                 } ,
                 

@@ -235,7 +235,7 @@ header.smt-header .hamburger--spin.is-active .hamburger-inner::after {
   border-top-left-radius: 20px !important;
 }
 .product-card.animate .product-info.labled {
-  top: 140px !important;
+  top: 120px !important;
 }
 .product-card .image-overlay {
   position: absolute;

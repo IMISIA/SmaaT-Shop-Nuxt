@@ -40,7 +40,7 @@ export default {
     '~/plugins/vuesax' ,
     { src : '~/plugins/Swiper' , mode : 'client' } ,
     { src : '~/plugins/other' , mode : 'client' } ,
-    { src : '~/plugins/jquery-3.4.1.min.js' , ssr : false } ,
+    { src : '~/plugins/jquery-3.4.1.min.js' , mode : 'client' } ,
   ] ,
 
   devModules: [
