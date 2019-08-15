@@ -399,53 +399,8 @@ header.smt-header .hamburger--spin.is-active .hamburger-inner::after {
   color: #00ACC1;
 }
 
-.filter-bar .el-card {
-  margin-bottom: 10px;
-}
-.filter-bar .el-card__header {
-  padding: 14px 20px;
-  font-size: 14px;
-  font-weight: bold;
-  color: #535353;
-  text-align: right;
-}
 .filter-bar .el-card__body {
   padding: 12px !important;
-  text-align: right;
-}
-.filter-bar .el-tree {
-  transform: scaleX(-1);
-}
-.filter-bar .el-tree .el-tree-node {
-  margin: 5px;
-}
-.filter-bar .el-tree .el-tree-node__label {
-  transform: scaleX(-1);
-  font-size: 13px;
-  padding: 5px;
-}
-.filter-bar .available-products .v-input--selection-controls {
-  padding-bottom: 4px;
-}
-.filter-bar .available-products .v-input--switch {
-  direction: rtl;
-  margin: 0;
-}
-.filter-bar .available-products .v-input--switch .v-input__slot {
-  margin: 0;
-}
-.filter-bar .available-products .v-input--switch .v-messages {
-  display: none;
-}
-.filter-bar .available-products .v-input--switch label {
-  font-size: 14px;
-  color: #535353;
-  margin: 0;
-  margin-top: 3px;
-}
-.filter-bar .available-products .v-input--switch .v-input--selection-controls__input {
-  direction: ltr;
-  margin-left: 20px;
 }
 
 footer {

@@ -5,14 +5,14 @@ export const state = () => ({
 
     // Management Products In Category Page
     Products_Ctg : [] ,
-
-    // Management Filters In Category Page
-    Sizes: [] ,
-    Brands: [] ,
-    Colors: [] ,
-    Warranties: [] ,
-    Sort : 'newest' ,
-    Dynamic_Filters: [] ,
+    Filters: {
+        sizes: [] ,
+        brands: [] ,
+        colors: [] ,
+        warranties: [] ,
+        Sort : 'latest' ,
+        spec: [] ,
+    } ,
 
     Single_Product : {} ,
     Variations_Select : 0 ,

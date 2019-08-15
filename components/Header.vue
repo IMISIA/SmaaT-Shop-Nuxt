@@ -122,7 +122,7 @@
             <ul class="rtl">
                 <li class="ctg-item" v-for="ctg in Categories" :key="ctg.id">
 
-                    <nuxt-link to="/">
+                    <nuxt-link :to="`/category/${ctg.slug}`">
                         {{ ctg.title }}
                         <i class="lnr lnr-chevron-down mr-2" v-if="is_exist(ctg.childs)"></i>
                     </nuxt-link>
@@ -132,7 +132,7 @@
                             <div class="col-md-8">
                                 <div class="row flex-column">
                                     <div class="col-3 mb-1" v-for="sub_1 in ctg.childs" :key="sub_1.id">
-                                        <nuxt-link to="/">
+                                        <nuxt-link :to="`/category/${sub_1.slug}`">
                                             <p class="sub_1 web-color">
                                                 <i class="lnr lnr-chevron-left bold"></i>
                                                 {{ sub_1.title }}
@@ -140,7 +140,7 @@
                                         </nuxt-link>
                                         <ul class="sub_2" v-if="is_exist(sub_1.childs)">
                                             <li v-for="sub_2 in sub_1.childs" :key="sub_2.id">
-                                                <nuxt-link to="/">
+                                                <nuxt-link :to="`/category/${sub_2.slug}`">
                                                     {{ sub_2.title }}
                                                 </nuxt-link>
                                             </li>

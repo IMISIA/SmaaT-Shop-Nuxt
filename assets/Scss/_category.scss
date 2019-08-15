@@ -1,0 +1,58 @@
+.filter-bar {
+    .el-card {
+        margin-bottom: 10px;
+    }
+
+    .el-card__header {
+        padding: 14px 20px;
+        font: {
+            size: 14px;
+            weight: bold;
+        }
+        color: #535353;
+        text-align: right;
+    }
+
+    .el-card__body {
+        padding: 12px !important;
+        text-align: right;
+    }
+
+    .el-tree {
+        transform: scaleX(-1);
+        .el-tree-node {
+            margin: 5px;
+        }
+        .el-tree-node__label {
+            transform: scaleX(-1);
+            font-size: 13px;
+            padding: 5px;
+        }
+    }
+
+    .available-products {
+        .v-input--selection-controls {
+            padding-bottom: 4px;
+        }
+        .v-input--switch {
+            direction: rtl;
+            margin: 0;
+            .v-input__slot {
+                margin: 0;
+            }
+            .v-messages {
+                display: none;
+            }
+            label {
+                font-size: 14px;
+                color: #535353;
+                margin: 0;
+                margin-top: 3px;
+            }
+            .v-input--selection-controls__input {
+                direction: ltr;
+                margin-left: 20px;
+            }
+        }
+    }
+}

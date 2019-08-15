@@ -1,6 +1,6 @@
 <template>
   <div>
-    <no-ssr>
+    <!-- <no-ssr> -->
 
       <div v-if="SiteSetting.header_banner && SiteSetting.header_banner.wide">
         <a :href="SiteSetting.banner_link">
@@ -22,7 +22,7 @@
 
       <Footer />
 
-    </no-ssr>
+    <!-- </no-ssr> -->
   </div>
 </template>
 

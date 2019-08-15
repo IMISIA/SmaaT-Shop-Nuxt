@@ -53,6 +53,7 @@ export const actions = {
                         data {
                             id
                             title
+                            slug
                             icon
                             logo {
                                 id
@@ -62,15 +63,19 @@ export const actions = {
                             childs {
                                 id
                                 title
+                                slug
                                 childs {
                                     id 
                                     title
+                                    slug
                                     childs {
                                         id
                                         title
+                                        slug
                                         childs {
                                             id
                                             title
+                                            slug
                                         }
                                     }
                                 }
