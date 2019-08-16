@@ -4,6 +4,8 @@ export default {
 
     created() {
         if(process.client) {
+            this.web_color = '#e91e63';
+
             this.window.width = window.innerWidth;
     
             this.$nextTick(() => {
@@ -61,6 +63,10 @@ export default {
     } ,
 
     methods: {
+
+        Set_color(val) {
+            this.web_color = val;
+        } ,
 
         is_exist(val) {
             if( !!val && typeof val == 'number' ) {

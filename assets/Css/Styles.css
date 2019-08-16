@@ -170,6 +170,8 @@ header.smt-header .hamburger--spin .hamburger-inner::after {
   transition: bottom 0.1s 0.25s ease-in, transform 0.22s cubic-bezier(0.55, 0.055, 0.675, 0.19);
 }
 header.smt-header .hamburger--spin.is-active .hamburger-inner {
+  -webkit-transform: rotate(225deg);
+  -ms-transform: rotate(225deg);
   transform: rotate(225deg);
   transition-delay: 0.12s;
   transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
@@ -181,6 +183,8 @@ header.smt-header .hamburger--spin.is-active .hamburger-inner::before {
 }
 header.smt-header .hamburger--spin.is-active .hamburger-inner::after {
   bottom: 0;
+  -webkit-transform: rotate(-90deg);
+  -ms-transform: rotate(-90deg);
   transform: rotate(-90deg);
   transition: bottom 0.1s ease-out, transform 0.22s 0.12s cubic-bezier(0.215, 0.61, 0.355, 1);
 }
@@ -205,6 +209,8 @@ header.smt-header .hamburger--spin.is-active .hamburger-inner::after {
 }
 #card-component:hover {
   box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+  -webkit-transform: translateY(-2px);
+  -ms-transform: translateY(-2px);
   transform: translateY(-2px);
 }
 
@@ -298,6 +304,8 @@ header.smt-header .hamburger--spin.is-active .hamburger-inner::after {
   top: 8px;
   left: 50%;
   border-radius: 50px;
+  -webkit-transform: translateX(-50%) rotate(-5deg);
+  -ms-transform: translateX(-50%) rotate(-5deg);
   transform: translateX(-50%) rotate(-5deg);
 }
 .product-card .product-info .text-color {
@@ -320,6 +328,8 @@ header.smt-header .hamburger--spin.is-active .hamburger-inner::after {
   transition: transform 0.3s;
 }
 .product-card .product-info .colors div span:hover {
+  -webkit-transform: scale(1.2);
+  -ms-transform: scale(1.2);
   transform: scale(1.2);
 }
 .product-card .product-actions {
@@ -402,6 +412,20 @@ header.smt-header .hamburger--spin.is-active .hamburger-inner::after {
 .filter-bar .el-card {
   margin-bottom: 10px;
 }
+.filter-bar .el-card.collapsible .el-card__body {
+  padding: 0px !important;
+}
+.filter-bar .el-card.collapsible .el-card__body button.v-expansion-panel-header {
+  -webkit-transform: scaleX(-1);
+  -ms-transform: scaleX(-1);
+  transform: scaleX(-1);
+}
+.filter-bar .el-card.collapsible .el-card__body button.v-expansion-panel-header span {
+  -webkit-transform: scaleX(-1);
+  -ms-transform: scaleX(-1);
+  transform: scaleX(-1);
+  text-align: right;
+}
 .filter-bar .el-card__header {
   padding: 14px 20px;
   font-size: 14px;
@@ -414,15 +438,42 @@ header.smt-header .hamburger--spin.is-active .hamburger-inner::after {
   text-align: right;
 }
 .filter-bar .el-tree {
+  -webkit-transform: scaleX(-1);
+  -ms-transform: scaleX(-1);
   transform: scaleX(-1);
 }
 .filter-bar .el-tree .el-tree-node {
   margin: 5px;
 }
 .filter-bar .el-tree .el-tree-node__label {
+  -webkit-transform: scaleX(-1);
+  -ms-transform: scaleX(-1);
   transform: scaleX(-1);
   font-size: 13px;
   padding: 5px;
+}
+.filter-bar .el-tree .el-tree__empty-block {
+  min-height: 30px !important;
+}
+.filter-bar .el-tree .el-tree__empty-block .el-tree__empty-text {
+  -webkit-transform: translate(-50%, -50%) scaleX(-1);
+  -ms-transform: translate(-50%, -50%) scaleX(-1);
+  transform: translate(-50%, -50%) scaleX(-1);
+  width: 100%;
+  font-size: 13px;
+}
+.filter-bar .search input {
+  background: #f8f8f8;
+  border: unset;
+  color: #555;
+  border-radius: 7px;
+}
+.filter-bar .search input::placeholder {
+  color: #7d7d7d;
+  font-size: 12px;
+}
+.filter-bar .search .el-input__icon {
+  color: #7d7d7d;
 }
 .filter-bar .available-products .v-input--selection-controls {
   padding-bottom: 4px;
@@ -446,6 +497,45 @@ header.smt-header .hamburger--spin.is-active .hamburger-inner::after {
 .filter-bar .available-products .v-input--switch .v-input--selection-controls__input {
   direction: ltr;
   margin-left: 20px;
+}
+.filter-bar .el-checkbox-group {
+  display: grid;
+  padding-right: 15px;
+}
+.filter-bar .el-checkbox-group .el-checkbox__inner {
+  width: 16px !important;
+  height: 16px !important;
+  border-radius: 4px !important;
+}
+.filter-bar .el-checkbox-group .el-checkbox__inner::after {
+  top: 2px;
+  left: 4.9px;
+  border: 1.5px solid #FFF;
+  border-left: 0;
+  border-top: 0;
+}
+.filter-bar .el-checkbox-group .filter-list.el-checkbox {
+  direction: rtl;
+  cursor: pointer;
+  margin-right: 0 !important;
+  padding-right: 5px;
+}
+.filter-bar .el-checkbox-group .filter-list.el-checkbox .el-checkbox__label {
+  font-size: 12px;
+  padding-right: 15px;
+}
+.filter-bar .el-checkbox-group .filter-list.el-checkbox .el-checkbox__input {
+  margin-top: 5px;
+}
+.filter-bar .el-color {
+  display: block;
+  position: absolute;
+  height: 10px;
+  width: 10px;
+  top: 7px;
+  left: 13px;
+  border: 1px solid #dadada;
+  border-radius: 50px;
 }
 
 footer {

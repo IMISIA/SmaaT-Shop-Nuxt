@@ -190,7 +190,7 @@ header.smt-header {
         }
     
         &.is-active .hamburger-inner {
-            transform: rotate(225deg);
+            @include transform(rotate(225deg));
             transition-delay: 0.12s;
             transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
     
@@ -202,7 +202,7 @@ header.smt-header {
     
             &::after {
                 bottom: 0;
-                transform: rotate(-90deg);
+                @include transform(rotate(-90deg));
                 transition: bottom 0.1s ease-out, transform 0.22s 0.12s cubic-bezier(0.215, 0.61, 0.355, 1);
             }
         }

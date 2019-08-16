@@ -25,3 +25,8 @@
 @mixin box-shadow($property) {
     @include Css3( 'box-shadow' , $property );
 }
+
+@mixin reverse {
+    @include transform(scaleX(-1));
+}
+

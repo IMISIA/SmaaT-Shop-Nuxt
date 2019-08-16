@@ -25,7 +25,7 @@
     transition: box-shadow .2s , transform .2s;
     &:hover {
         box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
-        transform: translateY(-2px);
+        @include transform(translateY(-2px));
     }
 }
 
@@ -123,7 +123,7 @@
                 top: 8px;
                 left: 50%;
                 border-radius: 50px;
-                transform: translateX(-50%) rotate(-5deg);
+                @include transform(translateX(-50%) rotate(-5deg));
             }
         }
 
@@ -146,7 +146,7 @@
                 border: 1.5px solid #eee;
                 transition: transform .3s;
                 &:hover {
-                    transform: scale(1.2);
+                    @include transform(scale(1.2)); 
                 }
             }
         }

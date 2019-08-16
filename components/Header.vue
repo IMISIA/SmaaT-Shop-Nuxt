@@ -1,9 +1,9 @@
 <template>
     <header class="smt-header">
-        <div class="container-fuild py-2 px-5 px-xs-3">
+        <div class="container-fuild py-2 px-md-5">
             <div class="row rtl py-md-2 mx-0">
                 
-                <div class="col-lg-2 col-md-3 text-left text-md-right px-xs-0">
+                <div class="col-lg-2 col-md-3 text-left text-md-right">
 
                     <div class="hamburger hamburger--spin js-hamburger" v-if="Res"
                         :class="{ 'is-active' : Ctg_drawer }" @click="Ctg_drawer = true">
@@ -21,7 +21,7 @@
 
                 </div>
 
-                <div class="col-lg-10 col-md-9 ltr d-flex align-items-center px-xs-0 mt-xs-2">
+                <div class="col-lg-10 col-md-9 ltr d-flex align-items-center mt-1 mt-md-0">
 
                     <template v-if="!Res">
                         <!-- Shopping Cart -->
@@ -268,7 +268,6 @@
         mixins : [mixin] ,
 
         created() {
-            this.web_color = '#e91e63';
             if(process.client) this.Dynamic_Color();
             if(false && process.client) this.AutoSize();
         } ,
