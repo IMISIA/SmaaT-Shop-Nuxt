@@ -1,6 +1,6 @@
 export const state = () => ({
 
-    Url : 'http://luxbuystore.ir' ,
+    URL : 'http://luxbuystore.ir' ,
 
     Auth : false ,
 

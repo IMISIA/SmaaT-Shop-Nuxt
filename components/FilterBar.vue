@@ -1,8 +1,8 @@
 <template>
-    <div class="filter-bar p-3">
+    <div class="filter-bar p-3 pl-md-0">
 
         <!-- Categories Tree -->
-        <el-card>
+        <el-card class="am-shadow">
             <div slot="header"> دسته‌بندی نتایج </div>
 
             <div>
@@ -16,21 +16,22 @@
         </el-card>
 
         <!-- Search Input -->
-        <el-card>
+        <el-card class="am-shadow">
             <div slot="header"> جستجو در نتایج </div>
 
             <div>
                 <el-input
-                    class="rtl search"
                     v-model="Params.query"
+                    @keyup.native.enter="ApplyFilters"
+                    class="rtl search"
                     placeholder="نام محصول مورد نظر را بنویسید ...">
-                    <i slot="prefix" class="el-input__icon el-icon-search"></i>
+                    <i slot="prefix" class="el-input__icon el-icon-search" @click="ApplyFilters"></i>
                 </el-input>
             </div>
         </el-card>
 
         <!-- Available Products -->
-        <el-card>
+        <el-card class="am-shadow">
             <div class="available-products">
                 <v-app>
                     <v-switch
@@ -44,7 +45,7 @@
         </el-card>
 
         <!-- Brands -->
-        <el-card class="collapsible" v-if="is_exist(Brands)">
+        <el-card class="collapsible am-shadow" v-if="is_exist(Filters.brands)">
             <v-expansion-panels>
                 <v-expansion-panel>
                     <v-expansion-panel-header>
@@ -58,15 +59,25 @@
                             <i slot="prefix" class="el-input__icon el-icon-search"></i>
                         </el-input>
 
-                        <el-checkbox-group v-model="Params.brands.value">
-                            <el-checkbox
-                                class="filter-list"
-                                v-for="item in Brands"
-                                :key="item.id"
-                                :label="item.id"
-                            >
-                                {{ item.name }}
-                            </el-checkbox>
+                        <el-checkbox-group v-model="Params.brands.value" @change="ApplyFilters">
+                            <transition-group
+                                name="staggered-fade"
+                                tag="div"
+                                :css="false"
+                                @before-enter="beforeEnter"
+                                @enter="enter"
+                                @leave="leave">
+
+                                <el-checkbox
+                                    class="filter-list"
+                                    v-for="(item,idx) in Brands"
+                                    :key="'brand-'+idx"
+                                    :label="item.id"
+                                    :data-index="'brand-'+idx">
+                                    {{ item.name }}
+                                </el-checkbox>
+
+                            </transition-group>
                         </el-checkbox-group>
                     </v-expansion-panel-content>
                 </v-expansion-panel>
@@ -74,7 +85,7 @@
         </el-card>
 
         <!-- Sizes -->
-        <el-card class="collapsible" v-if="is_exist(Sizes)">
+        <el-card class="collapsible am-shadow" v-if="is_exist(Filters.sizes)">
             <v-expansion-panels>
                 <v-expansion-panel>
                     <v-expansion-panel-header>
@@ -88,15 +99,25 @@
                             <i slot="prefix" class="el-input__icon el-icon-search"></i>
                         </el-input>
 
-                        <el-checkbox-group v-model="Params.sizes.value">
-                            <el-checkbox
-                                class="filter-list"
-                                v-for="item in Sizes"
-                                :key="item.id"
-                                :label="item.id"
-                            >
-                                {{ item.name }}
-                            </el-checkbox>
+                        <el-checkbox-group v-model="Params.sizes.value" @change="ApplyFilters">
+                            <transition-group
+                                name="staggered-fade"
+                                tag="div"
+                                :css="false"
+                                @before-enter="beforeEnter"
+                                @enter="enter"
+                                @leave="leave">
+
+                                <el-checkbox
+                                    class="filter-list"
+                                    v-for="(item,idx) in Sizes"
+                                    :key="'size-'+idx"
+                                    :label="item.id"
+                                    :data-index="'size-'+idx">
+                                    {{ item.name }}
+                                </el-checkbox>
+
+                            </transition-group>
                         </el-checkbox-group>
                     </v-expansion-panel-content>
                 </v-expansion-panel>
@@ -104,7 +125,7 @@
         </el-card>
 
         <!-- Colors -->
-        <el-card class="collapsible" v-if="is_exist(Colors)">
+        <el-card class="collapsible am-shadow" v-if="is_exist(Filters.colors)">
             <v-expansion-panels>
                 <v-expansion-panel>
                     <v-expansion-panel-header>
@@ -118,16 +139,26 @@
                             <i slot="prefix" class="el-input__icon el-icon-search"></i>
                         </el-input>
 
-                        <el-checkbox-group v-model="Params.colors.value">
-                            <el-checkbox
-                                class="filter-list"
-                                v-for="item in Colors"
-                                :key="item.id"
-                                :label="item.id"
-                            >
-                                <span class="el-color" :style="{ backgroundColor : item.code }"></span>
-                                {{ item.name }}
-                            </el-checkbox>
+                        <el-checkbox-group v-model="Params.colors.value" @change="ApplyFilters">
+                            <transition-group
+                                name="staggered-fade"
+                                tag="div"
+                                :css="false"
+                                @before-enter="beforeEnter"
+                                @enter="enter"
+                                @leave="leave">
+
+                                <el-checkbox
+                                    class="filter-list"
+                                    v-for="(item,idx) in Colors"
+                                    :key="'color-'+idx"
+                                    :label="item.id"
+                                    :data-index="'color-'+idx">
+                                    <span class="el-color" :style="{ backgroundColor : item.code }"></span>
+                                    {{ item.name }}
+                                </el-checkbox>
+
+                            </transition-group>
                         </el-checkbox-group>
                     </v-expansion-panel-content>
                 </v-expansion-panel>
@@ -135,7 +166,7 @@
         </el-card>
 
         <!-- Warranties -->
-        <el-card class="collapsible" v-if="is_exist(Warranties)">
+        <el-card class="collapsible am-shadow" v-if="is_exist(Filters.warranties)">
             <v-expansion-panels>
                 <v-expansion-panel>
                     <v-expansion-panel-header>
@@ -149,15 +180,25 @@
                             <i slot="prefix" class="el-input__icon el-icon-search"></i>
                         </el-input>
 
-                        <el-checkbox-group v-model="Params.warranties.value">
-                            <el-checkbox
-                                class="filter-list"
-                                v-for="item in Warranties"
-                                :key="item.id"
-                                :label="item.id"
-                            >
-                                {{ item.title }}
-                            </el-checkbox>
+                        <el-checkbox-group v-model="Params.warranties.value" @change="ApplyFilters">
+                            <transition-group
+                                name="staggered-fade"
+                                tag="div"
+                                :css="false"
+                                @before-enter="beforeEnter"
+                                @enter="enter"
+                                @leave="leave">
+
+                                <el-checkbox
+                                    class="filter-list"
+                                    v-for="(item,idx) in Warranties"
+                                    :key="'Warranty-'+idx"
+                                    :label="item.id"
+                                    :data-index="'Warranty-'+idx">
+                                    {{ item.title }}
+                                </el-checkbox>
+
+                            </transition-group>
                         </el-checkbox-group>
                     </v-expansion-panel-content>
                 </v-expansion-panel>
@@ -173,7 +214,25 @@
 
     export default {
 
+        props: {
+            ApplyFilters: {
+                type: Function ,
+                required: true
+            }
+        } ,
+
         mixins: [mixin] ,
+
+        head: {
+            script: [
+                { src: 'https://cdn.jsdelivr.net/npm/velocity-animate@2.0/velocity.min.js' } ,
+                { src: 'https://cdnjs.cloudflare.com/ajax/libs/velocity/2.0.3/velocity.min.js' }
+            ]
+        } ,
+
+        created() {
+            this.SetParams();
+        } ,
 
         data() {
             return {
@@ -194,7 +253,7 @@
                         query: '' ,
                         value: []
                     } ,
-                    query: '' ,
+                    query: this.$route.query.query ,
                 } ,
                 
                 Available_Products: false ,
@@ -238,9 +297,50 @@
         } ,
 
         methods: {
+
+            SetParams() {
+                Object.keys(this.Params).slice(0,4).map( el => {
+                    let Val = this.$route.query[el];
+                    if(this.is_exist(Val)) {
+                        console.log(Val);
+                        typeof Val === 'object'
+                        ? this.Params[el].value = Val.map( el => parseInt(el) )
+                        : this.Params[el].value = [parseInt(Val)]
+                    }
+                })
+            } ,
+
             NodeClick(node) {
                 console.log(node);
+            } ,
+
+            beforeEnter(el) {
+                el.style.opacity = 0
+                el.style.height = 0
+            } ,
+
+            enter(el, done) {
+                let delay = el.dataset.index * 30
+                setTimeout(function () {
+                    Velocity(
+                        el ,
+                        { opacity: 1 , height: '1.6em' } ,
+                        { complete: done }
+                    )
+                }, delay)
+            } ,
+
+            leave(el, done) {
+                let delay = el.dataset.index * 30
+                setTimeout(function () {
+                    Velocity(
+                        el ,
+                        { opacity: 0 , height: 0 } ,
+                        { complete: done }
+                    )
+                }, delay)
             }
+
         }
 
     }

@@ -5,7 +5,7 @@
       <div v-if="SiteSetting.header_banner && SiteSetting.header_banner.wide">
         <a :href="SiteSetting.banner_link">
           <v-img
-            :src="Url + SiteSetting.header_banner.wide"
+            :src="URL + SiteSetting.header_banner.wide"
             max-height="50"
             max-width="auto"
             aspect-ratio="20"
@@ -42,7 +42,7 @@
 
     computed: {
       ...mapState([
-        'Url',
+        'URL',
         'SiteSetting'
       ])
     }

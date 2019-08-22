@@ -5,17 +5,23 @@ export const state = () => ({
 
     // Management Products In Category Page
     Products_Ctg : [] ,
+    Total: 0 ,
     Filters: {
         sizes: [] ,
         brands: [] ,
         colors: [] ,
         warranties: [] ,
-        Sort : 'latest' ,
         spec: [] ,
     } ,
 
     Single_Product : {} ,
     Variations_Select : 0 ,
     Validate_Price : true ,
+
+    Requested: {
+        spec: false ,
+        comments: false ,
+        qa: false
+    }
 
 })

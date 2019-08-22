@@ -26,7 +26,7 @@
 
                 <swiper :options="SwiperOption">
                     <swiper-slide class="py-2" v-for="(porduct,idx) in Products.data" :key="idx">
-                        <Cart :Product="porduct"/>
+                        <Card :Product="porduct"/>
                     </swiper-slide>
                 </swiper>
             </el-card>
@@ -46,7 +46,7 @@
 </template>
 
 <script>
-    import Cart from '~/components/Cart.vue';
+    import Card from '~/components/Card.vue';
 
     export default {
 
@@ -79,7 +79,7 @@
         } ,
 
         components: {
-            Cart
+            Card
         } ,
 
         data() {

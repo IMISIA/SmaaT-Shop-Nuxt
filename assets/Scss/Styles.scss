@@ -3,8 +3,9 @@
 
 @import "header";
 
-@import "cart";
+@import "card";
 @import "category";
+@import "product";
 
 @import "footer";
 
@@ -60,11 +61,16 @@ a {
 }
 
 ul {
+    margin: 0;
     list-style-type: none;
 }
 
 article, aside, footer, header, nav, section {
     display: block;
+}
+
+label {
+    margin: 0;
 }
 
 .rtl {
@@ -83,7 +89,7 @@ article, aside, footer, header, nav, section {
     border-radius: 7px !important;
 }
 
-.el-shadow {
+.as-shadow {
     box-shadow: 0 2px 12px 0 rgba(0,0,0,.1) !important;
 }
 
@@ -97,6 +103,12 @@ article, aside, footer, header, nav, section {
     }
 }
 
+@each $class , $size in ( 20:20% , 80:80% ) {
+    .h-#{$class} {
+        height: #{$size} !important; 
+    }
+}
+
 // Slider And Posters Style
 .slider .swiper-container , img.poster , .aside-poster {
     width: 100%;
@@ -107,4 +119,32 @@ article, aside, footer, header, nav, section {
 .image-slider {
     width: 100%;
     max-height: 400px;
+}
+
+.el-card.am-shadow {
+    border: unset !important;
+}
+
+.v-html {
+    p {
+        text-align: justify !important;
+        direction: rtl;
+        font-size: 13.5px;
+        color: #505050;
+        line-height: 2.7;
+    }
+}
+
+.Advantages {
+    color:#00E676
+}
+
+.Disadvantages {
+    color:#ff637d
+}
+
+.flex-center {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
