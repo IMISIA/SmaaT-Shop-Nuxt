@@ -1,7 +1,7 @@
 <template>
     <section class="category">
-        <div class="row">
-            <div class="col-md-9 pr-3" :class="[ Res ? 'col-12' : 'pr-md-0' ]">
+        <div class="row mx-0 pt-3">
+            <div class="col-12 col-md-9" :class="{ 'pr-0' : !Res }">
                 <div class="filter-btn row mx-0 pb-0 justify-content-around" v-if="Res">
                     <div class="col-5" @click="SortDialog = true">
                         <span>
@@ -17,51 +17,49 @@
                     </div>
                 </div>
 
-                <div class="p-3" :class="{ 'pr-md-0' : !Res }">
-                    <el-card class="products-ctg am-shadow" :body-style="{ padding : '0px' }">
-                        <div slot="header" class="header" v-if="!Res">
-                            <i class="flaticon-settings bold text-muted ml-3"></i>
-                            <span>مرتب سازی ب اساس :</span>
+                <el-card class="products-ctg am-shadow" :body-style="{ padding : '0px' }">
+                    <div slot="header" class="header" v-if="!Res">
+                        <i class="flaticon-settings bold text-muted ml-3"></i>
+                        <span>مرتب سازی ب اساس :</span>
 
-                            <el-radio-group
-                                v-model="Ordering"
-                                @change="ApplyFilters"
-                                class="rtl mr-3"
-                                size="mini"
-                                :fill="web_color">
-                                <el-radio-button
-                                    v-for="item in OrderingItems"
-                                    :key="item.label"
-                                    :label="item.label">
-                                    {{ item.title }}
-                                </el-radio-button>
-                            </el-radio-group>
+                        <el-radio-group
+                            v-model="Ordering"
+                            @change="ApplyFilters"
+                            class="rtl mr-3"
+                            size="mini"
+                            :fill="web_color">
+                            <el-radio-button
+                                v-for="item in OrderingItems"
+                                :key="item.label"
+                                :label="item.label">
+                                {{ item.title }}
+                            </el-radio-button>
+                        </el-radio-group>
 
-                            <!-- Products Length -->
-                            <span class="text-muted mr-auto">
-                                {{ Total | Num2Fa }}
-                                کالا
-                            </span>
-                        </div>
-
-                        <div class="row mx-0 rtl">
-                            <div class="col-md-4 col-lg-3 col-sm-6 product" v-for="(product,idx) in Products_Ctg" :key="idx">
-                                <Card :Product="product" :Hover="false" :Info="false"/>
-                            </div>
-                        </div>
-                    </el-card>
-
-                    <div class="pagination-ctg" v-if="Math.ceil(Total/8) > 1">
-                        <v-pagination
-                            v-model="Page"
-                            @input="ApplyFilters"
-                            :length="Math.ceil(Total/8)"
-                            :total-visible=" Res ? 4 : 10 "
-                            :color="web_color"
-                            next-icon="navigate_before"
-                            prev-icon="navigate_next"
-                        ></v-pagination>
+                        <!-- Products Length -->
+                        <span class="text-muted mr-auto">
+                            {{ Total | Num2Fa }}
+                            کالا
+                        </span>
                     </div>
+
+                    <div class="row mx-0 rtl">
+                        <div class="col-md-4 col-lg-3 col-sm-6 product" v-for="(product,idx) in Products_Ctg" :key="idx">
+                            <Card :Product="product" :Hover="false" :Info="false"/>
+                        </div>
+                    </div>
+                </el-card>
+
+                <div class="pagination-ctg" v-if="Math.ceil(Total/8) > 1">
+                    <v-pagination
+                        v-model="Page"
+                        @input="ApplyFilters"
+                        :length="Math.ceil(Total/8)"
+                        :total-visible=" Res ? 4 : 10 "
+                        :color="web_color"
+                        next-icon="navigate_before"
+                        prev-icon="navigate_next"
+                    ></v-pagination>
                 </div>
             </div>
 

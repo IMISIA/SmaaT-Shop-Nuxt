@@ -1,0 +1,86 @@
+@mixin price( $font-size:14px , $font-weight:bold ) {
+    font-weight: $font-weight;
+    &::after {
+        content: attr(data-price);
+        font-size: #{$font-size};
+    } 
+}
+
+.cart {
+
+    color: #515151;
+
+    .checkout-prices {
+        li {
+            direction: rtl;
+            display: flex;
+            justify-content: space-between;
+            font-size: 15px;
+            margin-bottom: 15px;
+        }
+        span {
+            @include price(12px);
+        }
+    }
+
+    .final-price-title {
+        color: #676767;
+        display: block;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .final-price {
+        direction: rtl;
+        display: block;
+        font-size: 20px;
+        padding: 15px 0; 
+        text-align: center;
+        @include price(14px);
+    }
+
+    .includeIconOnly.small {
+        width: 28px !important;
+        height: 28px !important;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 10%;
+    }
+
+    .product-name {
+        text-align: right;
+        font-size: 14px;
+        color: #555;
+        font-weight: bold;
+        line-height: 25px;
+        margin-bottom: 15px;
+    }
+
+    .variations {
+        text-align: right;
+        color: #808080;
+        font-size: 12px;
+        li {
+            margin-bottom: 5px;
+        }
+    }
+
+    .input-number {
+        direction: ltr;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .product-price {
+        @include price(12px, normal);
+    }
+
+    .helper-checkout-box {
+        position: absolute;
+        top: 0;
+        width: 100%;
+    }
+
+}

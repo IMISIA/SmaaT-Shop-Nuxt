@@ -21,7 +21,7 @@
 
                         <h3 class="spec-title web-color">
                             {{ spec.title }}
-                            <i class="fas fa-chevron-left ml-1 web-color"></i>
+                            <i class="fas fa-chevron-left web-color"></i>
                         </h3>
                     </div>
 
@@ -68,9 +68,7 @@
 
 <script>
     import { mapState } from 'vuex';
-    
     export default {
-
         async fetch({ $axios , store , params }) {
 
             if(store.state.Product.Requested.spec) return;
@@ -165,6 +163,5 @@
                 return true;
             }
         }
-
     }
 </script>

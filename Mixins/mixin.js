@@ -64,11 +64,6 @@ export default {
     } ,
 
     methods: {
-
-        Set_color(val) {
-            this.web_color = val;
-        } ,
-
         is_exist(val) {
             if( !!val && typeof val == 'number' ) {
                 return true;
@@ -88,10 +83,82 @@ export default {
             })
         } ,
 
-        random( min , max , floating = false ) {
-            return _.random( min , max , floating );
-        }
+        Dynamic_SideBar(target , checker , top = 0) {
+            let helper = {
+                target: $(`<div class="helper-${target.substr(1)}"></div>`).insertAfter(target) ,
+                offsetFromTop() {
+                    return this.target.offset().top;
+                }
+            }
 
+            helper.target.css({
+                position: 'absolute',
+                top: '0' ,
+                width: '100%' ,
+            })
+
+            let element = {
+                target: $(target) ,
+                height() {
+                    return this.target.outerHeight();
+                } ,
+                width() {
+                    return this.target.outerWidth();
+                } ,
+                offsetFromTop() {
+                    return this.target.offset().top;
+                } ,
+                parent() {
+                    return this.target.parent();
+                } ,
+                parentBottomPosition() {
+                    return this.parent().offset().top + this.parent().outerHeight();
+                } ,
+                reachDown() {
+                    return (this.offsetFromTop() + this.height() + 1) > this.parentBottomPosition();
+                } ,
+                fixed() {
+                    this.target.css({
+                        position: 'fixed',
+                        top: top,
+                        width: this.target.width()
+                    })
+                } ,
+                absolute() {
+                    this.target.css({
+                        position: 'absolute',
+                        top: '',
+                        bottom: '0',
+                        width: this.target.width()
+                    })
+                } ,
+                removeStyles() {
+                    this.target.css({
+                        position: '',
+                        top: '',
+                        bottom: '',
+                        width: ''
+                    })
+                }
+            }
+
+            $(window).scroll(function() {
+                let scrollFromTop = $(this).scrollTop();
+
+                if(
+                    element.height() < $(checker).outerHeight() &&
+                    scrollFromTop > (helper.offsetFromTop() - top)
+                ) {
+                    if(element.reachDown()) {
+                        (scrollFromTop + top) < element.offsetFromTop() ? element.fixed() : element.absolute();
+                    } else {
+                        element.fixed();
+                    }
+                } else {
+                    element.removeStyles();
+                }
+            })
+        }
     }
 
 }

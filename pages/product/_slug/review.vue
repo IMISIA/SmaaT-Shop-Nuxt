@@ -1,5 +1,5 @@
 <template>
-     <article class="row rtl">
+     <article class="row mx-0 rtl">
 
         <!-- Title -->
         <div class="col-12 mb-4">

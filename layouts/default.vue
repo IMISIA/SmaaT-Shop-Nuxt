@@ -17,6 +17,7 @@
       <Header />
 
       <main id="app">
+        <div id="categories-overlay"></div>
         <nuxt />
       </main>
 

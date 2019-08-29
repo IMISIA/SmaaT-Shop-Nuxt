@@ -6,9 +6,9 @@
 @import "card";
 @import "category";
 @import "product";
+@import "cart";
 
 @import "footer";
-
 
 @font-face {
     font-family: 'iransans';
@@ -73,6 +73,10 @@ label {
     margin: 0;
 }
 
+legend {
+    width: unset;
+}
+
 .rtl {
     direction: rtl !important;
 }
@@ -107,6 +111,10 @@ label {
     .h-#{$class} {
         height: #{$size} !important; 
     }
+}
+
+.v-btn__content {
+    letter-spacing: 0px;
 }
 
 // Slider And Posters Style
@@ -147,4 +155,66 @@ label {
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
+}
+
+.vs-popup--title h3 {
+    text-align: center;
+    color: #777777;
+    font-weight: bold;
+    margin: 5px;
+}
+
+.con-vs-slider {
+    min-width: unset !important;
+}
+
+.title-input {
+    display: block;
+    position: relative;
+    text-align: right;
+    font-size: 14px;
+    font-weight: bold;
+    color: #484848;
+    margin-bottom: .5rem;
+    padding-right: 5px;
+}
+
+.title-input.required:after {
+    color: #ff0000 !important;
+    content: '*';
+    font-size: 15px;
+}
+
+.input .v-text-field {
+    .v-input__slot {
+        min-height: 45px !important;
+        max-height: 45px !important;
+        .v-label {
+            top: 12px !important;
+            font-size: 13px !important;
+        }
+    }
+    input {
+        font-size: 13px;
+    }
+    .v-input__prepend-inner {
+        margin-top: 10px !important;
+    }
+}
+
+.v-textarea {
+    .v-input__slot {
+        padding-left: 0px !important;
+    }
+    .v-text-field__slot {
+        label {
+            right: 12px !important;
+            font-size: 13px;
+        }
+    }
+    textarea {
+        font-size: 13px;
+        line-height: 2 !important;
+        padding-left: 12px !important;
+    }
 }

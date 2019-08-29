@@ -37,16 +37,16 @@
                             <span class="second-title"> {{ 'سید ایمان اصنافی' || Product.second_name }} </span>
 
                             <div class="row fs-13">
-                                <div class="col-md-7">
+                                <div class="col-md-6 col-lg-7">
                                     <div class="row">
-                                        <div class="col-6">
+                                        <div class="col-12 col-lg-6">
                                             برند :
                                             <span class="web-color">
                                                 {{ Product.brand ? Product.brand.name : 'ندارد' }}
                                             </span>
                                         </div>
 
-                                        <div class="col-6">
+                                        <div class="col-12 col-lg-6 mt-2 mt-lg-0">
                                             دسته بندی :
                                             <span class="web-color">
                                                 <template v-if="is_exist(Product.categories)">
@@ -60,21 +60,31 @@
                                             </span>
                                         </div>
 
-                                        <div class="col-6 mt-3">
+                                        <div class="col-12 col-lg-6 mt-2">
                                             زمان ارسال :
                                             <span class="web-color"> {{ Product.sending_time || 'تعریف نشده' }} </span>
                                         </div>
 
-                                        <div class="col-6 mt-3">
+                                        <div class="col-12 col-lg-6 mt-2">
                                             وضعیت :
                                             <span class="web-color"> آماده ارسال </span>
                                         </div>
                                     </div>
 
                                     <Variations />
+
+                                    <div class="active-spec">
+                                        <span> ویژگی های محصول </span>
+                                        <ul>
+                                            <li> حافظه داخلی: 256 گیگابایت </li>
+                                            <li> مقدار RAM: 3 گیگابایت </li>
+                                            <li> رزولوشن عکس: 12.0 مگاپیکسل </li>
+                                            <li> بازه‌ی اندازه صفحه نمایش: 5.5 تا 6.0 اینچ </li>
+                                        </ul>
+                                    </div>
                                 </div>
 
-                                <div class="col-md-5 web-bg-ultra-fade rounded-7">
+                                <div class="col-md-6 col-lg-5 web-bg-ultra-fade box-info">
                                     <div class="price web-color-dark">
                                         {{ Product.variations[0].sales_price | Num2Fa }}
                                         <span class="fs-13"> تومان </span>
@@ -84,6 +94,21 @@
                                         <i class="flaticon-info bold fs-14 web-color ml-1"></i>
                                         {{ Product.description }}
                                     </p>
+
+                                    <div>
+                                        <v-btn class="web-grd-form-dark add-to-cart" dark large rounded>
+                                            <i class="lnr lnr-cart"></i>
+                                            افزودن به سبد خرید
+                                        </v-btn>
+                                        
+                                        <v-btn class="web-grd-form-dark mr-2" fab dark small>
+                                            <v-icon dark small>far fa-heart</v-icon>
+                                        </v-btn>
+
+                                        <v-btn class="web-grd-form-dark mr-1" fab dark small>
+                                            <v-icon dark>sync</v-icon>
+                                        </v-btn>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -103,6 +128,7 @@
                 <v-tabs v-model="TabValue" :background-color="web_color_ultra_fade" :color="web_color" right show-arrows>
                     <v-tab v-for="tab in Tabs" :key="tab.name" :to="tab.name">
                         {{ tab.title }}
+                        <v-icon class="ml-2" small> {{ tab.icon }} </v-icon>
                     </v-tab>
                 </v-tabs>
 
@@ -274,10 +300,10 @@
 
                 TabValue: null ,
                 Tabs: [
-                    { name: 'qa' , title: 'پرسش و پاسخ' , icon: '' } ,
-                    { name: 'comments' , title: 'نظرات کاربران' , icon: '' } ,
-                    { name: 'spec' , title: 'مشخصات فنی' , icon: '' } ,
-                    { name: 'review' , title: 'نقد و بررسی' , icon: '' } ,
+                    { name: 'qa' , title: 'پرسش و پاسخ' , icon: 'far fa-question-circle' } ,
+                    { name: 'comments' , title: 'نظرات کاربران' , icon: 'far fa-comments' } ,
+                    { name: 'spec' , title: 'مشخصات فنی' , icon: 'fas fa-list' } ,
+                    { name: 'review' , title: 'نقد و بررسی' , icon: 'fas fa-glasses' } ,
                 ]
             }
         } ,
@@ -298,6 +324,5 @@
                 }
             }
         }
-
     }
 </script>

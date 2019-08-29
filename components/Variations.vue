@@ -1,5 +1,5 @@
 <template>
-    <ul class="variations mt-5">
+    <ul class="variations my-3">
 
         <!-- Warranties -->
         <template v-if="is_exist(Warranties)">

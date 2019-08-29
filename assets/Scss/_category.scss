@@ -1,4 +1,6 @@
 .filter-bar {
+    height: fit-content;
+    
     .el-card {
         margin-bottom: 10px;
         &.collapsible {
@@ -13,6 +15,10 @@
                 }
             }
         }
+    }
+
+    > .el-card:last-child {
+        margin-bottom: 2px !important;
     }
 
     .el-card__header {
@@ -138,6 +144,12 @@
     }
 }
 
+.helper-filter-bar {
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+
 .category {
 
     .products-ctg {
@@ -189,8 +201,7 @@
 
 .filter-btn {
     text-align: center;
-    padding: 12px 0;
-    margin: 0px;
+    margin-bottom: 15px;
     div {
         background: #fff;
         cursor: pointer;
@@ -217,5 +228,23 @@
         margin-right: 10px;
         font-size: .875rem;
         color: #484848 !important;
+    }
+}
+
+#categories-overlay {
+    position: fixed;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    content: "";
+    background: rgba(74,74,74,.43);
+    opacity: 0;
+    z-index: 233;
+    transition: opacity .2s cubic-bezier(.215,.61,.355,1) .1s;
+    pointer-events: none;
+    &.show {
+        opacity: 1;
     }
 }

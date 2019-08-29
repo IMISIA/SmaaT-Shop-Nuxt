@@ -48,7 +48,7 @@ export default {
   ],
   vuetify: {
     icons: {
-      iconfont: 'mdi' | 'fa',  // default - only for display purposes
+      iconfont: 'mdi' | 'fa' | 'fas',  // default - only for display purposes
     }
   },
 
@@ -66,8 +66,8 @@ export default {
   */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
-    // baseURL : 'http://luxbuystore.ir/graphql' ,
-    baseURL : 'http://metro-market.ir/graphql' ,
+    baseURL : 'http://luxbuystore.ir/graphql' ,
+    // baseURL : 'http://metro-market.ir/graphql' ,
   },
 
   /*

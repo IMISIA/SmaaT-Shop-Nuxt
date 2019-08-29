@@ -1,10 +1,8 @@
 <template>
     <header class="smt-header">
-        <div class="container-fuild py-2 px-md-5">
+        <div class="container-fuild py-2 px-md-3 px-lg-5">
             <div class="row rtl py-md-2 mx-0">
-                
                 <div class="col-lg-2 col-md-3 text-left text-md-right">
-
                     <div class="hamburger hamburger--spin js-hamburger" v-if="Res"
                         :class="{ 'is-active' : Ctg_drawer }" @click="Ctg_drawer = true">
                         <div class="hamburger-box">
@@ -12,21 +10,19 @@
                         </div>
                     </div>
 
-                    <nuxt-link to="/" class="d-inline-block">
+                    <nuxt-link to="/" class="d-inline-block link-logo">
                         <img
                             class="site-logo"
                             :src=" SiteSetting.logo && SiteSetting.logo.medium ? URL + SiteSetting.logo.medium : '/images/none.png' "
                             alt="logo">
                     </nuxt-link>
-
                 </div>
 
                 <div class="col-lg-10 col-md-9 ltr d-flex align-items-center mt-1 mt-md-0">
-
                     <template v-if="!Res">
                         <!-- Shopping Cart -->
                         <el-badge class="item" :value="Shopping_Cart.length">
-                            <vs-button class="cart-btn px-3" :color="web_color" type="filled"
+                            <vs-button class="cart-btn px-3" to="/cart" :color="web_color" type="filled"
                                 icon-pack="lnr lnr-cart" icon="." icon-after>
                                 سبد خرید    
                             </vs-button>
@@ -112,9 +108,7 @@
                         </el-select>
                         <el-button class="web-bg-fade text-white" slot="append" icon="el-icon-search"></el-button>
                     </div>
-
                 </div>
-
             </div>
         </div>
 
@@ -274,12 +268,15 @@
 
         mounted() {
             $('.categories').ready(function() {
-
                 $('li.ctg-item').hover(
                     function () {
-                        $(this).find('div.mega-menu').addClass('d-block')
+                        if( $(this).find('i.lnr-chevron-down').length ) {
+                            $('#categories-overlay').addClass('show');
+                        }
+                        $(this).find('div.mega-menu').addClass('d-block');
                     } ,
                     function () {
+                        $('#categories-overlay').removeClass('show');
                         $(this).find('div.mega-menu').removeClass('d-block')
                     }
                 );
@@ -301,7 +298,6 @@
                         $(this).removeClass('web-color-dark').addClass('web-color');
                     }
                 );
-
             })
         } ,
 

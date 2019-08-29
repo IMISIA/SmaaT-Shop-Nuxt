@@ -1,6 +1,5 @@
 <template>
-    <div class="filter-bar p-3 pl-md-0">
-
+    <div class="filter-bar" :class="{ 'p-3' : Res }">
         <!-- Categories Tree -->
         <el-card class="am-shadow">
             <div slot="header"> دسته‌بندی نتایج </div>
@@ -204,7 +203,6 @@
                 </v-expansion-panel>
             </v-expansion-panels>
         </el-card>
-
     </div>
 </template>
 
@@ -232,6 +230,12 @@
 
         created() {
             this.SetParams();
+        } ,
+
+        mounted() {
+            this.$nextTick(function() {
+                if(!this.Res) this.Dynamic_SideBar('.filter-bar' , '.products-ctg' , 16);
+            })
         } ,
 
         data() {
@@ -297,7 +301,6 @@
         } ,
 
         methods: {
-
             SetParams() {
                 Object.keys(this.Params).slice(0,4).map( el => {
                     let Val = this.$route.query[el];
@@ -340,7 +343,6 @@
                     )
                 }, delay)
             }
-
         }
 
     }
