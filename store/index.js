@@ -2,14 +2,21 @@ export const state = () => ({
 
     URL : 'http://luxbuystore.ir' ,
 
-    Auth : false ,
+    AUTH : false ,
 
     Login_Modal : false ,
     Register_Modal : false ,
 
     SiteSetting : {} ,
 
-    Me : {} ,
+    Me : {
+        full_name: 'سید ایمان اصنافی' ,
+        username: 'IMISIA' ,
+        phone_number: '09154188571' ,
+        national_code: '0924876263' ,
+        email: 'IMISIA99@Gmail.Com' ,
+        gender: 'مرد'
+    } ,
 
     Provinces : [] ,
     Cities : [] ,
@@ -58,7 +65,8 @@ export const state = () => ({
                 "inventory": 30,
                 "warranty": null,
                 "color": {
-                    "name": "مشکی"
+                    "name": "مشکی" ,
+                    "code": "#000"
                 },
                 "size": null,
                 "product": {
@@ -144,7 +152,7 @@ export const state = () => ({
 
 export const mutations = {
     // Payloads : Prop , Val , Module , Obj_Assign
-    Set_state( state , payload ) {
+    Set_state(state , payload) {
         if(payload.Module) {
             payload.Obj_Assign
             ? state[payload.Module][payload.Prop] = { ...state[payload.Module][payload.Prop] , ...payload.Val }
@@ -154,14 +162,56 @@ export const mutations = {
             ? state[payload.Prop] = { ...state[payload.Prop] , ...payload.Val }
             : state[payload.Prop] = payload.Val
         }
+    } ,
+
+    // Payloads : type , name , params , resQuery , resolverBefore(state) , resolverAfter(state , data)
+    Request(state , pld) {
+        if(pld.resolverBefore) pld.resolverBefore(state);
+
+        let params = null;
+        if(pld.params && typeof pld.params === 'object') {
+            Object.entries(pld.params).map( ([key , val]) => {
+                if(val && ( isNaN(val) ? !_.isEmpty(val) : true ) ) {
+                    switch(typeof val) {
+                        case 'number': {
+                            params += `${key} : ${val} , \n`;
+                            break;
+                        }
+                        case 'string': {
+                            params += `${key} : "${val}" , \n`;
+                            break;
+                        }
+                        case 'boolean': {
+                            params += `${key} : ${val} , \n`;
+                            break;
+                        }
+                        case 'object': {
+                            params += `${key} : [${val}] , \n`;
+                            break;
+                        }
+                    }
+                }
+            })
+        }
+
+        let query = `
+            ${pld.type || ''} {
+                ${pld.name} ${ params ? '( \n'+params+'\n )' : '' } {
+                    ${pld.resQuery}
+                }
+            }
+        `;
+
+        console.log(query);
     }
 }
 
 export const actions = {
     async nuxtServerInit ({ state } , { app }) {
 
-        let query = [
-            `
+        let query = {
+            me: `` ,
+            client: `
                 {
                     categories {
                         data {
@@ -282,14 +332,13 @@ export const actions = {
                         }
                     }
                 }
-            
-            `
-        ]
+            ` ,
+        }
 
-        let { data } = await app.$axios({
+        let {data} = await app.$axios({
             method : 'POST' ,
             data : {
-                query : query[0]
+                query : query.client
             }
         })
 

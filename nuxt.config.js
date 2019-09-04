@@ -38,7 +38,7 @@ export default {
   plugins: [
     '~/plugins/element-ui' ,
     '~/plugins/vuesax' ,
-    { src : '~/plugins/Swiper' , mode : 'client' } ,
+    { src : '~/plugins/swiper' , mode : 'client' } ,
     { src : '~/plugins/other' , mode : 'client' } ,
     { src : '~/plugins/jquery-3.4.1.min.js' , mode : 'client' } ,
   ] ,

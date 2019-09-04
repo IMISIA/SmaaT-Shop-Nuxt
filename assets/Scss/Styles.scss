@@ -7,6 +7,7 @@
 @import "category";
 @import "product";
 @import "cart";
+@import "profile";
 
 @import "footer";
 
@@ -101,7 +102,26 @@ legend {
     box-shadow: 0 5px 10px -8px #00bcd421, 0 6px 25px -12px rgba(0,0,0,.1) !important;
 }
 
-@each $size in ( 10 , 12 , 13 , 14 , 18 , 20 ) {
+span.title-field {
+    direction: rtl;
+    display: block;
+    position: relative;
+    text-align: right;
+    color: #484848;
+    font: {
+        size: 14px;
+        weight: bold;
+    }
+    padding-right: 5px;
+
+    &.required::after {
+        color: #ff0000 !important;
+        content: '*';
+        font-size: 15px;
+    }
+}
+
+@each $size in ( 10 , 12 , 13 , 14 , 16 , 18 , 20 ) {
     .fs-#{$size} {
         font-size: #{$size}px !important; 
     }

@@ -1,7 +1,6 @@
 <template>
     <div id="card-component" :class="{ 'hover' : Hover }">
         <div class="product-card">
-            
             <nuxt-link :to="`/product/${Product.slug}/review`">
                 <v-img
                     :src=" is_exist(Product.photos) ? URL + Product.photos[0].medium : '/images/none.png' "
@@ -16,7 +15,6 @@
 
             <div>
                 <div class="product-info text-center" v-if="is_exist(Product.variation) && Product.label == null">
-
                     <nuxt-link :to="`/product/${Product.slug}`">
                         <div class="product-name mb-1"> {{ Product.name }} </div>
                     </nuxt-link>
@@ -57,7 +55,6 @@
 
                         </div>
                     </template>
-
                 </div>
 
                 <div class="product-info labled text-center" v-else>
@@ -92,14 +89,12 @@
 
                 </div>
             </div>
-
         </div>
     </div>  
 </template>
 
 <script>
     import { mapState } from 'vuex';
-    import mixin from '~/Mixins/mixin';
 
     export default {
         props: {
@@ -116,8 +111,6 @@
             }
         } ,
 
-        mixins: [mixin] ,
-
         mounted() {
             if(this.Info) {
                 $(document).ready(function () {
@@ -132,10 +125,26 @@
             }
         } ,
 
+        filters: {
+            Num2Fa(val) {
+                return val ? val.toLocaleString('fa-IR') : 0 ;
+            }
+        } ,
+
         computed : {
             ...mapState([
                 'URL'
             ])
         } ,
+
+        methods: {
+            is_exist(val) {
+                if( !!val && typeof val == 'number' ) {
+                    return true;
+                } else if(process.client) {
+                    return typeof val === 'string' ? !(_.isEmpty(val.trim())) : !(_.isEmpty(val)); 
+                }
+            } ,
+        }
     }
 </script>

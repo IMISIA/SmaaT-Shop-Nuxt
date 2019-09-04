@@ -11,6 +11,7 @@
                     span {
                         @include transform(scaleX(-1));
                         text-align: right;
+                        color: map-get($colors , "title");
                     }
                 }
             }
@@ -27,7 +28,7 @@
             size: 14px;
             weight: bold;
         }
-        color: #535353;
+        color: map-get($colors , "content");
         text-align: right;
     }
 
@@ -58,18 +59,18 @@
 
     .search {
         input {
-            background: #f8f8f8;
+            background: map-get($colors , "background");
             border: unset;
             color: #555;
             border-radius: 7px;
             font-size: 12px;
             &::placeholder {
-                color: #7d7d7d;
+                color: map-get($colors , "sub-color");
                 font-size: 12px;
             }
         }
         .el-input__icon {
-            color: #7d7d7d;
+            color: map-get($colors , "sub-color");
         }
     }
 
@@ -88,7 +89,7 @@
             }
             label {
                 font-size: 13px;
-                color: #535353;
+                color: map-get($colors , "content");
                 margin: 0;
                 margin-top: 3px;
             }
@@ -120,8 +121,7 @@
             direction: rtl;
             cursor: pointer;
             margin-right: 0 !important;
-            padding-right: 5px;
-            margin-bottom: 3px;
+            margin-bottom: 5px;
             .el-checkbox__label {
                 font-size: 12px;
                 padding-right: 15px;
@@ -139,7 +139,7 @@
         width: 10px;
         top: 7px;
         left: 13px;
-        border: 1px solid #dadada;
+        border: 1px solid map-get($colors , "border");
         border-radius: 50px; 
     }
 }
@@ -150,53 +150,50 @@
     width: 100%;
 }
 
-.category {
-
-    .products-ctg {
-        .el-card__header {
-            padding: 10px 20px;
-            border: 1px solid #ebebeb;
-            border-bottom: unset;
-            border-radius: 4px 4px 0px 0px;
-            .header {
-                direction: rtl;
-                text-align: right;
-                display: flex;
-                align-items: center;
-                & > span {
-                    font-size: 12px;
-                }
-            }
-            label {
-                margin: 0px 3px;
-                span {
-                    font-size: 11px;
-                }
-            }
-            .el-radio-button__inner {
-                border: unset !important;
-                border-radius: 7px !important;
-            }
-        }
-
-        .product {
-            padding: .5rem 0px !important;
-            border: 1px solid #ebebeb;
-            transition: box-shadow .2s;
-            &:hover {
-                box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
-                z-index: 10;
-            }
-        }
-    }
-
-    .pagination-ctg {
-        direction: rtl;
-        background: #FFF;
+.products-ctg {
+    .el-card__header {
         padding: 10px 20px;
-        border: 1px solid #ebebeb;
-        border-radius: 0px 0px 4px 4px;
+        border: 1px solid map-get($colors , "divider");
+        border-bottom: unset;
+        border-radius: 4px 4px 0px 0px;
+        .header {
+            direction: rtl;
+            text-align: right;
+            display: flex;
+            align-items: center;
+            & > span {
+                font-size: 12px;
+            }
+        }
+        label {
+            margin: 0px 3px;
+            span {
+                font-size: 11px;
+            }
+        }
+        .el-radio-button__inner {
+            border: unset !important;
+            border-radius: 7px !important;
+        }
     }
+
+    .product {
+        padding: .5rem 0px !important;
+        border: 1px solid map-get($colors , "divider");
+        transition: box-shadow .2s;
+        &:hover {
+            box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+            z-index: 10;
+        }
+    }
+}
+
+.pagination-ctg {
+    direction: rtl;
+    background: #FFF;
+    padding: 10px 20px;
+    border: 1px solid #ebebeb;
+    border-radius: 0px 0px 4px 4px;
 }
 
 .filter-btn {
@@ -210,8 +207,8 @@
         border-radius: 7px;
     }
     span {
-        color: #484848;
-        font-size: 13px;
+        color: map-get($colors , "content");
+        font-size: 12px;
         font-weight: 500;
         display: flex;
         align-items: center;
@@ -227,7 +224,7 @@
     label {
         margin-right: 10px;
         font-size: .875rem;
-        color: #484848 !important;
+        color: map-get($colors , "content") !important;
     }
 }
 

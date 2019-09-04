@@ -7,8 +7,11 @@
 }
 
 .cart {
-
     color: #515151;
+
+    .el-card {
+        color: #515151 !important;
+    }
 
     .checkout-prices {
         li {
@@ -39,33 +42,6 @@
         @include price(14px);
     }
 
-    .includeIconOnly.small {
-        width: 28px !important;
-        height: 28px !important;
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        right: 10%;
-    }
-
-    .product-name {
-        text-align: right;
-        font-size: 14px;
-        color: #555;
-        font-weight: bold;
-        line-height: 25px;
-        margin-bottom: 15px;
-    }
-
-    .variations {
-        text-align: right;
-        color: #808080;
-        font-size: 12px;
-        li {
-            margin-bottom: 5px;
-        }
-    }
-
     .input-number {
         direction: ltr;
         display: flex;
@@ -76,11 +52,4 @@
     .product-price {
         @include price(12px, normal);
     }
-
-    .helper-checkout-box {
-        position: absolute;
-        top: 0;
-        width: 100%;
-    }
-
 }

@@ -1,8 +1,8 @@
 <template>
     <header class="smt-header">
-        <div class="container-fuild py-2 px-md-3 px-lg-5">
+        <div class="container-fuild py-2 px-md-3">
             <div class="row rtl py-md-2 mx-0">
-                <div class="col-lg-2 col-md-3 text-left text-md-right">
+                <div class="col-lg-2 col-md-2 col-sm-3 text-left text-md-center">
                     <div class="hamburger hamburger--spin js-hamburger" v-if="Res"
                         :class="{ 'is-active' : Ctg_drawer }" @click="Ctg_drawer = true">
                         <div class="hamburger-box">
@@ -18,7 +18,7 @@
                     </nuxt-link>
                 </div>
 
-                <div class="col-lg-10 col-md-9 ltr d-flex align-items-center mt-1 mt-md-0">
+                <div class="col-lg-10 col-md-10 ltr col-sm-9 d-flex align-items-center mt-1 mt-md-0">
                     <template v-if="!Res">
                         <!-- Shopping Cart -->
                         <el-badge class="item" :value="Shopping_Cart.length">
@@ -31,7 +31,6 @@
                         <!-- Login / Register -->
                         <div class="mx-5">
                             <vs-dropdown vs-custom-content vs-trigger-click>
-
                                 <a class="login-text mx-4" href.prevent>
                                     <v-icon light>keyboard_arrow_down</v-icon>
                                     <template v-if="is_exist(Me)">
@@ -45,25 +44,25 @@
                                     </template>
                                 </a>
 
-                                <vs-dropdown-menu class="loginx rtl">
+                                <vs-dropdown-menu class="rtl">
                                     <v-list dense shaped class="py-0" v-if="is_exist(Me)">
                                         <v-list-item-group :color="web_color">
 
                                             <v-list-item>
-                                                <v-list-item-action class="pl-3">
-                                                    <i class="fs-20 ml-2 lnr lnr-user"></i>
+                                                <v-list-item-action class="pl-2">
+                                                    <i class="fs-18 ml-2 lnr lnr-user"></i>
                                                 </v-list-item-action>
                                                 <v-list-item-content>
-                                                    <v-list-item-title class="fs-13 text-right"> پنل کاربری </v-list-item-title>
+                                                    <v-list-item-title class="fs-12 text-right"> پنل کاربری </v-list-item-title>
                                                 </v-list-item-content>
                                             </v-list-item>
 
                                             <v-list-item>
-                                                <v-list-item-action class="pl-3">
-                                                    <i class="fs-20 ml-2 lnr lnr-exit"></i>
+                                                <v-list-item-action class="pl-2 text-danger">
+                                                    <i class="fs-18 ml-2 lnr lnr-exit"></i>
                                                 </v-list-item-action>
                                                 <v-list-item-content>
-                                                    <v-list-item-title class="fs-13 text-right"> خروج از حساب </v-list-item-title>
+                                                    <v-list-item-title class="fs-12 text-right text-danger"> خروج از حساب </v-list-item-title>
                                                 </v-list-item-content>
                                             </v-list-item>
 
@@ -81,7 +80,6 @@
                                         </div>
                                     </div>
                                 </vs-dropdown-menu>
-
                             </vs-dropdown>
                         </div>
                     </template>
@@ -114,8 +112,8 @@
 
         <nav class="categories" v-if="!Res && is_exist(Categories)">
             <ul class="rtl">
+                <span class="ctg-hover web-bg"></span>
                 <li class="ctg-item" v-for="ctg in Categories" :key="ctg.id">
-
                     <nuxt-link :to="`/category/${ctg.slug}`">
                         {{ ctg.title }}
                         <i class="lnr lnr-chevron-down mr-2" v-if="is_exist(ctg.childs)"></i>
@@ -125,7 +123,7 @@
                         <div class="row mx-0 p-3">
                             <div class="col-md-8">
                                 <div class="row flex-column">
-                                    <div class="col-3 mb-1" v-for="sub_1 in ctg.childs" :key="sub_1.id">
+                                    <div class="col-4 col-lg-3 mb-1" v-for="sub_1 in ctg.childs" :key="sub_1.id">
                                         <nuxt-link :to="`/category/${sub_1.slug}`">
                                             <p class="sub_1 web-color">
                                                 <i class="lnr lnr-chevron-left bold"></i>
@@ -156,7 +154,6 @@
                             </div>
                         </div>
                     </div>
-
                 </li>
             </ul>
         </nav>
@@ -270,12 +267,22 @@
             $('.categories').ready(function() {
                 $('li.ctg-item').hover(
                     function () {
+                        let offerFromRight = $(this).parent().width() - ($(this).outerWidth() + $(this).position().left)
+                        $('.ctg-hover').css({
+                            transform: 'scaleX(1)' ,
+                            right: offerFromRight ,
+                            width: $(this).outerWidth()
+                        })
+
                         if( $(this).find('i.lnr-chevron-down').length ) {
                             $('#categories-overlay').addClass('show');
                         }
                         $(this).find('div.mega-menu').addClass('d-block');
                     } ,
                     function () {
+                        $('.ctg-hover').css({
+                            transform: ''
+                        })
                         $('#categories-overlay').removeClass('show');
                         $(this).find('div.mega-menu').removeClass('d-block')
                     }

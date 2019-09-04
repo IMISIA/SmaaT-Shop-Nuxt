@@ -1,11 +1,10 @@
 var Color = require('color');
 
 export default {
-
     created() {
         if(process.client) {
-            this.web_color = '#e91e63';
-            // this.web_color = '#0ecfc6';
+            // this.web_color = '#e91e63';
+            this.web_color = '#0ecfc6';
 
             this.window.width = window.innerWidth;
     
@@ -83,7 +82,11 @@ export default {
             })
         } ,
 
-        Dynamic_SideBar(target , checker , top = 0) {
+        emptyProps(obj) {
+            Object.keys(obj).map( el => obj[el] = '' )
+        } ,
+
+        DynamicSidebar(target , checker , top = 0) {
             let helper = {
                 target: $(`<div class="helper-${target.substr(1)}"></div>`).insertAfter(target) ,
                 offsetFromTop() {
@@ -160,5 +163,4 @@ export default {
             })
         }
     }
-
 }

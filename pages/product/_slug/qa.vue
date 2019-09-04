@@ -48,7 +48,7 @@
 
         computed: mapState({
             Product: state => state.Product.Single_Product ,
-            Auth: 'Auth'
+            AUTH: 'AUTH'
         })
     }
 </script>

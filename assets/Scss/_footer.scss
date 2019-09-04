@@ -1,18 +1,13 @@
 footer {
     background: #fafafa;
-    border-top: 1.5px solid #cfd8dc;
+    border-top: 1.5px solid map-get($colors, "border");
     text-align: right;
     margin-top: 40px;
     padding: 25px 0px;
 
-    .footer-logo {
-        max-height: 80px;
-        max-width: 100%;
-    }
-
     h1 , .col-header {
         direction: rtl;
-        color: #5d5959;
+        color: map-get($colors , "title");
         font: {
             size: 16px;
             weight: bold; 
@@ -20,54 +15,60 @@ footer {
         margin-bottom: 15px;
     }
 
-    p.description {
+    .description {
         font-size: 13px;
-        color: #767676;
+        color: map-get($colors , "content");
         line-height: 30px;
         margin-bottom: 0;
     }
 
     hr {
-        background-color: #cfd8dc;
+        background-color: map-get($colors, "divider");
         height: 0.1px;
-        width: 100%;
+        width: 97%;
+        margin-left: auto;
+        margin-right: auto;
     }
 
-    ul.col-list {
+    .col-list {
         li {
             font-size: 13px;
-            color: #767676;
+            color: map-get($colors , "content");
             line-height: 25px;
             margin-bottom: 5px;
-            a {
-                color: #767676;
-                transition: color .3s;
-                &:hover {
-                    color: #484848;
-                }
+        }
+        a {
+            color: map-get($colors , "content");
+            transition: color .3s;
+            &:hover {
+                color: map-get($colors , "title");
             }
         }
     }
+}
 
-    .trust-symbol {
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
 
-        div {
-            background: #fff;
-            padding: 10px;
-            border: 1px solid #c2c2c2;
-            border-radius: 4px;
+.footer-logo {
+    max-height: 80px;
+    max-width: 100%;
+}
 
-            img {
-                height: 100px;
-                width: 100px;
-            }
-        }
+.trust-symbol {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    div {
+        background: #fff;
+        padding: 10px;
+        border: 1px solid map-get($colors , "border");
+        border-radius: 4px;
+
     }
-
+    img {
+        height: 100px;
+        width: 100px;
+    }
 }
 
 @media (max-width: 770px) {
@@ -76,15 +77,13 @@ footer {
             padding-right: 1.5rem !important;
             padding-left: 1.5rem !important;
         }
-
-        .trust-symbol {
-            div {
-                img {
-                    height: 70px;
-                    width: 70px;
-                }
+    }
+    .trust-symbol {
+        div {
+            img {
+                height: 70px;
+                width: 70px;
             }
         }
-
     }
 }

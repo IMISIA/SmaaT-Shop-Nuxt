@@ -234,7 +234,7 @@
 
         mounted() {
             this.$nextTick(function() {
-                if(!this.Res) this.Dynamic_SideBar('.filter-bar' , '.products-ctg' , 16);
+                if(!this.Res) this.DynamicSidebar('.filter-bar' , $('.products-ctg').parent() , 16);
             })
         } ,
 

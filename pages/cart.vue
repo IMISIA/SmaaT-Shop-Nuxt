@@ -36,58 +36,41 @@
 
             <div class="col-md-8 col-lg-9 carts">
                 <el-card class="am-shadow mb-3" v-for="{variation} in Cart" :key="variation.id"
-                    :body-style="{ padding : '10px' }">
-                    <div class="row rtl">
-                        <div class="col-sm-6 col-md-3">
-                            <vs-button color="danger" type="border" size="small" icon="close" radius>
-                            </vs-button>
+                    :body-style="{ padding : Res ? '10px 0px 0px' : '10px' }">
+                    <mini-card
+                        :variation="variation"
+                        :imageSize="150">
+                        <template #before v-if="!Res">
+                            <div class="col-sm-1 col-md-1 px-0 flex-center">
+                                <vs-button color="danger" type="border" size="small" icon="close" radius>
+                                </vs-button>
+                            </div>                                    
+                        </template>
 
-                            <nuxt-link :to="`/product/${variation.product.slug}/review`">
-                                <v-img
-                                    :src=" is_exist(variation.product.photos)
-                                        ? URL + variation.product.photos[0].small
-                                        : '/images/none.png' "
-                                    height="150"
-                                    width="150"
-                                    class="m-auto"
-                                    aspect-ratio="1"
-                                    contain
-                                />
-                            </nuxt-link>
-                        </div>
-
-                        <div class="col-sm-6 col-md-4 py-3 d-flex flex-column justify-content-between">
-                            <h3 class="product-name"> {{ variation.product.name }} </h3>
-
-                            <ul class="variations">
-                                <li v-if="variation.warranty">
-                                    <i class="fas fa-shield-alt ml-1"></i>
-                                    گارانتی {{ variation.warranty.title }}
-                                </li>
-                                <li v-if="variation.color">
-                                    <i class="fas fa-palette ml-1"></i>
-                                    رنگ {{ variation.color.name }}
-                                </li>
-                                <li v-if="variation.size">
-                                    <i class="fas fa-chart-line ml-1"></i>
-                                    سایز {{ variation.size.name }}
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div class="col-sm-6 col-md-2 input-number mt-3 mt-lg-0">
-                            <div class="d-inline-block">
-                                <!-- <vs-input-number v-model="Quantities[variation.id]" :color="web_color"/> -->
-                                <el-input-number v-model="Quantities[variation.id]" :min="1" size="small"></el-input-number>
+                        <template #after>
+                            <div class="col-6 col-md-2 input-number my-2 mt-lg-0">
+                                <div class="d-inline-block">
+                                    <!-- <vs-input-number v-model="Quantities[variation.id]" :color="web_color"/> -->
+                                    <el-input-number v-model="Quantities[variation.id]" :min="1" size="small"></el-input-number>
+                                </div>
                             </div>
-                        </div>
 
-                        <div class="col-sm-6 col-md-3 flex-center mt-3 mt-lg-0">
-                            <span class="product-price" data-price="تومان">
-                                {{ variation.sales_price * Quantities[variation.id] | Num2Fa }}
-                            </span>
-                        </div>
-                    </div>
+                            <div class="col-6 col-md-3 flex-center my-2 mt-lg-0">
+                                <span class="product-price" data-price="تومان">
+                                    {{ variation.sales_price * Quantities[variation.id] | Num2Fa }}
+                                </span>
+                            </div>
+
+                            <div class="box-actions row mx-0 mt-3" v-if="Res">
+                                <v-btn class="col-5" text color="#dc3545">
+                                    حذف
+                                </v-btn>
+                                <v-btn class="col-7" text color="#0ecfc6">
+                                    مشاهده محصول
+                                </v-btn>
+                            </div>
+                        </template>
+                    </mini-card>
                 </el-card>
             </div>
         </div>
@@ -96,9 +79,14 @@
 
 <script>
     import mixin from '~/Mixins/mixin';
-    import { mapState } from 'vuex';
+    import {mapState} from 'vuex';
+    import miniCard from '~/components/MiniCard.vue';
     export default {
         mixins: [mixin] ,
+
+        components: {
+            miniCard
+        } ,
 
         mounted() {
             this.$nextTick(function() {
@@ -106,7 +94,7 @@
                     this.Quantities[el.variation.id] = el.count;
                 })
 
-                if(!this.Res) this.Dynamic_SideBar('.checkout-box' , '.carts' , 16)
+                if(!this.Res) this.DynamicSidebar('.checkout-box' , '.carts' , 16)
             })
         } ,
 
