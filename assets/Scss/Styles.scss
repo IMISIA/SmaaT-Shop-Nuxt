@@ -7,6 +7,7 @@
 @import "category";
 @import "product";
 @import "cart";
+@import "checkout";
 @import "profile";
 
 @import "footer";
@@ -53,10 +54,6 @@ html {
     }
 }
 
-main {
-    padding-top: 125px;
-}
-
 a {
     text-decoration: none !important;
 }
@@ -76,6 +73,10 @@ label {
 
 legend {
     width: unset;
+}
+
+hr.v-divider {
+    margin: 0;
 }
 
 .rtl {
@@ -102,23 +103,97 @@ legend {
     box-shadow: 0 5px 10px -8px #00bcd421, 0 6px 25px -12px rgba(0,0,0,.1) !important;
 }
 
+.search-input {
+    input {
+        background: map-get($colors , "background");
+        border: unset;
+        color: #555;
+        border-radius: 7px;
+        font-size: 12px;
+        &::placeholder {
+            color: map-get($colors , "sub-color");
+            font-size: 12px;
+        }
+    }
+    .el-input__icon {
+        color: map-get($colors , "sub-color");
+    }
+}
+
+// .v-dialog--fullscreen {
+//     width: unset !important;
+// }
+
 span.title-field {
     direction: rtl;
     display: block;
     position: relative;
     text-align: right;
-    color: #484848;
-    font: {
-        size: 14px;
-        weight: bold;
-    }
+    color: map-get($colors , "content");
+    margin-bottom: 10px;
+    font-size: 14px;
     padding-right: 5px;
-
     &.required::after {
         color: #ff0000 !important;
         content: '*';
         font-size: 15px;
     }
+}
+
+.v-text-field--outlined > .v-input__control > .v-input__slot {
+    min-height: 45px !important;
+}
+
+.v-text-field--outlined .v-label {
+    font-size: 12px;
+    top: 13px !important;
+    right: 0 !important;
+    text-align: right;
+    color: map-get($colors , "sub-color-2") !important;
+}
+
+.v-text-field .v-text-field__details {
+    margin-bottom: 0px !important;
+    min-height: 20px !important;
+}
+
+.v-messages__message {
+    font-size: 10px;
+}
+
+.v-text-field {
+    &.primary--text fieldset , &.error--text fieldset {
+        border-width: 1px !important;
+    }
+}
+
+.v-text-field:not(.primary--text , .error--text) {
+    fieldset {
+        border-color: #9b9b9b !important;
+    }
+}
+
+.v-text-field--outlined .v-input__append-inner {
+    margin-top: 11px !important;
+    padding-left: 0 !important;
+}
+
+.v-menu__content {
+    direction: rtl;
+}
+
+.v-select-list {
+    .v-list-item {
+        min-height: 37px !important;
+    }
+    .v-list-item__title {
+        font-size: 13px;
+        text-align: right;
+    }
+}
+
+.v-select__selection {
+    font-size: 13px;
 }
 
 @each $size in ( 10 , 12 , 13 , 14 , 16 , 18 , 20 ) {
@@ -151,6 +226,9 @@ span.title-field {
 
 .el-card.am-shadow {
     border: unset !important;
+    @media (max-width:768px) {
+        border-radius: 10px;
+    }
 }
 
 .v-html {
@@ -229,12 +307,14 @@ span.title-field {
     .v-text-field__slot {
         label {
             right: 12px !important;
-            font-size: 13px;
+            font-size: 12px;
         }
     }
     textarea {
+        text-align: right;
         font-size: 13px;
         line-height: 2 !important;
         padding-left: 12px !important;
+        margin-top: 0px !important;
     }
 }

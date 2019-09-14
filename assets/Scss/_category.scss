@@ -57,23 +57,6 @@
         }
     }
 
-    .search {
-        input {
-            background: map-get($colors , "background");
-            border: unset;
-            color: #555;
-            border-radius: 7px;
-            font-size: 12px;
-            &::placeholder {
-                color: map-get($colors , "sub-color");
-                font-size: 12px;
-            }
-        }
-        .el-input__icon {
-            color: map-get($colors , "sub-color");
-        }
-    }
-
     .available-products {
         .v-input--selection-controls {
             padding: 0px !important;

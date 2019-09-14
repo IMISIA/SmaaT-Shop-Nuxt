@@ -7,7 +7,6 @@ export default {
             this.web_color = '#0ecfc6';
 
             this.window.width = window.innerWidth;
-    
             this.$nextTick(() => {
                 window.addEventListener('resize', () => {
                     this.window.width = window.innerWidth;
@@ -18,18 +17,15 @@ export default {
 
     data() {
         return {
-            
             web_color : '#0ECFC6' ,
 
             window: {
                 width: 0
             }
-
         }
     } ,
 
     computed : {
-
         Res() {
             return this.window.width < 770 ? true : false;
         } ,
@@ -53,13 +49,6 @@ export default {
         web_color_ultra_fade() {
             return Color(this.web_color).fade(0.97).rgb().string();
         }
-
-    } ,
-
-    filters : {
-        Num2Fa(val) {
-            return val ? val.toLocaleString('fa-IR') : 0 ;
-        }
     } ,
 
     methods: {
@@ -71,7 +60,7 @@ export default {
             }
         } ,
 
-        notif( title , msg , color ,  icon , time = 3000 )  {
+        notif(title, msg, color, icon, time = 3000)  {
             this.$vs.notify({
                 title : `${title}` , 
                 text: `${msg}` ,
@@ -86,7 +75,7 @@ export default {
             Object.keys(obj).map( el => obj[el] = '' )
         } ,
 
-        DynamicSidebar(target , checker , top = 0) {
+        DynamicSidebar(target, checker, top = 0) {
             let helper = {
                 target: $(`<div class="helper-${target.substr(1)}"></div>`).insertAfter(target) ,
                 offsetFromTop() {

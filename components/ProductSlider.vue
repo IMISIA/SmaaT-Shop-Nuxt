@@ -1,6 +1,5 @@
 <template>
     <section class="row m-0 rtl">
-
         <div v-if="Products.data && Products.size"
             :class="[ `col-md-${Products.size}` , dual ? (!firstOffers ? 'order-1' : 'order-2 pr-md-0 pt-3 pt-md-0') : '' ]">
             <el-card class="product-slider">
@@ -41,7 +40,6 @@
 
             </el-card>
         </div>
-
     </section>
 </template>
 
@@ -133,7 +131,7 @@
                 padding: 12px 20px !important;
             }
             .el-card__body {
-                padding: 10px !important;
+                padding: 5px 10px !important;
             }
         } 
     }

@@ -2,7 +2,7 @@
   <div>
     <!-- <no-ssr> -->
 
-      <div v-if="SiteSetting.header_banner && SiteSetting.header_banner.wide">
+      <div class="header-banner" v-if="SiteSetting.header_banner && SiteSetting.header_banner.wide">
         <a :href="SiteSetting.banner_link">
           <v-img
             :src="URL + SiteSetting.header_banner.wide"
@@ -35,6 +35,20 @@
   } from 'vuex';
 
   export default {
+    mounted() {
+      this.$nextTick(() => {
+        if(process.client) {
+          setTimeout(() => {
+            $('main').css({ paddingTop: $('.smt-header').outerHeight() })
+          }, 200);
+          window.addEventListener('resize', () => {
+            setTimeout(() => {
+              $('main').css({ paddingTop: $('.smt-header').outerHeight() })
+            }, 200);
+          });
+        }
+      })
+    } ,
 
     components: {
       Header ,
@@ -47,7 +61,6 @@
         'SiteSetting'
       ])
     }
-
   }
 
 </script>

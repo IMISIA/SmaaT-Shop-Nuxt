@@ -9,14 +9,7 @@ export const state = () => ({
 
     SiteSetting : {} ,
 
-    Me : {
-        full_name: 'سید ایمان اصنافی' ,
-        username: 'IMISIA' ,
-        phone_number: '09154188571' ,
-        national_code: '0924876263' ,
-        email: 'IMISIA99@Gmail.Com' ,
-        gender: 'مرد'
-    } ,
+    Me : {},
 
     Provinces : [] ,
     Cities : [] ,
@@ -207,10 +200,11 @@ export const mutations = {
 }
 
 export const actions = {
-    async nuxtServerInit ({ state } , { app }) {
-
+    async nuxtServerInit ({ state } , { req , app }) {
         let query = {
-            me: `` ,
+            me: `
+            
+            ` ,
             client: `
                 {
                     categories {
@@ -335,7 +329,7 @@ export const actions = {
             ` ,
         }
 
-        let {data} = await app.$axios({
+        let { data } = await app.$axios({
             method : 'POST' ,
             data : {
                 query : query.client
@@ -346,6 +340,5 @@ export const actions = {
         // state.Shopping_Cart = data.data.cart;
         state.SiteSetting = data.data.siteSetting;
         state.Brands = data.data.brands.data;
-
     }
 }

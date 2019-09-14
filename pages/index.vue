@@ -1,7 +1,7 @@
 <template>
   <div>
 
-    <div class="row m-0 pt-2">
+    <div class="row m-0 pt-3">
       <div class="col-md-9 pr-md-0">
         <Slider :slides="SiteSetting.slider" />
       </div>
@@ -36,7 +36,6 @@
   } from 'vuex';
 
   export default {
-
     async fetch({ $axios , store }) {
 
       let { data } = await $axios({
@@ -105,7 +104,5 @@
         Products: state => state.Product.Products
       })
     }
-
   }
-
 </script>

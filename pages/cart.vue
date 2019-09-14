@@ -1,38 +1,12 @@
 <template>
     <section class="container-fluid py-3 cart">
         <div class="row">
-            <div class="col-md-4 col-lg-3 pr-md-0 mb-3 mb-md-0">
-                <el-card class="am-shadow checkout-box">
-                    <ul class="checkout-prices">
-                        <li>
-                            مبلغ کل        
-                            <span data-price="تومان"> {{ Total | Num2Fa }} </span>
-                        </li>
-                        <li class="offer web-color">
-                            تخفیف        
-                            <span data-price="تومان"> {{ Offer | Num2Fa }} </span>
-                        </li>
-                        <li>
-                            هزینه ارسال        
-                            <span data-price="تومان"> {{ Shipping | Num2Fa }} </span>
-                        </li>
-                    </ul>
-
-                    <v-divider></v-divider>
-
-                    <div>
-                        <span class="final-price-title"> : مبلغ قابل پرداخت </span>
-                        <span class="final-price web-color" data-price="تومان">
-                            {{ FinalPrice | Num2Fa }}
-                        </span>
-                    </div>
-
-                    <v-btn class="web-grd-form-dark" block rounded large dark>
-                        نهایی کردن سفارش
-                        <v-icon class="ml-3">check</v-icon>
-                    </v-btn>
-                </el-card>
-            </div>
+            <cart-aside
+                :total="Total"
+                :offer="Offer"
+                :shipping="Shipping"
+                submit-btn="/checkout">
+            </cart-aside>
 
             <div class="col-md-8 col-lg-9 carts">
                 <el-card class="am-shadow mb-3" v-for="{variation} in Cart" :key="variation.id"
@@ -61,7 +35,7 @@
                                 </span>
                             </div>
 
-                            <div class="box-actions row mx-0 mt-3" v-if="Res">
+                            <div class="box-actions row mx-0 mt-3" v-show="Res">
                                 <v-btn class="col-5" text color="#dc3545">
                                     حذف
                                 </v-btn>
@@ -79,12 +53,14 @@
 
 <script>
     import mixin from '~/Mixins/mixin';
-    import {mapState} from 'vuex';
+    import { mapState } from 'vuex';
+    import cartAside from '~/components/CartAside.vue';
     import miniCard from '~/components/MiniCard.vue';
     export default {
         mixins: [mixin] ,
 
         components: {
+            cartAside ,
             miniCard
         } ,
 
@@ -94,7 +70,7 @@
                     this.Quantities[el.variation.id] = el.count;
                 })
 
-                if(!this.Res) this.DynamicSidebar('.checkout-box' , '.carts' , 16)
+                if(!this.Res) this.DynamicSidebar('.checkout-box', '.carts', 16)
             })
         } ,
 
@@ -121,10 +97,6 @@
 
                 return total;
             } ,
-
-            FinalPrice() {
-                return this.Total + this.Shipping - this.Offer;
-            }
         }
     }
 </script>

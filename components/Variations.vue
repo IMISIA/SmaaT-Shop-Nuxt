@@ -1,6 +1,5 @@
 <template>
     <ul class="variations my-3">
-
         <!-- Warranties -->
         <template v-if="is_exist(Warranties)">
             <li>
@@ -63,7 +62,6 @@
                 </template>
             </li>
         </template>
-
     </ul>
 </template>
 

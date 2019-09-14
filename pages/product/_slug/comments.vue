@@ -136,12 +136,9 @@
 
 <script>
     import { mapState } from 'vuex';
-    import mixin from '~/Mixins/mixin';
     export default {
-        mixins: [mixin] ,
 
         async fetch({ $axios , store , params }) {
-
             if(store.state.Product.Requested.comments) return;
 
             let { data } = await $axios({
@@ -188,7 +185,6 @@
             })
 
             store.state.Product.Requested.comments = true;
-
         } ,
 
         computed: mapState({

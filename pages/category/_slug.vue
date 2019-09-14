@@ -2,7 +2,7 @@
     <section class="category">
         <div class="row mx-0 pt-3">
             <div class="col-12 col-md-9" :class="{ 'pr-0' : !Res }">
-                <div class="filter-btn row mx-0 pb-0 justify-content-around" v-if="Res">
+                <div class="filter-btn row mx-0 pb-0 justify-content-around" v-show="Res">
                     <div class="col-5" @click="SortDialog = true">
                         <span>
                             مرتب سازی
@@ -50,7 +50,7 @@
                     </div>
                 </el-card>
 
-                <div class="pagination-ctg" v-if="Math.ceil(Total/8) > 1">
+                <div class="pagination-ctg" v-show="Math.ceil(Total/8) > 1">
                     <v-pagination
                         v-model="Page"
                         @input="ApplyFilters"
@@ -68,7 +68,7 @@
             </div>
         </div>
 
-        <v-app>
+        <v-app v-if="Res">
             <v-dialog v-model="FilterDialog" fullscreen hide-overlay transition="dialog-bottom-transition">
                 <v-card color="#f9f9f9" class="FilterDialog">
                     <v-toolbar dark :color="web_color">

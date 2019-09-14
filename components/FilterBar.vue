@@ -22,7 +22,7 @@
                 <el-input
                     v-model="Params.query"
                     @keyup.native.enter="ApplyFilters"
-                    class="rtl search"
+                    class="rtl search-input"
                     placeholder="نام محصول مورد نظر را بنویسید ...">
                     <i slot="prefix" class="el-input__icon el-icon-search" @click="ApplyFilters"></i>
                 </el-input>
@@ -52,7 +52,7 @@
                     </v-expansion-panel-header>
                     <v-expansion-panel-content>
                         <el-input
-                            class="rtl search mb-3"
+                            class="rtl search-input mb-3"
                             v-model="Params.brands.query"
                             placeholder="جستجوی نام برند ...">
                             <i slot="prefix" class="el-input__icon el-icon-search"></i>
@@ -92,7 +92,7 @@
                     </v-expansion-panel-header>
                     <v-expansion-panel-content>
                         <el-input
-                            class="rtl search mb-3"
+                            class="rtl search-input mb-3"
                             v-model="Params.sizes.query"
                             placeholder="جستجوی سایز ...">
                             <i slot="prefix" class="el-input__icon el-icon-search"></i>
@@ -132,7 +132,7 @@
                     </v-expansion-panel-header>
                     <v-expansion-panel-content>
                         <el-input
-                            class="rtl search mb-3"
+                            class="rtl search-input mb-3"
                             v-model="Params.colors.query"
                             placeholder="جستجوی رنگ ...">
                             <i slot="prefix" class="el-input__icon el-icon-search"></i>
@@ -173,7 +173,7 @@
                     </v-expansion-panel-header>
                     <v-expansion-panel-content>
                         <el-input
-                            class="rtl search mb-3"
+                            class="rtl search-input mb-3"
                             v-model="Params.warranties.query"
                             placeholder="جستجوی گارانتی ...">
                             <i slot="prefix" class="el-input__icon el-icon-search"></i>
@@ -211,7 +211,6 @@
     import { mapState } from 'vuex';
 
     export default {
-
         props: {
             ApplyFilters: {
                 type: Function ,
@@ -344,6 +343,5 @@
                 }, delay)
             }
         }
-
     }
 </script>

@@ -16,12 +16,12 @@
             <div>
                 <div class="product-info text-center" v-if="is_exist(Product.variation) && Product.label == null">
                     <nuxt-link :to="`/product/${Product.slug}`">
-                        <div class="product-name mb-1"> {{ Product.name }} </div>
+                        <div class="product-name mb-1"> {{ Product.name | truncate(50) }} </div>
                     </nuxt-link>
 
                     <div class="product-price web-color">
                         <div class="offer-price">
-                            <span v-if="false"> {{ 1500000 | Num2Fa }} </span>
+                            <!-- <span> {{ 1500000 | Num2Fa }} </span> -->
                         </div>
                         {{ Product.variation.sales_price | Num2Fa }}
                         <span> تومان </span>
@@ -34,7 +34,7 @@
                                 <div v-for="(color,idx) in Product.colors.slice(0,4)" :key="idx">
                                     <span :style="{ background : color.code + '!important' }"></span>
                                 </div>
-                                <span class="pr-2 fs-20" v-if="Product.colors.length > 4"> + </span>
+                                <span class="pr-2 fs-20" v-show="Product.colors.length > 4"> + </span>
                             </div>
                         </div>
 
@@ -58,9 +58,8 @@
                 </div>
 
                 <div class="product-info labled text-center" v-else>
-
                     <nuxt-link :to="`/product/${Product.slug}/review`">
-                        <div class="product-name mb-3"> {{ Product.name }} </div>
+                        <div class="product-name mb-3"> {{ Product.name | truncate(50) }} </div>
                     </nuxt-link>
 
                     <div class="product-price">
@@ -86,7 +85,6 @@
 
                         </div>
                     </template>
-
                 </div>
             </div>
         </div>
@@ -122,12 +120,6 @@
                         $(product_card).removeClass('animate');
                     });
                 });
-            }
-        } ,
-
-        filters: {
-            Num2Fa(val) {
-                return val ? val.toLocaleString('fa-IR') : 0 ;
             }
         } ,
 

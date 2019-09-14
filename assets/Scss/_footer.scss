@@ -47,7 +47,6 @@ footer {
     }
 }
 
-
 .footer-logo {
     max-height: 80px;
     max-width: 100%;
@@ -57,13 +56,12 @@ footer {
     height: 100%;
     display: flex;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-evenly;
     div {
         background: #fff;
         padding: 10px;
         border: 1px solid map-get($colors , "border");
         border-radius: 4px;
-
     }
     img {
         height: 100px;

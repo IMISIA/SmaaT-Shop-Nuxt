@@ -19,12 +19,12 @@
                             <li>
                                 <i class="far fa-envelope"></i>
                                 کدپستی :
-                                {{ (1234567899).toLocaleString('fa-IR' , {useGrouping: false}) }}
+                                {{ 1234567899 | Num2Fa(false) }}
                             </li>
                             <li>
                                 <i class="fas fa-phone"></i>
                                 تلفن همراه :
-                                {{ (1234567899).toLocaleString('fa-IR' , {useGrouping: false}) }}
+                                {{ 1234567899 | Num2Fa(false) }}
                             </li>
                         </ul>
                     </div>
@@ -41,53 +41,58 @@
             </div>
         </div>
 
-        <v-dialog v-model="addressModal" width="500">
-
-            <v-card>
-                <v-card-title class="headline grey lighten-2">
-                    {{ addressModalTitle }}
-                </v-card-title>
-
-                <v-card-text>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-                    ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat
-                    nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                    anim id est laborum.
-                </v-card-text>
-
-                <v-divider></v-divider>
-
-                <v-card-actions>
-                    <div class="flex-grow-1"></div>
-                    <v-btn color="primary" text @click="addressModal = false">
-                        I accept
-                    </v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
-        
+        <AddAddress :modal="addressModal" :title="addressModalTitle" :close-modal="() => addressModal = false"/>
     </section>
 </template>
 
 <script>
-    import {mapMutations} from 'vuex';
+    import AddAddress from '~/components/AddAddress.vue';
     export default {
+        async asyncData({ $axios }) {
+            let { data } = await $axios({
+                baseURL: '' ,
+                url: 'http://maskanshow.com/graphql' ,
+                method: 'POST' ,
+                data: {
+                    query: `
+                        {
+                            provinces(country: 1) {
+                                id
+                                name
+                                coordinates {
+                                    lat
+                                    lng
+                                }
+                            }
+
+                            cities(province: 11) {
+                                id
+                                name
+                                coordinates {
+                                    lat
+                                    lng
+                                }   
+                            }
+                        }
+                    `
+                }
+            })
+
+            return {
+                provinces: data.data.provinces ,
+                cities: data.data.cities
+            }
+        } ,
+
         data() {
             return {
                 addressModal: false ,
                 addressModalTitle: 'افزودن آدرس جدید' ,
-                newAddress: {
-                    full_name: '' ,
-                    type: '' ,
-                    phone_number: '' ,
-                    address: '' ,
-                    postal_code: '' ,
-                    city_id: 0 ,
-                    lat: 0 ,
-                    lng: 0
-                }
             }
+        } ,
+
+        components: {
+            AddAddress
         } ,
 
         methods: {
@@ -96,7 +101,7 @@
                     this.addressModalTitle = 'افزودن آدرس جدید';
                     this.addressModal = true;
                 } else {
-                    this.addressModalTitle = editable_address;
+                    this.addressModalTitle = 'ویرایش آدرس';
                     this.addressModal = true;
                 }
             }

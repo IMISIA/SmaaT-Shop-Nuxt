@@ -3,7 +3,7 @@
         <div class="container-fuild py-2 px-md-3">
             <div class="row rtl py-md-2 mx-0">
                 <div class="col-lg-2 col-md-2 col-sm-3 text-left text-md-center">
-                    <div class="hamburger hamburger--spin js-hamburger" v-if="Res"
+                    <div class="hamburger hamburger--spin js-hamburger" v-show="Res"
                         :class="{ 'is-active' : Ctg_drawer }" @click="Ctg_drawer = true">
                         <div class="hamburger-box">
                             <div class="hamburger-inner"></div>
@@ -48,7 +48,7 @@
                                     <v-list dense shaped class="py-0" v-if="is_exist(Me)">
                                         <v-list-item-group :color="web_color">
 
-                                            <v-list-item>
+                                            <v-list-item to="/profile">
                                                 <v-list-item-action class="pl-2">
                                                     <i class="fs-18 ml-2 lnr lnr-user"></i>
                                                 </v-list-item-action>
@@ -160,7 +160,6 @@
 
         <v-app>
             <v-navigation-drawer v-model="Ctg_drawer" mobile-break-point fixed temporary width="300">
-
                 <div class="text-center p-3">
                     <img
                         class="site-logo"
@@ -243,19 +242,16 @@
                     </template>
 
                 </v-list>
-
             </v-navigation-drawer>
         </v-app>
     </header>
 </template>
 
 <script>
-
     import { mapState } from 'vuex';
     import mixin from '~/Mixins/mixin'
 
     export default {
-
         mixins : [mixin] ,
 
         created() {
@@ -315,6 +311,19 @@
 
                 Search : '' ,
                 Loading_Search : false ,
+
+                Login: {
+                    dialog: false ,
+                    email: '' ,
+                    password: ''
+                } ,
+
+                Register: {
+                    dialog: false ,
+                    email: '' ,
+                    password: '' ,
+                    confirm_password: ''
+                } ,
             }
         } ,
 
@@ -466,7 +475,6 @@
             }
 
         }
-
     }
 </script>
 

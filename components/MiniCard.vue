@@ -29,7 +29,7 @@
             </template>
 
             <template v-if="hasVariations">
-                <ul class="variations" v-if="!small">
+                <ul class="variations" v-show="!small">
                     <li v-if="variation.warranty">
                         <i class="fas fa-shield-alt ml-1"></i>
                         گارانتی {{ variation.warranty.title }}
@@ -45,7 +45,7 @@
                     </li>
                 </ul>
 
-                <ul class="variations-small" v-else>
+                <ul class="variations-small" v-show="small">
                     <li v-if="variation.warranty">
                         گارانتی {{ variation.warranty.title }}
                     </li>
@@ -100,12 +100,6 @@
         computed: mapState([
             'URL'
         ]) ,
-        
-        filters: {
-            Num2Fa(val) {
-                return val ? val.toLocaleString('fa-IR') : 0 ;
-            }
-        } ,
 
         methods: {
             is_exist(val) {
