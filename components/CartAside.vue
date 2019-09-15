@@ -27,13 +27,15 @@
             </div>
 
             <div class="checkout-submit">
-                <v-btn class="web-grd-form-dark rounded-7"
+                <v-btn
+                    class="text-white rounded-7"
+                    :class="{ 'web-grd-form-dark' : !btnDisabled }"
                     block 
                     large
-                    dark
+                    :disabled="btnDisabled"
                     :to=" typeof submitBtn === 'string' && submitBtn.startsWith('/') ? submitBtn : null "
                     @click="submitBtn">
-                    نهایی کردن سفارش
+                    {{ btnTitle }}
                     <v-icon class="ml-3">check</v-icon>
                 </v-btn>
             </div>
@@ -57,6 +59,14 @@
             submitBtn: {
                 type: [Function,String] ,
                 required: true
+            } ,
+            btnTitle: {
+                type: String ,
+                default: 'نهایی کردن سفارش'
+            } ,
+            btnDisabled: {
+                type: Boolean ,
+                default: false
             }
         } ,
 

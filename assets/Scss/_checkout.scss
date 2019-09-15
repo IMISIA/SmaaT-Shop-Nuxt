@@ -1,0 +1,75 @@
+.checkout {
+    .v-stepper {
+        background: transparent !important;
+        box-shadow: unset !important;
+    }
+    
+    .v-stepper__header {
+        background: #fff;
+        border-radius: 10px;
+        direction: rtl;
+    }
+
+    .v-stepper__content {
+        padding: 0px !important;
+    }
+    
+    .v-stepper__label {
+        font-size: 12px;
+    }
+
+    .v-stepper__step__step {
+        height: 40px !important;
+        width: 40px !important;
+        border-radius: 15px !important;
+        margin-bottom: 15px !important;
+        font-size: 13px;
+        i {
+            font-weight: 700;
+        }
+    }
+
+    .v-stepper__step--complete {
+        .v-stepper__step__step {
+            background-color: #00E676 !important;
+            border-color: #00E676 !important;
+            box-shadow: 0px 2px 5px -2px #00E676 !important;
+        }
+    }
+
+    @media only screen and (max-width: 959px) {
+        .v-stepper:not(.v-stepper--vertical) .v-stepper__label {
+            display: flex !important;
+            font-size: 11px;
+            max-width: 90px;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        .v-stepper--alt-labels .v-stepper__step {
+            flex-basis: 33.3% !important;
+        }
+    }
+
+    .v-stepper__header .v-divider {
+        margin: 44px -35px 0 !important;
+        align-self: flex-start;
+    }
+
+    .v-radio:first-child {
+        margin-right: 0;
+    }
+
+    .v-label {
+        font-size: 14px !important;
+        color: map-get($colors , "content");
+        padding-right: 10px !important;
+    }
+
+    #mini-card-component .product-name.small {
+        font-size: 11px !important;
+        font-weight: 400 !important;
+        text-align: center !important;
+        color: map-get($colors , "sub-color") !important;
+    }
+}

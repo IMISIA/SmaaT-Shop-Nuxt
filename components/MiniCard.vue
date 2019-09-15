@@ -19,7 +19,7 @@
 
         <div :class="infoClass" class="d-flex flex-column justify-content-between">
             <nuxt-link :to="`/product/${variation.product.slug}/review`">
-                <h3 class="product-name" :class="{ 'small' : small }"> {{ variation.product.name }} </h3>
+                <h3 class="product-name" :class="{ 'small' : small }"> {{ variation.product.name | truncate(truncate) }} </h3>
             </nuxt-link>
 
             <template v-if="hasPrice">
@@ -95,6 +95,10 @@
                 type: [Number,String] ,
                 default: '100%'
             } ,
+            truncate: {
+                type: Number ,
+                default: 200
+            }
         } ,
 
         computed: mapState([

@@ -45,9 +45,7 @@
 
 <script>
     import Card from '~/components/Card.vue';
-
     export default {
-
         props: {
             Products: {
                 type: Object ,
@@ -117,12 +115,10 @@
                 }
             }
         }
-
     }
 </script>
 
 <style lang="scss">
-    
     .el-card {
         &.product-slider , &.offer-slider {
             border-top: 2px solid;
@@ -144,5 +140,4 @@
             font-size: 19px !important;
         }
     }
-
 </style>

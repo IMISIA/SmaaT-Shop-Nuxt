@@ -28,6 +28,7 @@ export default {
   */
   css: [
     '~/assets/Css/Styles.css' ,
+    '~/assets/Css/bootstrap.min.css' ,
     '~/assets/Fonts/Linearicons/style.css' ,
     '~/assets/Fonts/Flaticon/flaticon.css'
   ],
@@ -59,8 +60,6 @@ export default {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    // Doc: https://bootstrap-vue.js.org/docs/
-    'bootstrap-vue/nuxt',
   ],
   /*
   ** Axios module configuration

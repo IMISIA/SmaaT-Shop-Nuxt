@@ -7,7 +7,7 @@
                 <div class="row user-info">
                     <div class="col-md-6" v-for="item in information_keys" :key="item.key">
                         <span> {{ item.title }} : </span>
-                        <p> {{ Me[item.key] }} </p>
+                        <p> {{ Me[item.key] || '---' }} </p>
                     </div>
                 </div>
 

@@ -71,12 +71,12 @@
 }
 
 .mega-menu {
-  text-align: right;
+  text-align: right !important;
   width: 75%;
   right: 0;
-  left: auto;
-  border: unset;
-  border-radius: 0px 0px 7px 7px;
+  left: auto !important;
+  border: unset !important;
+  border-radius: 0px 0px 7px 7px !important;
   -webkit-box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   -khtml-box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
   -moz-box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
@@ -938,6 +938,9 @@
   font-size: 12px;
 }
 
+.checkout-prices {
+  padding: 0 !important;
+}
 .checkout-prices li {
   direction: rtl;
   display: flex;
@@ -974,6 +977,15 @@
   text-align: center;
 }
 
+.checkout-submit .v-btn {
+  height: 48px !important;
+}
+.checkout-submit .theme--dark.v-btn.v-btn--disabled,
+.checkout-submit .theme--dark.v-btn.v-btn--disabled .v-icon {
+  color: #fff !important;
+  opacity: 0.5;
+}
+
 @media (max-width: 768px) {
   .checkout-submit {
     background: #f5f5f5;
@@ -983,10 +995,7 @@
     left: 0;
     width: 100%;
     z-index: 99;
-    padding: 7px 10px;
-  }
-  .checkout-submit > * {
-    height: 47px !important;
+    padding: 10px;
   }
 
   .final-price {
@@ -1009,6 +1018,67 @@
     font-weight: 700;
   }
 }
+.checkout .v-stepper {
+  background: transparent !important;
+  box-shadow: unset !important;
+}
+.checkout .v-stepper__header {
+  background: #fff;
+  border-radius: 10px;
+  direction: rtl;
+}
+.checkout .v-stepper__content {
+  padding: 0px !important;
+}
+.checkout .v-stepper__label {
+  font-size: 12px;
+}
+.checkout .v-stepper__step__step {
+  height: 40px !important;
+  width: 40px !important;
+  border-radius: 15px !important;
+  margin-bottom: 15px !important;
+  font-size: 13px;
+}
+.checkout .v-stepper__step__step i {
+  font-weight: 700;
+}
+.checkout .v-stepper__step--complete .v-stepper__step__step {
+  background-color: #00E676 !important;
+  border-color: #00E676 !important;
+  box-shadow: 0px 2px 5px -2px #00E676 !important;
+}
+@media only screen and (max-width: 959px) {
+  .checkout .v-stepper:not(.v-stepper--vertical) .v-stepper__label {
+    display: flex !important;
+    font-size: 11px;
+    max-width: 90px;
+    line-height: 1.5;
+    text-align: center;
+  }
+  .checkout .v-stepper--alt-labels .v-stepper__step {
+    flex-basis: 33.3% !important;
+  }
+}
+.checkout .v-stepper__header .v-divider {
+  margin: 44px -35px 0 !important;
+  align-self: flex-start;
+}
+.checkout .v-radio:first-child {
+  margin-right: 0;
+}
+.checkout .v-label {
+  font-size: 14px !important;
+  color: #767676;
+  padding-right: 10px !important;
+}
+.checkout #mini-card-component .product-name.small {
+  font-size: 11px !important;
+  font-weight: 400 !important;
+  text-align: center !important;
+  color: #808695 !important;
+}
+
 .profile {
   color: #515151;
 }
@@ -1300,11 +1370,11 @@ article, aside, footer, header, nav, section {
 }
 
 label {
-  margin: 0;
+  margin: 0 !important;
 }
 
 legend {
-  width: unset;
+  width: unset !important;
 }
 
 hr.v-divider {
@@ -1348,6 +1418,10 @@ hr.v-divider {
 }
 .search-input .el-input__icon {
   color: #808695;
+}
+
+.v-dialog--fullscreen {
+  width: 100% !important;
 }
 
 span.title-field {

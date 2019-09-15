@@ -338,7 +338,6 @@
         } ,
 
         methods : {
-
             Dynamic_Color() {
                 var style = document.createElement('style');
                 style.type = 'text/css';
@@ -433,12 +432,16 @@
                     }
                     
                     .products-ctg .el-radio-button__inner:hover ,
-                    .el-radio__input.is-checked+.el-radio__label {
+                    .products-ctg .el-radio__input.is-checked+.el-radio__label {
                         color: ${this.web_color} !important;
                     }
 
-                    .el-radio.is-bordered.is-checked {
+                    .products-ctg .el-radio.is-bordered.is-checked {
                         border-color: ${this.web_color} !important;
+                    }
+
+                    .checkout .v-stepper__step--active .v-stepper__step__step {
+                        box-shadow: 0px 2px 5px -2px ${this.web_color};
                     }
 
                 `;
@@ -473,7 +476,6 @@
             Search_Method(Str) {
                 console.log(Str);
             }
-
         }
     }
 </script>

@@ -81,12 +81,12 @@
 }
 
 .mega-menu {
-    text-align: right;
+    text-align: right !important;
     width: 75%;
     right: 0;
-    left: auto;
-    border: unset;
-    border-radius: 0px 0px 7px 7px;
+    left: auto !important;
+    border: unset !important;
+    border-radius: 0px 0px 7px 7px !important;
     @include Css3( 'box-shadow' , 0 2px 12px 0 rgba(0,0,0,0.1) );
     p.sub_1 {
         font-size: 12px;
