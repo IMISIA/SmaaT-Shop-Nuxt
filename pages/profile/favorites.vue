@@ -15,7 +15,7 @@
                         :hasVariations="false">
                     </mini-card>
 
-                    <div class="box-actions small row mx-0">
+                    <div class="box-actions small row">
                         <v-btn class="col-4" text color="#dc3545">
                             حذف
                         </v-btn>

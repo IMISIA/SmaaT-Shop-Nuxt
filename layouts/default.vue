@@ -1,7 +1,6 @@
 <template>
   <div>
     <!-- <no-ssr> -->
-
       <div class="header-banner" v-if="SiteSetting.header_banner && SiteSetting.header_banner.wide">
         <a :href="SiteSetting.banner_link">
           <v-img
@@ -22,7 +21,6 @@
       </main>
 
       <Footer />
-
     <!-- </no-ssr> -->
   </div>
 </template>
@@ -30,11 +28,19 @@
 <script>
   import Header from '~/components/Header.vue';
   import Footer from '~/components/Footer.vue';
-  import {
-    mapState
-  } from 'vuex';
+  import { mapState } from 'vuex';
 
   export default {
+    head () {
+      return {
+        title: this.SiteSetting.title,
+        meta: [
+          { hid: 'description', name: 'description', content: this.SiteSetting.description } ,
+          { name: 'theme-color', content: '#e91e63' } ,
+        ]
+      }
+    } ,
+
     mounted() {
       this.$nextTick(() => {
         if(process.client) {

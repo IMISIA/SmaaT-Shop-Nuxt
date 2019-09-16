@@ -156,7 +156,6 @@
         } ,
 
         async fetch({ $axios , store , params }) {
-
             let { data } = await $axios({
                 method: 'POST' ,
                 data: {
@@ -252,7 +251,6 @@
                 Prop : 'Single_Product' ,
                 Val : data.data.product
             })
-
         } ,
 
         components: {

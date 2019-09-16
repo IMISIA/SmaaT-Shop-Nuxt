@@ -120,6 +120,22 @@ hr.v-divider {
     }
 }
 
+.add-btn-dashed {
+    border: 4px dashed #b8b8b8;
+    background: #fff;
+    color: #a0a0a0;
+    padding: 15px 0px;
+    font-size: 14px;
+    line-height: 2;
+    cursor: pointer;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+    border-radius: 7px;
+}
+
 .v-dialog--fullscreen {
     width: 100% !important;
 }

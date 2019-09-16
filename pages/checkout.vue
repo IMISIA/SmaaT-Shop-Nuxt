@@ -43,6 +43,83 @@
                     <div class="col-md-8 col-lg-9">
                         <v-stepper-items>
                             <v-stepper-content step="۱">
+                                <span class="headline-info">انتخاب آدرس تحویل سفارش</span>
+                                <el-card v-show="!changeAddrElement" class="am-shadow" :body-style="{ padding: 0 }">
+                                    <div class="box-address pb-1">
+                                        <h4 class="address-fullname">
+                                            گیرنده: 
+                                            سید ایمان اصنافی
+                                        </h4>
+                                        <ul class="address-data">
+                                            <li>
+                                                شماره تماس :
+                                                {{ 1234567899 | Num2Fa(false) }}
+                                            </li>
+                                            <li>
+                                                کدپستی :
+                                                {{ 1234567899 | Num2Fa(false) }}
+                                            </li>
+                                        </ul>
+
+                                        <p class="address-text"> استان خراسان رضوی، ‌شهر مشهد، سناباد 44 ، ساختمان 52 ، واحد 7 </p>
+                                    </div>
+
+                                    <div class="box-actions small rtl">
+                                        <v-btn class="w-100 border-0" text color="#0ecfc6"
+                                            @click="changeAddrElement = true">
+                                            <i class="lnr lnr-pencil fs-16"></i>
+                                            تغییر آدرس ارسال
+                                        </v-btn>
+                                    </div>
+                                </el-card>
+
+                                <el-card v-show="changeAddrElement" class="am-shadow" :body-style="{ padding: 10 }">
+                                    <div class="headline-address-group">
+                                        <span class="flex-grow-1">آدرس مورد نظر خود را انتخاب فرمایید:</span>
+                                        <v-btn fab outlined color="#767676" @click="changeAddrElement = false">
+                                            <v-icon>close</v-icon>
+                                        </v-btn>
+                                    </div>
+
+                                    <button class="add-btn-dashed">
+                                        ایجاد آدرس جدید
+                                    </button>
+
+                                    <div class="box-address-group"
+                                        :class="{ 'active' : n == 2 }"
+                                        v-for="n in 3" :key="n">
+                                        <div class="box-address pb-1">
+                                            <h4 class="address-fullname">
+                                                گیرنده: 
+                                                سید ایمان اصنافی
+                                            </h4>
+
+                                            <p class="address-text"> استان خراسان رضوی، ‌شهر مشهد، سناباد 44 ، ساختمان 52 ، واحد 7 </p>
+
+                                            <ul class="address-data">
+                                                <li>
+                                                    شماره تماس :
+                                                    {{ 1234567899 | Num2Fa(false) }}
+                                                </li>
+                                                <li>
+                                                    کدپستی :
+                                                    {{ 1234567899 | Num2Fa(false) }}
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="box-actions small row rtl">
+                                            <v-btn class="col-3" text >
+                                                ویرایش
+                                            </v-btn>
+                                            <v-btn class="col-9" text color="#0ecfc6"
+                                                @click="changeAddrElement = true">
+                                                {{ n == 2 ? 'سفارش به این آدرس ارسال می‌شود.' : 'ارسال سفارش به این آدرس' }}
+                                            </v-btn>
+                                        </div>
+                                    </div>
+                                </el-card>
+
                                 <span class="headline-info">انتخاب نحوه ارسال</span>
                                 <el-card class="am-shadow">
                                     <v-radio-group class="rtl mt-0 pt-0" v-model="sendingType" row hide-details>
@@ -142,6 +219,8 @@
                     title: 'تایید و ادامه ثبت سفارش' ,
                     disabled: false
                 } ,
+
+                changeAddrElement: false ,
 
                 showSlider: false ,
                 SwiperOption: {

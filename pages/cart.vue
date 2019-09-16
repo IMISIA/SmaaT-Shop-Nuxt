@@ -35,7 +35,7 @@
                                 </span>
                             </div>
 
-                            <div class="box-actions row mx-0 mt-3" v-show="Res">
+                            <div class="box-actions row mt-3" v-show="Res">
                                 <v-btn class="col-5" text color="#dc3545">
                                     حذف
                                 </v-btn>

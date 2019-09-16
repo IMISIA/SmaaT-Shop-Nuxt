@@ -24,7 +24,8 @@
         }
     }
     border-top: 1px solid #EBEEF5;
-    margin: 0;
+    margin-right: 0px !important;
+    margin-left: 0px !important;
     button {
         border-right: 1px solid #EBEEF5;
         border-radius: 0 !important;
@@ -57,6 +58,7 @@
 }
 
 .headline-info {
+    direction: rtl;
     display: block;
     color: map-get($colors , "content");
     font-size: 16px;
@@ -106,6 +108,7 @@
 }
 
 .box-address {
+    direction: rtl;
     position: relative;
     padding: 25px 30px 15px;
     &::before {
@@ -118,6 +121,15 @@
         right: 0;
         background: linear-gradient(90deg,#00bfd6 48px,#ff7e7e 0) repeat-x;
         background-size: 96px 3px;
+    }
+    @media (max-width:768px) {
+        padding: 20px;
+    }
+}
+
+.box-address-group {
+    .box-address::before {
+        content: unset;
     }
 }
 

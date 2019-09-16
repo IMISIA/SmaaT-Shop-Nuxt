@@ -21,9 +21,7 @@
 
 <script>
     import { mapState } from 'vuex';
-
     export default {
-
         props: ['slides'] ,
         
         data() {
@@ -54,6 +52,5 @@
                 'SiteSetting'
             ])            
         }
-
     }
 </script>

@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <div class="row m-0 pt-3">
       <div class="col-md-9 pr-md-0">
         <Slider :slides="SiteSetting.slider" />
@@ -23,7 +22,6 @@
     <div class="pt-3 pb-5">
       <Posters :Posters="SiteSetting.posters"/>
     </div>
-
   </div>
 </template>
 

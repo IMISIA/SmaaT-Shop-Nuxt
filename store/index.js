@@ -10,7 +10,7 @@ export const state = () => ({
     SiteSetting : {} ,
 
     Me : {
-        full_name: 'IMISIA'
+        full_name: 'سید ایمان اصنافی'
     },
 
     Provinces : [] ,
