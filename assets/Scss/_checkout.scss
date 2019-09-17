@@ -56,7 +56,7 @@
         align-self: flex-start;
     }
 
-    .v-radio:first-child {
+    .v-input--radio-group--row .v-radio:first-child {
         margin-right: 0;
     }
 
@@ -66,31 +66,34 @@
         padding-right: 10px !important;
     }
 
-    #mini-card-component .product-name.small {
-        font-size: 11px !important;
-        font-weight: 400 !important;
+    #mini-card-component .product-name.mini {
         text-align: center !important;
-        color: map-get($colors , "sub-color") !important;
     }
 
     .box-address-group {
-        border: 1px solid map-get($colors , "border");
+        border: 2px solid map-get($colors , "border");
         border-radius: 7px;
         margin-bottom: 15px;
         &:last-child {
             margin-bottom: 0;
         }
+        button::before {
+            opacity: .04;
+        }
         &.active {
             border-color: #0ecfc6;
-            border-width: 2px;
+            border-width: 3px;
             button::before {
-                opacity: .04;
+                opacity: .08;
             }
         }
-        .address-data {
-            color: #a0a0a0;
-            @media (max-width:768px) {
-                font-size: 11px;
+    }
+
+    .box-address {
+        @media (min-width:768px) {
+            li {
+                display: inline-flex;
+                margin-bottom: 0px;
             }
         }
     }
@@ -105,9 +108,6 @@
         padding-right: 20px;
         margin-top: 0px;
         margin-bottom: 30px;
-        @media (max-width:768px) {
-            font-size: 12px !important;
-        }
         button {
             height: 30px;
             width: 30px;
@@ -115,41 +115,8 @@
         i {
             font-size: 20px !important;
         }
-    }
-
-    .address-fullname {
-        font-size: 16px;
         @media (max-width:768px) {
-            font-size: 15px;
-            font-weight: 700;
+            font-size: 12px !important;
         }
-    }
-
-    .address-data {
-        display: flex;
-        color: map-get($colors , "content");
-        margin-top: 15px;
-        font-size: 12px;
-        li {
-            margin-left: 15px;
-            &:last-child {
-                padding-right: 15px;
-                border-right: 1px solid map-get($colors , "border")
-            }
-        }
-        @media (max-width:768px) {
-            flex-direction: column;
-            li {
-                &:last-child {
-                    padding-right: 0px;
-                    border-right: unset;
-                }
-            }
-        }
-    }
-
-    .address-text {
-        font-size: 13px;
-        color: map-get($colors , "content");
     }
 }

@@ -148,7 +148,6 @@
     import Variations from '~/components/Variations.vue';
 
     export default {
-
         mixins: [mixin] ,
 
         validate({ params }) {

@@ -43,14 +43,15 @@
 
     mounted() {
       this.$nextTick(() => {
+        this.$root.$loading.finish();
         if(process.client) {
           setTimeout(() => {
             $('main').css({ paddingTop: $('.smt-header').outerHeight() })
-          }, 200);
+          }, 300);
           window.addEventListener('resize', () => {
             setTimeout(() => {
               $('main').css({ paddingTop: $('.smt-header').outerHeight() })
-            }, 200);
+            }, 300);
           });
         }
       })

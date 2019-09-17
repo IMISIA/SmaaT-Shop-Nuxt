@@ -110,7 +110,7 @@
 .box-address {
     direction: rtl;
     position: relative;
-    padding: 25px 30px 15px;
+    padding: 25px 25px 15px;
     &::before {
         content: "";
         height: 3px;
@@ -123,7 +123,7 @@
         background-size: 96px 3px;
     }
     @media (max-width:768px) {
-        padding: 20px;
+        padding: 20px 20px 10px;
     }
 }
 
@@ -134,7 +134,7 @@
 }
 
 .address-fullname {
-    font-size: 18px;
+    font-size: 17px;
     text-align: right;
     margin-bottom: 10px;
     color: #6d6d6d;
@@ -142,9 +142,9 @@
 
 .address-text {
     font-size: 13px;
-    line-height: 1.8;
+    line-height: 2;
     text-align: right;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     color: map-get($colors , "sub-color");
 }
 
@@ -154,11 +154,16 @@
     li {
         display: flex;
         margin-bottom: 10px;
+        &:last-child {
+            margin-bottom: 0;
+        }
     }
     i {
-        font-size: 20px;
-        margin-left: 15px;
+        font-size: 18px;
+        margin-left: 12px;
         color: map-get($colors , "sub-color-2");
+        display: inline-flex;
+        align-items: center;
     }
 }
 
@@ -183,5 +188,27 @@
         width: 100%;
         border-radius: 5px;
         border-width: 1.5px !important;
+    }
+}
+
+@media (max-width:768px) {
+    .address-fullname {
+        font-size: 15px;
+    }
+    
+    .address-text {
+        font-size: 11px;
+        margin-bottom: 15px;
+    }
+    
+    .address-data {
+        margin: 0;
+        li {
+            margin-bottom: 5px;
+            font-size: 11px !important;
+        }
+        i {
+            font-size: 14px;
+        }
     }
 }

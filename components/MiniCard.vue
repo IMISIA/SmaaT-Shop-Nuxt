@@ -19,7 +19,9 @@
 
         <div :class="infoClass" class="d-flex flex-column justify-content-between">
             <nuxt-link :to="`/product/${variation.product.slug}/review`">
-                <h3 class="product-name" :class="{ 'small' : small }"> {{ variation.product.name | truncate(truncate) }} </h3>
+                <h3 class="product-name" :class="{ 'small':small , 'mini':mini }">
+                    {{ variation.product.name | truncate(truncate) }}
+                </h3>
             </nuxt-link>
 
             <template v-if="hasPrice">
@@ -29,7 +31,7 @@
             </template>
 
             <template v-if="hasVariations">
-                <ul class="variations" v-show="!small">
+                <ul class="variations" v-if="!small && !mini">
                     <li v-if="variation.warranty">
                         <i class="fas fa-shield-alt ml-1"></i>
                         گارانتی {{ variation.warranty.title }}
@@ -45,7 +47,7 @@
                     </li>
                 </ul>
 
-                <ul class="variations-small" v-show="small">
+                <ul class="variations-small" :class="{ 'mini':mini }" v-else>
                     <li v-if="variation.warranty">
                         گارانتی {{ variation.warranty.title }}
                     </li>
@@ -80,6 +82,10 @@
                 default: true
             } ,
             small: {
+                type: Boolean ,
+                default: false
+            } ,
+            mini: {
                 type: Boolean ,
                 default: false
             } ,
