@@ -5,8 +5,8 @@
                 <nuxt-link to="/">
                     <img
                         :src=" slide.image && slide.image.wide
-                            ? URL + slide.image.wide
-                            : SiteSetting.logo && SiteSetting.logo.medium ? URL + SiteSetting.logo.medium : '/images/none.png' "
+                            ? $url + slide.image.wide
+                            : SiteSetting.logo && SiteSetting.logo.medium ? $url + SiteSetting.logo.medium : '/images/none.png' "
                         class="image-slider"
                         :alt="`slide-${idx}`"
                     />
@@ -48,7 +48,7 @@
 
         computed: {
             ...mapState([
-                'URL' ,
+                '$url' ,
                 'SiteSetting'
             ])            
         }

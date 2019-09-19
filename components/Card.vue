@@ -3,7 +3,7 @@
         <div class="product-card">
             <nuxt-link :to="`/product/${Product.slug}/review`">
                 <v-img
-                    :src=" is_exist(Product.photos) ? URL + Product.photos[0].medium : '/images/none.png' "
+                    :src=" is_exist(Product.photos) ? $url + Product.photos[0].medium : '/images/none.png' "
                     height="200"
                     max-width="auto"
                     aspect-ratio="1"
@@ -125,7 +125,7 @@
 
         computed : {
             ...mapState([
-                'URL'
+                '$url'
             ])
         } ,
 

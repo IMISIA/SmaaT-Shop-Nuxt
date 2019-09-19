@@ -13,7 +13,7 @@
                     <nuxt-link to="/" class="d-inline-block link-logo">
                         <img
                             class="site-logo"
-                            :src=" SiteSetting.logo && SiteSetting.logo.medium ? URL + SiteSetting.logo.medium : '/images/none.png' "
+                            :src=" SiteSetting.logo && SiteSetting.logo.medium ? $url + SiteSetting.logo.medium : '/images/none.png' "
                             alt="logo">
                     </nuxt-link>
                 </div>
@@ -36,7 +36,7 @@
                                     <template v-if="is_exist(Me)">
                                         {{ Me.full_name.trim() || Me.username || Me.email }}
                                         <v-avatar class="ml-2" :size="40" :color="web_color">
-                                            <img :src=" Me.avatar && Me.avatar.small ? URL + Me.avatar.small : '/images/user.png' " alt="avatar">
+                                            <img :src=" Me.avatar && Me.avatar.small ? $url + Me.avatar.small : '/images/user.png' " alt="avatar">
                                         </v-avatar>
                                     </template>
                                     <template v-else>
@@ -143,8 +143,8 @@
                             <div class="col-md-4">
                                 <v-img
                                     :src=" ctg.logo && ctg.logo.medium
-                                    ? URL + ctg.logo.medium
-                                    : SiteSetting.logo && SiteSetting.logo.medium ? URL + SiteSetting.logo.medium : '/images/none.png' "
+                                    ? $url + ctg.logo.medium
+                                    : SiteSetting.logo && SiteSetting.logo.medium ? $url + SiteSetting.logo.medium : '/images/none.png' "
                                     class="mr-auto"
                                     max-height="250"
                                     max-width="250"
@@ -163,7 +163,7 @@
                 <div class="text-center p-3">
                     <img
                         class="site-logo"
-                        :src=" SiteSetting.logo && SiteSetting.logo.medium ? URL + SiteSetting.logo.medium : '/images/none.png' "
+                        :src=" SiteSetting.logo && SiteSetting.logo.medium ? $url + SiteSetting.logo.medium : '/images/none.png' "
                         alt="logo">
                 </div>
 
@@ -329,7 +329,7 @@
 
         computed : {
             ...mapState([
-                'URL' ,
+                '$url' ,
                 'SiteSetting' ,
                 'Me' ,
                 'Shopping_Cart' ,

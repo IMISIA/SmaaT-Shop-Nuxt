@@ -6,7 +6,7 @@
             <nuxt-link :to="`/product/${variation.product.slug}/review`">
                 <v-img
                     :src=" is_exist(variation.product.photos)
-                        ? URL + variation.product.photos[0].small
+                        ? $url + variation.product.photos[0].small
                         : '/images/none.png' "
                     :height="imageSize"
                     :width="imageSize"
@@ -108,7 +108,7 @@
         } ,
 
         computed: mapState([
-            'URL'
+            '$url'
         ]) ,
 
         methods: {

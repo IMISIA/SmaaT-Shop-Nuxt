@@ -307,14 +307,14 @@
 
         computed: {
             ...mapState({
-                URL: 'URL' ,
+                $url: '$url' ,
                 Product: state => state.Product.Single_Product ,
             }) ,
 
             Valid_Images() {
                 if(this.is_exist(this.Product.photos)) {
                     return this.Product.photos.map( img => {
-                        if(img.medium) return this.URL + img.medium; 
+                        if(img.medium) return this.$url + img.medium; 
                     });
                 } else {
                     return '/images/none.png';

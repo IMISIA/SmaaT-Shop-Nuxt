@@ -4,7 +4,7 @@
             <div>
                 <img
                     class="loading-logo"
-                    :src=" SiteSetting.logo && SiteSetting.logo.medium ? URL + SiteSetting.logo.medium : '/images/none.png' "
+                    :src=" SiteSetting.logo && SiteSetting.logo.medium ? $url + SiteSetting.logo.medium : '/images/none.png' "
                     alt="logo"
                 >
             </div>
@@ -43,7 +43,7 @@
         } ,
 
         computed: mapState([
-            'URL' ,
+            '$url' ,
             'SiteSetting'
         ])
     }

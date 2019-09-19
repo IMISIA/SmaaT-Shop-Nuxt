@@ -7,7 +7,7 @@
                     <nuxt-link to="/">
                         <img
                             class="footer-logo"
-                            :src=" SiteSetting.logo && SiteSetting.logo.medium ? URL + SiteSetting.logo.medium : '/images/none.png' "
+                            :src=" SiteSetting.logo && SiteSetting.logo.medium ? $url + SiteSetting.logo.medium : '/images/none.png' "
                             alt="logo">
                     </nuxt-link>
                 </div>
@@ -110,7 +110,7 @@
 
         computed: {
             ...mapState([
-                'URL' ,
+                '$url' ,
                 'SiteSetting'
             ])
         }

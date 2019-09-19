@@ -50,7 +50,7 @@
     export default {
         async asyncData({ $axios }) {
             let { data } = await $axios({
-                baseURL: '' ,
+                base$url: '' ,
                 url: 'http://maskanshow.com/graphql' ,
                 method: 'POST' ,
                 data: {

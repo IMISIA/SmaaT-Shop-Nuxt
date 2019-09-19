@@ -3,7 +3,7 @@
         <div class="col-md-3 mb-3 px-2" v-for="(poster,idx) in Valid_Posters" :key="idx">
             <nuxt-link to="/">
                 <img
-                    :src="URL + poster.image.large"
+                    :src="$url + poster.image.large"
                     class="poster"
                     :alt="`poster-${idx}`"
                 >
@@ -21,7 +21,7 @@
         computed: {
 
             ...mapState([
-                'URL'
+                '$url'
             ]) ,
 
             Valid_Posters() {

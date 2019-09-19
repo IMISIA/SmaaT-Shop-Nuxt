@@ -86,7 +86,7 @@
         computed: {
             ...mapState({
                 Cart: 'Shopping_Cart' ,
-                URL: 'URL'
+                $url: '$url'
             }) ,
 
             Total() {

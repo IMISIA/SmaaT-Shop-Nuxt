@@ -23,7 +23,7 @@
             <span> شما هم می‌توانید در مورد این کالا نظر بدهید. </span>
             <p> برای ثبت نظر، لازم است ابتدا وارد حساب کاربری خود شوید.  </p>
             <v-btn class="web-grd-form-dark fs-12 px-4" dark  @click="NewComment.Dialog = true">
-                {{ AUTH ? 'افزودن نظر جدید' : 'ابتدا وارد شوید' }}
+                {{ $auth ? 'افزودن نظر جدید' : 'ابتدا وارد شوید' }}
             </v-btn>
         </div>
 
@@ -189,7 +189,7 @@
 
         computed: mapState({
             Product: state => state.Product.Single_Product ,
-            AUTH: 'AUTH'
+            $auth: '$auth'
         }) ,
 
         data() {
