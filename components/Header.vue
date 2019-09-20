@@ -427,6 +427,7 @@
                         border-radius: 10px !important;
                     }
 
+                    .el-slider__bar ,
                     .vs-dropdown--menu--after {
                         background: ${this.web_color} !important;
                     }
@@ -455,6 +456,7 @@
                         color: ${this.web_color} !important;
                     }
 
+                    .el-slider__button ,
                     .products-ctg .el-radio.is-bordered.is-checked {
                         border-color: ${this.web_color} !important;
                     }

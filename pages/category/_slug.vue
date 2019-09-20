@@ -122,7 +122,6 @@
         // watchQuery: true ,
 
         async fetch({ $axios , store , params , query }) {
-
             let ObjectParams = {
                 categories: [params.slug] ,
                 brands: [query.brands] ,
@@ -220,6 +219,8 @@
                 }
             })
 
+            console.log(data);
+
             store.commit( 'Set_state' , {
                 Module : 'product' ,
                 Prop : 'Products_Ctg' ,
@@ -238,7 +239,6 @@
                 Val : data.data.category ,
                 Obj_Assign: true
             })
-
         } ,
 
         mixins: [mixin] ,
@@ -274,7 +274,6 @@
 
         methods: {
             ApplyFilters() {
-
                 let FilterParams = this.$refs.FilterBar ? this.$refs.FilterBar.Params: {};
                 let QueryStr = {};
 
@@ -290,7 +289,6 @@
                 })
 
                 this.$router.replace({ path: this.$route.path , query : QueryStr });
-
             }
         }
     }

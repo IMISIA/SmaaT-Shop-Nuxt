@@ -4,43 +4,38 @@
         <el-card class="am-shadow">
             <div slot="header"> دسته‌بندی نتایج </div>
 
-            <div>
-                <el-tree
-                    :data="TreeCtg"
-                    :props="TreeDefaultProps"
-                    @node-click="NodeClick"
-                    accordion
-                ></el-tree>
-            </div>
+            <el-tree
+                :data="TreeCtg"
+                :props="TreeDefaultProps"
+                @node-click="NodeClick"
+                accordion
+            ></el-tree>
         </el-card>
 
         <!-- Search Input -->
         <el-card class="am-shadow">
             <div slot="header"> جستجو در نتایج </div>
 
-            <div>
-                <el-input
-                    v-model="Params.query"
-                    @keyup.native.enter="ApplyFilters"
-                    class="rtl search-input"
-                    placeholder="نام محصول مورد نظر را بنویسید ...">
-                    <i slot="prefix" class="el-input__icon el-icon-search" @click="ApplyFilters"></i>
-                </el-input>
-            </div>
+            <el-input
+                v-model="Params.query"
+                @keyup.native.enter="ApplyFilters"
+                class="rtl search-input"
+                placeholder="نام محصول مورد نظر را بنویسید ...">
+                <i slot="prefix" class="el-input__icon el-icon-search" @click="ApplyFilters"></i>
+            </el-input>
         </el-card>
 
         <!-- Available Products -->
         <el-card class="am-shadow">
-            <div class="available-products">
-                <v-app>
-                    <v-switch
-                        v-model="Available_Products"
-                        label="فقط کالاهای موجود"
-                        :color="web_color"
-                        inset
-                    ></v-switch>
-                </v-app>
-            </div>
+            <v-app class="available-products">
+                <v-switch
+                    v-model="Available_Products"
+                    label="فقط کالاهای موجود"
+                    :color="web_color"
+                    inset
+                    hide-details
+                ></v-switch>
+            </v-app>
         </el-card>
 
         <!-- Brands -->
@@ -50,6 +45,7 @@
                     <v-expansion-panel-header>
                         <span> برند </span>
                     </v-expansion-panel-header>
+
                     <v-expansion-panel-content>
                         <el-input
                             class="rtl search-input mb-3"
@@ -90,6 +86,7 @@
                     <v-expansion-panel-header>
                         <span> سایز </span>
                     </v-expansion-panel-header>
+
                     <v-expansion-panel-content>
                         <el-input
                             class="rtl search-input mb-3"
@@ -115,7 +112,6 @@
                                     :data-index="'size-'+idx">
                                     {{ item.name }}
                                 </el-checkbox>
-
                             </transition-group>
                         </el-checkbox-group>
                     </v-expansion-panel-content>
@@ -130,6 +126,7 @@
                     <v-expansion-panel-header>
                         <span> رنگ </span>
                     </v-expansion-panel-header>
+
                     <v-expansion-panel-content>
                         <el-input
                             class="rtl search-input mb-3"
@@ -156,7 +153,6 @@
                                     <span class="el-color" :style="{ backgroundColor : item.code }"></span>
                                     {{ item.name }}
                                 </el-checkbox>
-
                             </transition-group>
                         </el-checkbox-group>
                     </v-expansion-panel-content>
@@ -191,14 +187,55 @@
                                 <el-checkbox
                                     class="filter-list"
                                     v-for="(item,idx) in Warranties"
-                                    :key="'Warranty-'+idx"
+                                    :key="'warranty-'+idx"
                                     :label="item.id"
-                                    :data-index="'Warranty-'+idx">
+                                    :data-index="'warranty-'+idx">
                                     {{ item.title }}
                                 </el-checkbox>
-
                             </transition-group>
                         </el-checkbox-group>
+                    </v-expansion-panel-content>
+                </v-expansion-panel>
+            </v-expansion-panels>
+        </el-card>
+
+        <!-- Price Range -->
+        <el-card class="collapsible am-shadow" v-if="is_exist(Filters.warranties)">
+            <v-expansion-panels>
+                <v-expansion-panel>
+                    <v-expansion-panel-header>
+                        <span> محدوده قیمت </span>
+                    </v-expansion-panel-header>
+                    <v-expansion-panel-content class="price-range">
+                        <el-slider
+                            class="px-1"
+                            v-model="PriceRange"
+                            range
+                            :show-tooltip="false"
+                            :step="10"
+                            :max="1000">
+                        </el-slider>
+
+                        <div class="row">
+                            <div class="col-6" data-label="از" data-currency=" تومان">
+                                <el-input
+                                    :value="PriceRange[0] * 1000 | Num2Fa"
+                                    readonly
+                                    class="search-input">
+                                </el-input>
+                            </div>
+                            <div class="col-6" data-label="از" data-currency=" تومان">
+                                <el-input
+                                    :value="PriceRange[1] * 1000 | Num2Fa"
+                                    readonly
+                                    class="search-input">
+                                </el-input>
+                            </div>
+                        </div>
+
+                        <v-btn class="as-btn mt-3" large block>
+                            اعمال محدوده قیمت
+                        </v-btn>
                     </v-expansion-panel-content>
                 </v-expansion-panel>
             </v-expansion-panels>
@@ -219,13 +256,6 @@
         } ,
 
         mixins: [mixin] ,
-
-        head: {
-            script: [
-                { src: 'https://cdn.jsdelivr.net/npm/velocity-animate@2.0/velocity.min.js' } ,
-                { src: 'https://cdnjs.cloudflare.com/ajax/libs/velocity/2.0.3/velocity.min.js' }
-            ]
-        } ,
 
         created() {
             this.SetParams();
@@ -260,6 +290,8 @@
                 } ,
                 
                 Available_Products: false ,
+
+                PriceRange: [100,800] ,
 
                 TreeDefaultProps: {
                     children: 'childs' ,
@@ -322,24 +354,23 @@
             } ,
 
             enter(el, done) {
-                let delay = el.dataset.index * 30
+                let delay = el.dataset.index.split('-')[1] * 30
                 setTimeout(function () {
-                    Velocity(
-                        el ,
-                        { opacity: 1 , height: '1.6em' } ,
-                        { complete: done }
-                    )
+                    $(el).css({
+                        opacity: 1 ,
+                        height: '1.6rem'
+                    })
                 }, delay)
             } ,
 
             leave(el, done) {
-                let delay = el.dataset.index * 30
+                let delay = el.dataset.index.split('-')[1] * 30
                 setTimeout(function () {
-                    Velocity(
-                        el ,
-                        { opacity: 0 , height: 0 } ,
-                        { complete: done }
-                    )
+                    $(el).css({
+                        opacity: 0 ,
+                        height: 0 ,
+                        marginBottom: 0
+                    })
                 }, delay)
             }
         }
