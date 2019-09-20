@@ -22,7 +22,7 @@
         <div class="col-md-6 comments-note">
             <span> شما هم می‌توانید در مورد این کالا نظر بدهید. </span>
             <p> برای ثبت نظر، لازم است ابتدا وارد حساب کاربری خود شوید.  </p>
-            <v-btn class="web-grd-form-dark fs-12 px-4" dark  @click="NewComment.Dialog = true">
+            <v-btn class="web-grd-from-dark fs-12 px-4" dark  @click="NewComment.Dialog = true">
                 {{ $auth ? 'افزودن نظر جدید' : 'ابتدا وارد شوید' }}
             </v-btn>
         </div>
@@ -125,7 +125,7 @@
                         </div>
 
                         <div class="col-12 mt-5 text-left">
-                            <v-btn class="web-grd-form-dark" block :disabled="!NewComment.isValid" dark> ثبت </v-btn>
+                            <v-btn class="web-grd-from-dark" block :disabled="!NewComment.isValid" dark> ثبت </v-btn>
                         </div>
                     </div>
                 </v-form>
@@ -139,7 +139,7 @@
     export default {
 
         async fetch({ $axios , store , params }) {
-            if(store.state.Product.Requested.comments) return;
+            if(store.state.product.Requested.comments) return;
 
             let { data } = await $axios({
                 method: 'POST' ,
@@ -178,17 +178,17 @@
             })
 
             store.commit( 'Set_state' , {
-                Module : 'Product' ,
+                Module : 'product' ,
                 Prop : 'Single_Product' ,
                 Val : data.data.product ,
                 Obj_Assign: true
             })
 
-            store.state.Product.Requested.comments = true;
+            store.state.product.Requested.comments = true;
         } ,
 
         computed: mapState({
-            Product: state => state.Product.Single_Product ,
+            Product: state => state.product.Single_Product ,
             $auth: '$auth'
         }) ,
 

@@ -207,7 +207,7 @@
 </template>
 
 <script>
-    import mixin from '~/Mixins/mixin';
+    import mixin from '~/mixins/mixin';
     import { mapState } from 'vuex';
 
     export default {
@@ -271,7 +271,7 @@
         computed: {
             ...mapState({
                 Categories: 'Categories' ,
-                Filters: state => state.Product.Filters
+                Filters: state => state.product.Filters
             }) ,
 
             TreeCtg() {

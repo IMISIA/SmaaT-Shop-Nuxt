@@ -2,7 +2,7 @@
   <div>
     <div class="row m-0 pt-3">
       <div class="col-md-9 pr-md-0">
-        <Slider :slides="SiteSetting.slider" />
+        <slider :slides="SiteSetting.slider" />
       </div>
 
       <div class="col-md-3 pt-3 pt-md-0">
@@ -11,17 +11,17 @@
       </div>
     </div>
 
-    <div class="pt-3">
-      <ProductSlider :Products="{
+    <product-slider class="pt-3"
+      :Products="{
         title: 'محصولات' ,
         data: Products ,
         size: 12
-      }"/>
-    </div>
+      }"
+    />
 
-    <div class="pt-3 pb-5">
-      <Posters :Posters="SiteSetting.posters"/>
-    </div>
+    <posters class="pt-3" :Posters="SiteSetting.posters"/>
+    
+    <brands-slider />
   </div>
 </template>
 
@@ -29,13 +29,13 @@
   import Slider from '~/components/Slider.vue';
   import ProductSlider from '~/components/ProductSlider.vue';
   import Posters from '~/components/Posters.vue';
+  import BrandsSlider from '~/components/BrandsSlider.vue';
   import {
     mapState
   } from 'vuex';
 
   export default {
     async fetch({ $axios , store }) {
-
       let { data } = await $axios({
         method: 'POST' ,
         data: {
@@ -83,23 +83,23 @@
       })
 
       store.commit( 'Set_state' , {
-        Module : 'Product' ,
+        Module : 'product' ,
         Prop : 'Products' ,
         Val : data.data.products.data
       })
-
     } ,
 
     components: {
       Slider ,
       ProductSlider ,
-      Posters
+      Posters ,
+      BrandsSlider
     } ,
 
     computed: {
       ...mapState({
         SiteSetting: 'SiteSetting' ,
-        Products: state => state.Product.Products
+        Products: state => state.product.Products
       })
     }
   }

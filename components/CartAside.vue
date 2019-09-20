@@ -28,8 +28,7 @@
 
             <div class="checkout-submit">
                 <v-btn
-                    class="text-white rounded-7"
-                    :class="{ 'web-grd-form-dark' : !btnDisabled }"
+                    class="as-btn rounded-7"
                     block 
                     large
                     :disabled="btnDisabled"

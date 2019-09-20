@@ -114,7 +114,7 @@
 
 <script>
     import { mapState } from 'vuex';
-    import mixin from '~/Mixins/mixin';
+    import mixin from '~/mixins/mixin';
     import FilterBar from '~/components/FilterBar.vue';
     import Card from '~/components/Card.vue';
 
@@ -221,19 +221,19 @@
             })
 
             store.commit( 'Set_state' , {
-                Module : 'Product' ,
+                Module : 'product' ,
                 Prop : 'Products_Ctg' ,
                 Val : data.data.products.data
             })
 
             store.commit( 'Set_state' , {
-                Module : 'Product' ,
+                Module : 'product' ,
                 Prop : 'Total' ,
                 Val : data.data.products.total
             })
 
             store.commit( 'Set_state' , {
-                Module : 'Product' ,
+                Module : 'product' ,
                 Prop : 'Filters' ,
                 Val : data.data.category ,
                 Obj_Assign: true
@@ -267,8 +267,8 @@
 
         computed: {
             ...mapState({
-                Products_Ctg: state => state.Product.Products_Ctg ,
-                Total: state => state.Product.Total
+                Products_Ctg: state => state.product.Products_Ctg ,
+                Total: state => state.product.Total
             })
         } ,
 

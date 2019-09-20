@@ -230,7 +230,7 @@
 
 <script>
     import { mapState } from 'vuex';
-    import mixin from '~/Mixins/mixin';
+    import mixin from '~/mixins/mixin';
     import cartAside from '~/components/CartAside.vue';
     import miniCard from '~/components/MiniCard.vue';
     import AddAddress from '~/components/AddAddress.vue';

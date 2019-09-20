@@ -75,7 +75,6 @@
             } ,
             hasPrice: {
                 type: Boolean ,
-                default: false
             } ,
             hasVariations: {
                 type: Boolean ,
@@ -83,11 +82,9 @@
             } ,
             small: {
                 type: Boolean ,
-                default: false
             } ,
             mini: {
                 type: Boolean ,
-                default: false
             } ,
             imageClass: {
                 type: String ,

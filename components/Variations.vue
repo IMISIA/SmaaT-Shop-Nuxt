@@ -66,7 +66,7 @@
 </template>
 
 <script>
-    import mixin from '~/Mixins/mixin';
+    import mixin from '~/mixins/mixin';
     import { mapState } from 'vuex';
 
     export default {
@@ -82,7 +82,7 @@
 
         computed: {
             ...mapState({
-                Variations: state => state.Product.Single_Product.variations
+                Variations: state => state.product.Single_Product.variations
             }) ,
 
             Sizes() {

@@ -70,13 +70,18 @@
                                     </v-list>
                                     
                                     <div class="py-2 px-3" v-else>
-                                        <v-btn class="fs-13 rounded-7" :color="web_color" block dark>
+                                        <v-btn
+                                            class="fs-13 rounded-7"
+                                            :color="web_color"
+                                            block
+                                            dark
+                                            @click="openModal('login')">
                                             ورود به سایت
                                         </v-btn>
 
                                         <div class="text-center mt-3">
                                             <span class="text-muted fs-12"> کاربر جدید هستید؟ </span>
-                                            <el-link type="primary fs-12 mr-1">ثبت‌نام</el-link>
+                                            <el-link type="primary fs-12 mr-1" @click="openModal('register')">ثبت‌نام</el-link>
                                         </div>
                                     </div>
                                 </vs-dropdown-menu>
@@ -88,7 +93,7 @@
                         <el-badge class="item mr-2" :value="Shopping_Cart.length">
                             <span class="lnr lnr-cart h2"></span>
                         </el-badge>
-                        <span class="lnr lnr-user h2 ml-2 mr-3"></span>
+                        <span class="lnr lnr-user h2 ml-2 mr-3" @click="openModal('login')"></span>
                     </template>
 
                     <div class="el-search d-flex rtl ml-auto" :class=" Res ? 'w-75' : 'w-50' ">
@@ -248,8 +253,8 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex';
-    import mixin from '~/Mixins/mixin'
+    import { mapState , mapMutations } from 'vuex';
+    import mixin from '~/mixins/mixin'
 
     export default {
         mixins : [mixin] ,
@@ -338,6 +343,10 @@
         } ,
 
         methods : {
+            ...mapMutations([
+                'openModal'
+            ]) ,
+
             Dynamic_Color() {
                 var style = document.createElement('style');
                 style.type = 'text/css';
@@ -393,7 +402,7 @@
                         background: linear-gradient(90deg, ${this.web_color_light} 10%, ${this.web_color} 90%) !important;
                     }
 
-                    .web-grd-form-dark {
+                    .web-grd-from-dark {
                         background: -webkit-linear-gradient(90deg, ${this.web_color} 10%, ${this.web_color_dark} 90%) !important;
                         background: -moz-linear-gradient(90deg, ${this.web_color} 10%, ${this.web_color_dark} 90%) !important;
                         background: -o-linear-gradient(90deg, ${this.web_color} 10%, ${this.web_color_dark} 90%) !important;
@@ -407,6 +416,16 @@
                     }
 
                     /* =============== Other =============== */
+
+                    .as-btn {
+                        background: -webkit-linear-gradient(90deg, ${this.web_color} 10%, ${this.web_color_dark} 90%);
+                        background: -moz-linear-gradient(90deg, ${this.web_color} 10%, ${this.web_color_dark} 90%);
+                        background: -o-linear-gradient(90deg, ${this.web_color} 10%, ${this.web_color_dark} 90%);
+                        background: linear-gradient(90deg, ${this.web_color} 10%, ${this.web_color_dark} 90%);
+                        color: #fff !important;
+                        box-shadow: 0px 2px 5px -2px ${this.web_color};
+                        border-radius: 10px !important;
+                    }
 
                     .vs-dropdown--menu--after {
                         background: ${this.web_color} !important;

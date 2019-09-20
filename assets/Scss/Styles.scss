@@ -240,8 +240,28 @@ hr.v-divider {
     }
 }
 
+.v-dialog {
+    background: #fff;
+}
+
 .v-dialog--fullscreen {
     width: 100% !important;
+}
+
+.dialog-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    text-align: right;
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 2rem;
+    padding: 8px 20px 8px 10px;
+    color: #767676;
+}
+
+.dialog-content {
+    padding: 20px 25px;
 }
 
 span.title-field {
@@ -285,6 +305,10 @@ span.title-field {
     &.primary--text fieldset , &.error--text fieldset {
         border-width: 1px !important;
     }
+
+    i {
+        font-size: 22px !important;
+    }
 }
 
 .v-text-field:not(.primary--text , .error--text) {
@@ -325,6 +349,13 @@ span.title-field {
 @each $class , $size in ( 20:20% , 80:80% ) {
     .h-#{$class} {
         height: #{$size} !important; 
+    }
+}
+
+.v-btn--disabled {
+    box-shadow: unset !important;
+    &.as-btn {
+        background: unset !important;
     }
 }
 

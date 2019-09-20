@@ -4,15 +4,15 @@ export const state = () => ({
     $url: 'http://luxbuystore.ir' ,
 
     $auth: false ,
-    $loading: false ,
+    $reload: false ,
 
-    SiteSetting: {} ,
-
-    Modal: {
+    $modals: {
         login: false ,
         register: false ,
         resetPass: false
     } ,
+
+    SiteSetting: {} ,
 
     Me: {} ,
 
@@ -43,45 +43,13 @@ export const mutations = {
         }
     } ,
 
-    // Payloads : type , name , params , resQuery , resolverBefore(state) , resolverAfter(state , data)
-    Request(state , pld) {
-        if(pld.resolverBefore) pld.resolverBefore(state);
+    openModal(state , name) {
+        $('.con-vs-dropdown--menu').css({ display: 'none' });
+        state.$modals[name] = true;
+    } ,
 
-        let params = null;
-        if(pld.params && typeof pld.params === 'object') {
-            Object.entries(pld.params).map( ([key , val]) => {
-                if(val && ( isNaN(val) ? !_.isEmpty(val) : true ) ) {
-                    switch(typeof val) {
-                        case 'number': {
-                            params += `${key} : ${val} , \n`;
-                            break;
-                        }
-                        case 'string': {
-                            params += `${key} : "${val}" , \n`;
-                            break;
-                        }
-                        case 'boolean': {
-                            params += `${key} : ${val} , \n`;
-                            break;
-                        }
-                        case 'object': {
-                            params += `${key} : [${val}] , \n`;
-                            break;
-                        }
-                    }
-                }
-            })
-        }
-
-        let query = `
-            ${pld.type || ''} {
-                ${pld.name} ${ params ? '( \n'+params+'\n )' : '' } {
-                    ${pld.resQuery}
-                }
-            }
-        `;
-
-        console.log(query);
+    closeModal(state , name) {
+        state.$modals[name] = false;
     }
 }
 
@@ -223,6 +191,7 @@ export const actions = {
                         brands {
                             data {
                                 id
+                                slug
                                 name
                                 logo {
                                     id
@@ -263,7 +232,45 @@ export const actions = {
         })
     } ,
 
-    nuxtClientInit() {
-        console.log('YEEEEEEEEEEEEEH');
+
+    // Payloads : type , name , params , resQuery , resolverBefore(state) , resolverAfter(state , data)
+    Request(state , pld) {
+        if(pld.resolverBefore) pld.resolverBefore(state);
+
+        let params = null;
+        if(pld.params && typeof pld.params === 'object') {
+            Object.entries(pld.params).map( ([key , val]) => {
+                if(val && ( isNaN(val) ? !_.isEmpty(val) : true ) ) {
+                    switch(typeof val) {
+                        case 'number': {
+                            params += `${key} : ${val} , \n`;
+                            break;
+                        }
+                        case 'string': {
+                            params += `${key} : "${val}" , \n`;
+                            break;
+                        }
+                        case 'boolean': {
+                            params += `${key} : ${val} , \n`;
+                            break;
+                        }
+                        case 'object': {
+                            params += `${key} : [${val}] , \n`;
+                            break;
+                        }
+                    }
+                }
+            })
+        }
+
+        let query = `
+            ${pld.type || ''} {
+                ${pld.name} ${ params ? '( \n'+params+'\n )' : '' } {
+                    ${pld.resQuery}
+                }
+            }
+        `;
+
+        console.log(query);
     }
 }

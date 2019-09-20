@@ -80,7 +80,7 @@
 
     export default {
         computed: mapState({
-            Product: state => state.Product.Single_Product
+            Product: state => state.product.Single_Product
         })
     }
 </script>

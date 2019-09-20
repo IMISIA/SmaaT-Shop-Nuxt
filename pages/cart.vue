@@ -52,7 +52,7 @@
 </template>
 
 <script>
-    import mixin from '~/Mixins/mixin';
+    import mixin from '~/mixins/mixin';
     import { mapState } from 'vuex';
     import cartAside from '~/components/CartAside.vue';
     import miniCard from '~/components/MiniCard.vue';

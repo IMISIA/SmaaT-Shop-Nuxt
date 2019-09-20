@@ -96,16 +96,16 @@
                                     </p>
 
                                     <div>
-                                        <v-btn class="web-grd-form-dark add-to-cart" dark large rounded>
+                                        <v-btn class="web-grd-from-dark add-to-cart" dark large rounded>
                                             <i class="lnr lnr-cart"></i>
                                             افزودن به سبد خرید
                                         </v-btn>
                                         
-                                        <v-btn class="web-grd-form-dark mr-2" fab dark small>
+                                        <v-btn class="web-grd-from-dark mr-2" fab dark small>
                                             <v-icon dark small>far fa-heart</v-icon>
                                         </v-btn>
 
-                                        <v-btn class="web-grd-form-dark mr-1" fab dark small>
+                                        <v-btn class="web-grd-from-dark mr-1" fab dark small>
                                             <v-icon dark>sync</v-icon>
                                         </v-btn>
                                     </div>
@@ -143,7 +143,7 @@
 </template>
 
 <script>
-    import mixin from '~/Mixins/mixin';
+    import mixin from '~/mixins/mixin';
     import { mapState } from 'vuex';
     import Variations from '~/components/Variations.vue';
 
@@ -246,7 +246,7 @@
             })
 
             store.commit( 'Set_state' , {
-                Module : 'Product' ,
+                Module : 'product' ,
                 Prop : 'Single_Product' ,
                 Val : data.data.product
             })
@@ -308,7 +308,7 @@
         computed: {
             ...mapState({
                 $url: '$url' ,
-                Product: state => state.Product.Single_Product ,
+                Product: state => state.product.Single_Product ,
             }) ,
 
             Valid_Images() {

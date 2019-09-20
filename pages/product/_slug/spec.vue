@@ -71,7 +71,7 @@
     export default {
         async fetch({ $axios , store , params }) {
 
-            if(store.state.Product.Requested.spec) return;
+            if(store.state.product.Requested.spec) return;
 
             let { data } = await $axios({
                 method: 'POST' ,
@@ -114,18 +114,18 @@
             })
 
             store.commit( 'Set_state' , {
-                Module : 'Product' ,
+                Module : 'product' ,
                 Prop : 'Single_Product' ,
                 Val : data.data.product ,
                 Obj_Assign: true
             })
 
-            store.state.Product.Requested.spec = true;
+            store.state.product.Requested.spec = true;
 
         } ,
 
         computed: mapState({
-            Product: state => state.Product.Single_Product
+            Product: state => state.product.Single_Product
         }) ,
 
         methods: {
