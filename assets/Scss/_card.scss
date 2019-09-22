@@ -54,7 +54,6 @@
                 top: 120px !important;
             }
         }
-
     }
 
     .image-overlay {
@@ -82,75 +81,53 @@
         height: 240px;
         padding: 15px 25px;
         transition: top .3s .2s ,
-            border-top-left-radius .3s .3s,
-            border-top-right-radius .3s .3s;
-
+        border-top-left-radius .3s .3s,
+        border-top-right-radius .3s .3s;
         &.labled {
             height: 200px;
         }
+    }
 
-        .product-name {
-            color: #505253;
-            font-size: 13px;
-            max-width: 100%;
-            height: 40px;
-            overflow: hidden;
-            text-overflow: ellipsis;
+    .product-name {
+        color: #505253;
+        font-size: 13px;
+        max-width: 100%;
+        height: 40px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .product-price {
+        color: #484848;
+        font-size: 18px;
+        font-weight: 600;
+        span {
+            font-size: 12px;
         }
+    }
 
-        .product-price {
-            color: #484848;
-            font-size: 18px;
-            font-weight: 600;
-            span {
-                font-size: 12px;
-            }
-        }
+    .text-color {
+        color: #505253;
+        font-size: 14px;
+    }
 
-        .offer-price {
-            display: block;
-            position: relative;
-            height: 20px;
-            font-size: 13px;
-            color: #9E9E9E;
-            margin-bottom: 5px;
-            span:after {
-                content: " ";
-                position: absolute;
-                background: currentColor;
-                width: 28%;
-                height: 1px;
-                top: 8px;
-                left: 50%;
-                border-radius: 50px;
-                @include transform(translateX(-50%) rotate(-5deg));
-            }
-        }
-
-        .text-color {
-            color: #505253;
-            font-size: 14px;
-        }
-
-        .colors div {
-            margin-top: 3px;
+    .colors div {
+        margin-top: 3px;
+        width: 15px;
+        height: 15px;
+        margin-right: 5px;
+        float: left;
+        span {
             width: 15px;
             height: 15px;
-            margin-right: 5px;
-            float: left;
-            span {
-                width: 15px;
-                height: 15px;
-                display: block;
-                border-radius: 50%;
-                border: 1.5px solid #eee;
-                transition: transform .3s;
-                &:hover {
-                    @include transform(scale(1.2)); 
-                }
+            display: block;
+            border-radius: 50%;
+            border: 1.5px solid #eee;
+            transition: transform .3s;
+            &:hover {
+                @include transform(scale(1.2)); 
             }
         }
-
     }
 
     .product-actions {
@@ -187,52 +164,73 @@
                 color: #222222;
             }
         }
+    }
 
-        .addCart-btn {
-            padding-top: 8px;
+    .addCart-btn {
+        padding-top: 8px;
+        span {
+            font-size: 12px;
+            color: #222222;
+            text-transform: uppercase;
+            position: absolute;
+            right: 19px;
+            top: 20px;
+            opacity: 0;
+            -webkit-transition: all 0.1s ease;
+            -o-transition: all 0.1s ease;
+            transition: all 0.1s ease;
+        }
+        &:hover {
+            width: 165px;
+            padding: 8px 13px 0;
+            text-align: left;
+            -webkit-transition: all 0.4s ease;
+            -o-transition: all 0.4s ease;
+            transition: all 0.4s ease;
             span {
-                font-size: 12px;
-                color: #222222;
-                text-transform: uppercase;
-                position: absolute;
-                right: 19px;
-                top: 20px;
-                opacity: 0;
-                -webkit-transition: all 0.1s ease;
-                -o-transition: all 0.1s ease;
-                transition: all 0.1s ease;
+                opacity: 1;
+                top: 10px;
+                -webkit-transition: all 0.4s ease 0.3s;
+                -o-transition: all 0.4s ease 0.3s;
+                transition: all 0.4s ease 0.3s;
             }
-            &:hover {
-                width: 165px;
-                padding: 8px 13px 0;
-                text-align: left;
-                -webkit-transition: all 0.4s ease;
-                -o-transition: all 0.4s ease;
-                transition: all 0.4s ease;
-                span {
-                    opacity: 1;
-                    top: 10px;
-                    -webkit-transition: all 0.4s ease 0.3s;
-                    -o-transition: all 0.4s ease 0.3s;
-                    transition: all 0.4s ease 0.3s;
-                }
-                i {
-                    font-weight: bold;
-                    color: #44c28d;
-                }
+            i {
+                font-weight: bold;
+                color: #44c28d;
             }
         }
+    }
 
-        .wishlist-btn:hover i {
-            font-weight: bold;
-            color: #D81B60;
-        }
+    .wishlist-btn:hover i {
+        font-weight: bold;
+        color: #D81B60;
+    }
 
-        .compare-btn:hover i {
-            font-weight: bold;
-            color: #00ACC1;
-        }
+    .compare-btn:hover i {
+        font-weight: bold;
+        color: #00ACC1;
+    }
+}
 
+.offer-price {
+    display: block;
+    height: 20px;
+    font-size: 13px;
+    color: #9E9E9E;
+    margin-bottom: 5px;
+    span {
+        position: relative;
+    }
+    span:after {
+        content: " ";
+        position: absolute;
+        background: currentColor;
+        width: 120%;
+        height: 1px;
+        top: 10px;
+        left: 50%;
+        border-radius: 50px;
+        @include transform(translateX(-50%) rotate(-5deg));
     }
 }
 
@@ -249,6 +247,22 @@
         &.mini {
             font-size: 11px;
             font-weight: 400;
+        }
+    }
+
+    .product-price {
+        font-size: 14px;
+        text-align: right;
+        @include price(12px);
+    }
+
+    .offer-price {
+        margin-bottom: 0;
+        text-align: right;
+        span:after {
+            left: auto;
+            right: -10%;
+            transform: rotate(-5deg);
         }
     }
 

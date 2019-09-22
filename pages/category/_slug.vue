@@ -44,8 +44,30 @@
                     </div>
 
                     <div class="row mx-0 rtl">
-                        <div class="col-md-4 col-lg-3 col-sm-6 product" v-for="(product,idx) in Products_Ctg" :key="idx">
+                        <div
+                            v-show="!Res"
+                            class="col-md-4 col-lg-3 col-sm-6 product"
+                            v-for="(product,idx) in Products_Ctg"
+                            :key="idx">
                             <Card :Product="product" :Hover="false" :Info="false"/>
+                        </div>
+
+                        <div
+                            v-show="Res"
+                            class="col-md-4 col-lg-3 col-sm-6 product"
+                            v-for="(product,idx) in Products_Ctg"
+                            :key="`res-${idx}`">
+                            <MiniCard
+                                :variation="{ product , sales_price: product.variation.sales_price }"
+                                small
+                                image-property="medium"
+                                image-class="col-5"
+                                :image-size="130"
+                                info-class="col-7 py-2 pr-0"
+                                :has-variations="false"
+                                :has-price="true"
+                                :truncate="50"
+                            />
                         </div>
                     </div>
                 </el-card>
@@ -64,7 +86,11 @@
             </div>
 
             <div class="col-md-3" v-if="!Res">
-                <FilterBar :ApplyFilters="ApplyFilters" ref="FilterBar"/>
+                <FilterBar
+                    :ApplyFilters="ApplyFilters"
+                    :DeleteFilters="DeleteFilters"
+                    ref="FilterBar"
+                />
             </div>
         </div>
 
@@ -80,7 +106,11 @@
                     </v-toolbar>
 
                     <div class="category">
-                        <FilterBar :ApplyFilters="ApplyFilters" ref="FilterBar"/>
+                        <FilterBar
+                            :ApplyFilters="ApplyFilters"
+                            :DeleteFilters="DeleteFilters"
+                            ref="FilterBar"
+                        />
                     </div>
                 </v-card>
             </v-dialog>
@@ -117,6 +147,7 @@
     import mixin from '~/mixins/mixin';
     import FilterBar from '~/components/FilterBar.vue';
     import Card from '~/components/Card.vue';
+    import MiniCard from '~/components/MiniCard.vue';
 
     export default {
         // watchQuery: true ,
@@ -245,7 +276,8 @@
 
         components: {
             FilterBar ,
-            Card
+            Card ,
+            MiniCard
         } ,
 
         data() {
@@ -274,7 +306,7 @@
 
         methods: {
             ApplyFilters() {
-                let FilterParams = this.$refs.FilterBar ? this.$refs.FilterBar.Params: {};
+                let FilterParams = this.$refs.FilterBar ? this.$refs.FilterBar.Params : {};
                 let QueryStr = {};
 
                 QueryStr.page = this.Page;
@@ -288,7 +320,27 @@
                     }
                 })
 
-                this.$router.replace({ path: this.$route.path , query : QueryStr });
+                if( !_.isEqual(QueryStr , this.$route.query) ) {
+                    this.$router.replace({ query : QueryStr });
+                }
+            } ,
+
+            DeleteFilters(name , value) {
+                let QueryStr = JSON.parse(JSON.stringify(this.$route.query));
+                // Used JSON Function Becuase Modifying Changes Cloned And Original Objects
+
+                if( typeof QueryStr[name] === 'object' && !!QueryStr[name].length ) {
+                    QueryStr[name].length === 1
+                    ? QueryStr = _.omit(QueryStr , name)
+                    : _.pull(QueryStr[name] , value.toString())
+                } else {
+                    QueryStr = _.omit(QueryStr , name);
+                }
+
+                if( !_.isEqual(QueryStr , this.$route.query) ) {
+                    this.$router.replace({ query : QueryStr })
+                    .then( () => this.$refs.FilterBar.SetParams() );
+                }
             }
         }
     }

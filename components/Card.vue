@@ -21,7 +21,7 @@
 
                     <div class="product-price web-color">
                         <div class="offer-price">
-                            <!-- <span> {{ 1500000 | Num2Fa }} </span> -->
+                            <span> {{ 1500000 | Num2Fa }} </span>
                         </div>
                         {{ Product.variation.sales_price | Num2Fa }}
                         <span> تومان </span>

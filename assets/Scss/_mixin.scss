@@ -30,3 +30,11 @@
     @include transform(scaleX(-1));
 }
 
+@mixin price( $font-size:14px , $font-weight:bold ) {
+    font-weight: $font-weight;
+    &::after {
+        content: attr(data-price);
+        font-size: #{$font-size};
+    } 
+}
+

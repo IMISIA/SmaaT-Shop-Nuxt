@@ -1,30 +1,10 @@
 .single-product {
     text-align: right;
 
-    .gallery-thumbs {
-        padding: 10px 0 0;
-        .swiper-slide {
-            width: 18%;
-            height: 100%;
-            opacity: 0.6;
-            transition: opacity .3s
-        }
-        .swiper-slide-active {
-            opacity: 1;
-        }
-        .thumb {
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            .v-image {
-                border-radius: 4px;
-            }
-        }
-    }
-
     .title {
         color: #484848;
         font: {
-            size: 18px;
+            size: 16px;
             weight: bold;
         }
         margin: .5rem 0;
@@ -41,7 +21,7 @@
         position: relative;
         flex-grow: 1;
         margin-top: .5rem;
-        padding: 1.5rem 1rem 1rem;
+        padding: 16px;
         color: #6b6b6b;
         > .row {
             height: 100%;
@@ -83,6 +63,9 @@
                 background: #ccc;
                 border-radius: 50%;
             }
+            &:last-child {
+                margin-bottom: 0;
+            }
         }
     }
 
@@ -116,54 +99,53 @@
     }
 
     .add-to-cart {
-        position: relative;
-        max-height: 40px;
-        font-size: 12px;
-        overflow: hidden;
-        padding-right: 15px !important;
+        button {
+            height: 50px !important;
+            font-size: 16px;
+            padding-right: 15px !important;
+        }
         i {
-            font-size: 20px;
-            margin-left: 25px;
+            font-size: 25px;
+            margin-left: 10px;
             margin-bottom: 3px;
-        }
-        &::after {
-            content: "";
-            position: absolute;
-            height: 100%;
-            width: 270px;
-            background: #fff;
-            opacity: 0.15;
-            transition: transform 0.5s;
-            transform: skew(-20deg) translateX(178px);
-        }
-        &:hover {
-            &::after {
-                transform: skew(-20deg) translateX(-91px);
-            }
         }
     }
 
-    ul.variations {
+    .variations {
         min-height: 75px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
         li {
-            margin: 0.7rem 0.1rem;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
-            i {
-                font-size: 14px;
-                margin-left: 8px;
+            &:last-child {
+                margin-bottom: 0;
+            }
+        }
+        i {
+            font-size: 14px;
+            margin-left: 8px;
+        }
+        .el-radio-group {
+            white-space: nowrap;
+            overflow: auto;
+            &::-webkit-scrollbar {
+                display: none;
             }
         }
         .el-radio {
             margin: 0px 4px !important;
-            padding: 6px 15px 0 15px !important;
-            .el-radio__input {
-                display: none;
-            }
-            .el-radio__label {
-                padding: 0px;
-                font-size: 11px !important;
-            }
+            padding: 7px 15px 0 15px !important;
+            border-radius: 6px;
+        }
+        .el-radio__input {
+            display: none;
+        }
+        .el-radio__label {
+            padding: 0px;
+            font-size: 11px !important;
         }
     }
 
@@ -238,11 +220,58 @@
         @extend .comments;
     }
 
+    .el-color {
+        display: inline-block !important;
+        width: 15px;
+        height: 15px;
+        border-radius: 5px;
+        border: 1px solid #bdbdbd;
+        margin-left: 5px;
+    }
+}
+
+.variation-title {
+    min-width: fit-content;
+}
+
+.gallery-thumbs {
+    padding: 10px 0 0;
+    .swiper-slide {
+        width: 18%;
+        height: 100%;
+        opacity: 0.6;
+        transition: opacity .3s
+    }
+    .swiper-slide-active {
+        opacity: 1;
+    }
+    .thumb {
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        .v-image {
+            border-radius: 4px;
+        }
+    }
 }
 
 .add-comment {
     .vs-dialog {
         max-width: 600px !important;
+    }
+}
+
+.product-options {
+    position: absolute;
+    top: 0;
+    right: 15px;
+    z-index: 2;
+    button {
+        height: 48px !important;
+        width: 48px !important;
+    }
+    i {
+        font-size: 25px;
+        display: flex;
     }
 }
 
@@ -254,9 +283,25 @@
             }
             margin: 0.8rem 0;
         }
+
         .row-title {
             margin-bottom: 0;
             border-left: unset;
+        }
+
+        .box-info {
+            margin-top: 20px;
+        }
+
+        .add-to-cart {
+            background: #f5f5f5;
+            position: fixed;
+            bottom: -1px;
+            right: 0;
+            left: 0;
+            width: 100%;
+            z-index: 99;
+            padding: 10px;
         }
     }
 }

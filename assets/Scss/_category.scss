@@ -1,5 +1,6 @@
 .filter-bar {
     height: fit-content;
+    z-index: 2;
     
     .el-card {
         margin-bottom: 10px;
@@ -9,6 +10,7 @@
                 button.v-expansion-panel-header {
                     @include transform(scaleX(-1));
                     span {
+                        direction: rtl;
                         @include transform(scaleX(-1));
                         text-align: right;
                         color: map-get($colors , "title");
@@ -23,6 +25,7 @@
     }
 
     .el-card__header {
+        direction: rtl;
         padding: 14px 20px;
         font: {
             size: 14px;
@@ -58,9 +61,11 @@
     }
 
     .el-checkbox-group {
+        max-height: 320px;
+        overflow: auto;
+        direction: rtl;
         & > div {
             display: grid;
-            padding-right: 20px;
         }
         .el-checkbox__inner {
             width: 16px !important;
@@ -75,18 +80,22 @@
             }
         }
         .filter-list.el-checkbox {
-            direction: rtl;
             cursor: pointer;
             margin-right: 0 !important;
-            margin-bottom: 5px;
+            padding: 5px 15px;
+            margin-bottom: 0;
             transition: all .5s;
-            .el-checkbox__label {
-                font-size: 12px;
-                padding-right: 15px;
+            border-radius: 4px;
+            &:hover {
+                background: #f9f9f9;
             }
-            .el-checkbox__input {
-                margin-top: 5px;
-            }
+        }
+        .el-checkbox__label {
+            font-size: 12px;
+            padding-right: 15px;
+        }
+        .el-checkbox__input {
+            margin-top: 4px;
         }
     }
 
@@ -95,11 +104,45 @@
         position: absolute;
         height: 10px;
         width: 10px;
-        top: 7px;
+        top: 11px;
         left: 13px;
         border: 1px solid map-get($colors , "border");
         border-radius: 50px; 
     }
+}
+
+.applyed-filters {
+    direction: rtl;
+    margin-bottom: -10px;
+    li {
+        display: inline-flex;
+        align-items: center;
+        color: map-get($colors , "content");
+        font-size: 11px;
+        line-height: 2;
+        margin: 0px 0px 10px 10px;
+        padding: 5px 10px 5px 5px;
+        border: 1px solid #eee;
+        border-radius: 10px;
+    }
+    i {
+        font-size: 15px;
+        margin-right: 5px;
+        padding: 5px;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: background .2s;
+        &:hover {
+            background: #eee;
+        }
+    }
+}
+
+.del-all-filters {
+    position: absolute !important;
+    left: 0;
+    top: -3px;
+    font-size: 12px !important;
 }
 
 .available-products {

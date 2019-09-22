@@ -13,11 +13,13 @@
                     :body-style="{ padding : Res ? '10px 0px 0px' : '10px' }">
                     <mini-card
                         :variation="variation"
-                        :imageSize="150">
+                        :small="Res"
+                        image-class="col-5 col-md-2"
+                        :image-size="Res ? 130 : 150"
+                        info-class="col-7 col-sm-6 col-md-4 py-3 pr-0">
                         <template #before v-if="!Res">
                             <div class="col-sm-1 col-md-1 px-0 flex-center">
-                                <vs-button color="danger" type="border" size="small" icon="close" radius>
-                                </vs-button>
+                                <vs-button color="danger" type="border" size="small" icon="close" radius></vs-button>
                             </div>                                    
                         </template>
 

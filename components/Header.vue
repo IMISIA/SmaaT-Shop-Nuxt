@@ -22,7 +22,7 @@
                     <template v-if="!Res">
                         <!-- Shopping Cart -->
                         <el-badge class="item" :value="Shopping_Cart.length">
-                            <vs-button class="cart-btn px-3" to="/cart" :color="web_color" type="filled"
+                            <vs-button class="cart-btn" to="/cart" :color="web_color" type="filled"
                                 icon-pack="lnr lnr-cart" icon="." icon-after>
                                 سبد خرید    
                             </vs-button>
@@ -71,7 +71,7 @@
                                     
                                     <div class="py-2 px-3" v-else>
                                         <v-btn
-                                            class="fs-13 rounded-7"
+                                            class="as-btn fs-13"
                                             :color="web_color"
                                             block
                                             dark
@@ -427,6 +427,11 @@
                         border-radius: 10px !important;
                     }
 
+                    .cart-btn {
+                        box-shadow: 0px 2px 5px -2px ${this.web_color} !important;
+                        border-radius: 8px !important;
+                    }
+
                     .el-slider__bar ,
                     .vs-dropdown--menu--after {
                         background: ${this.web_color} !important;
@@ -502,7 +507,6 @@
 </script>
 
 <style lang="scss">
-
     .Ctg-list.v-list {
         transform: scaleX(-1);
         padding: 8px;
@@ -542,8 +546,7 @@
         &::placeholder {
             color: rgba(71, 71, 71, 0.6);
         }
-        border-top-left-radius: 0px;
-        border-bottom-left-radius: 0px;
+        border-radius: 0px 8px 8px 0px;
     }
 
     .el-link.el-link--primary {
@@ -552,8 +555,7 @@
 
     .el-search {
         .el-button {
-            border-top-right-radius: 0px;
-            border-bottom-right-radius: 0px;
+            border-radius: 8px 0px 0px 8px;
             height: 40px;
             padding: 0px 15px;
             border-right: none;
@@ -564,5 +566,4 @@
         top: 5px !important;
         right: 15px !important;
     }
-
 </style>

@@ -1,6 +1,28 @@
 <template>
     <div class="filter-bar" :class="{ 'p-3' : Res }">
         <!-- Categories Tree -->
+        <el-card class="am-shadow" v-if="is_exist(ApplyedFilters)">
+            <div class="position-relative" slot="header">
+                <span>فیلتر های اعمال شده:</span>
+                <v-btn
+                    class="del-all-filters"
+                    text
+                    small
+                    color="#ff5252"
+                    @click="DeleteAllFilters">
+                    حذف
+                </v-btn>
+            </div>
+
+            <ul class="applyed-filters">
+                <li v-for="(item,idx) in ApplyedFilters" :key="idx">
+                    {{ item.title +' '+ item.displayName }}
+                    <i class="lnr lnr-cross" @click="DeleteFilters(item.name , item.value)"></i>
+                </li>
+            </ul>
+        </el-card>
+
+        <!-- Categories Tree -->
         <el-card class="am-shadow">
             <div slot="header"> دسته‌بندی نتایج </div>
 
@@ -252,6 +274,10 @@
             ApplyFilters: {
                 type: Function ,
                 required: true
+            } ,
+            DeleteFilters: {
+                type: Function ,
+                required: true
             }
         } ,
 
@@ -271,23 +297,29 @@
             return {
                 Params: {
                     brands: {
+                        title: 'برند' ,
                         query: '' ,
                         value: []
                     } ,
                     sizes: {
+                        title: 'سایز' ,
                         query: '' ,
                         value: []
                     } ,
                     colors: {
+                        title: 'رنگ' ,
                         query: '' ,
                         value: []
                     } ,
                     warranties: {
+                        title: 'گارانتی' ,
                         query: '' ,
                         value: []
                     } ,
                     query: this.$route.query.query ,
                 } ,
+
+                ApplyedFilters: [] ,
                 
                 Available_Products: false ,
 
@@ -333,15 +365,35 @@
 
         methods: {
             SetParams() {
+                let QueryStr = JSON.parse(JSON.stringify(this.$route.query));
+                // Used JSON Function Becuase Modifying Changes Cloned And Original Objects
+                this.ApplyedFilters = [];
+
                 Object.keys(this.Params).slice(0,4).map( el => {
-                    let Val = this.$route.query[el];
+                    let Val = QueryStr[el];
+                    this.Params[el].value = [];
+
                     if(this.is_exist(Val)) {
-                        console.log(Val);
                         typeof Val === 'object'
                         ? this.Params[el].value = Val.map( el => parseInt(el) )
                         : this.Params[el].value = [parseInt(Val)]
+
+                        this.Params[el].value.map( item => {
+                            this.ApplyedFilters.push({
+                                title: this.Params[el].title ,
+                                value: item ,
+                                name: el ,
+                                displayName: this.Filters[el]
+                                    .find( element => element.id == item )[el != 'warranties' ? 'name' : 'title']
+                            })
+                        })
                     }
                 })
+            } ,
+
+            DeleteAllFilters() {
+                this.$router.replace({ query: { page: 1 } })
+                .then( () => this.SetParams() )
             } ,
 
             NodeClick(node) {
@@ -358,7 +410,7 @@
                 setTimeout(function () {
                     $(el).css({
                         opacity: 1 ,
-                        height: '1.6rem'
+                        height: '33.2px'
                     })
                 }, delay)
             } ,
@@ -369,6 +421,7 @@
                     $(el).css({
                         opacity: 0 ,
                         height: 0 ,
+                        padding: 0 ,
                         marginBottom: 0
                     })
                 }, delay)

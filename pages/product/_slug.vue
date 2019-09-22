@@ -4,9 +4,11 @@
             <div class="row mx-0 rtl">
                 <div class="col-md-4 pb-3 pb-md-0" :class="[ Res ? 'border-bottom' : 'border-left' ]">
                     <swiper :options="SwiperOption" ref="SwiperBig">
-                        <swiper-slide v-for="(img,idx) in Valid_Images" :key="idx">
+                        <swiper-slide
+                            v-for="(img,idx) in Valid_Images" :key="idx"
+                            :data-color="img.color_code" :data-index="idx">
                             <v-img
-                                :src="img"
+                                :src="img.src"
                                 width="100%"
                                 max-height="350px"
                                 contain
@@ -18,7 +20,7 @@
                         <swiper-slide v-for="(img,idx) in Valid_Images" :key="idx">
                             <div class="thumb">
                                 <v-img
-                                    :src="img"
+                                    :src="img.src"
                                     max-width="80"
                                     max-height="80"
                                     contain
@@ -27,6 +29,30 @@
                             </div>
                         </swiper-slide>
                     </swiper>
+
+                    <ul class="product-options">
+                        <li>
+                            <el-tooltip class="item" effect="dark" content="علاقه مندی" placement="left">
+                                <v-btn color="#9b9b9b" fab text>
+                                    <i class="flaticon-heart"></i>
+                                </v-btn>
+                            </el-tooltip>
+                        </li>
+                        <li>
+                            <el-tooltip class="item" effect="dark" content="مقایسه" placement="left">
+                                <v-btn color="#9b9b9b" fab text>
+                                    <i class="flaticon-stats"></i>
+                                </v-btn>
+                            </el-tooltip>
+                        </li>
+                        <li>
+                            <el-tooltip class="item" effect="dark" content="اشتراک گذاری" placement="left">
+                                <v-btn color="#9b9b9b" fab text>
+                                    <i class="flaticon-share"></i>
+                                </v-btn>
+                            </el-tooltip>
+                        </li>
+                    </ul>
                 </div>
 
                 <div class="col-md-8 d-flex flex-column">
@@ -34,7 +60,9 @@
                         <h2 class="title"> {{ Product.name || 'بدون نام' }} </h2>
 
                         <div class="attributes" :class="{ 'border-top' : !Res }">
-                            <span class="second-title"> {{ 'سید ایمان اصنافی' || Product.second_name }} </span>
+                            <span class="second-title" v-if="is_exist(Product.second_name)">
+                                {{ Product.second_name }}
+                            </span>
 
                             <div class="row fs-13">
                                 <div class="col-md-6 col-lg-7">
@@ -71,11 +99,11 @@
                                         </div>
                                     </div>
 
-                                    <Variations />
+                                    <Variations :SyncColor="SyncColor"/>
 
                                     <div class="active-spec">
                                         <span> ویژگی های محصول </span>
-                                        <ul>
+                                        <ul class="mb-0">
                                             <li> حافظه داخلی: 256 گیگابایت </li>
                                             <li> مقدار RAM: 3 گیگابایت </li>
                                             <li> رزولوشن عکس: 12.0 مگاپیکسل </li>
@@ -84,7 +112,7 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6 col-lg-5 web-bg-ultra-fade box-info">
+                                <div class="col-md-6 col-lg-5 box-info web-bg-ultra-fade">
                                     <div class="price web-color-dark">
                                         {{ Product.variations[0].sales_price | Num2Fa }}
                                         <span class="fs-13"> تومان </span>
@@ -95,18 +123,11 @@
                                         {{ Product.description }}
                                     </p>
 
-                                    <div>
-                                        <v-btn class="web-grd-from-dark add-to-cart" dark large rounded>
-                                            <i class="lnr lnr-cart"></i>
+                                    <div class="add-to-cart">
+                                        <v-btn class="as-btn" large block>
+                                            <!-- <i class="lnr lnr-cart"></i> -->
+                                            <!-- <i class="flaticon-shopping-cart"></i> -->
                                             افزودن به سبد خرید
-                                        </v-btn>
-                                        
-                                        <v-btn class="web-grd-from-dark mr-2" fab dark small>
-                                            <v-icon dark small>far fa-heart</v-icon>
-                                        </v-btn>
-
-                                        <v-btn class="web-grd-from-dark mr-1" fab dark small>
-                                            <v-icon dark>sync</v-icon>
                                         </v-btn>
                                     </div>
                                 </div>
@@ -114,7 +135,7 @@
                         </div>
                     </div>
 
-                    <div class="features pt-2">
+                    <div class="features">
                         <div class="border rounded h-100">
                             0
                         </div>
@@ -184,7 +205,7 @@
                             photos {
                                 id
                                 file_name
-                                medium
+                                watermark
                                 custom_properties {
                                     color
                                 }
@@ -285,7 +306,7 @@
         data() {
             return {
                 SwiperOption: {
-                    // effect: 'fade'
+                    effect: 'fade'
                 } ,
                 SwiperOptionThumbs: {
                     spaceBetween: 10 ,
@@ -314,12 +335,25 @@
             Valid_Images() {
                 if(this.is_exist(this.Product.photos)) {
                     return this.Product.photos.map( img => {
-                        if(img.medium) return this.$url + img.medium; 
+                        if(img.watermark) return {
+                            src: this.$url + img.watermark ,
+                            color_code : img.custom_properties.color 
+                        }; 
                     });
                 } else {
-                    return '/images/none.png';
+                    return [{
+                        src: '/images/none.png' ,
+                        color_code: null
+                    }];
                 }
             }
+        } ,
+
+        methods: {
+            SyncColor(value) {
+                let idx = $(`[data-color='${value}']`).attr('data-index');
+                this.$refs.SwiperBig.swiper.slideTo(idx , 500)
+            }   
         }
     }
 </script>

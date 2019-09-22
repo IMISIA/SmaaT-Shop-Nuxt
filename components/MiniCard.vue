@@ -6,7 +6,7 @@
             <nuxt-link :to="`/product/${variation.product.slug}/review`">
                 <v-img
                     :src=" is_exist(variation.product.photos)
-                        ? $url + variation.product.photos[0].small
+                        ? $url + variation.product.photos[0][imageProperty]
                         : '/images/none.png' "
                     :height="imageSize"
                     :width="imageSize"
@@ -25,8 +25,11 @@
             </nuxt-link>
 
             <template v-if="hasPrice">
-                <span class="web-color fs-13 text-right">
-                    {{ variation.sales_price | Num2Fa }} تومان
+                <div class="offer-price">
+                    <span> {{ 110000 | Num2Fa }} </span>
+                </div>
+                <span class="product-price web-color" data-price="تومان">
+                    {{ variation.sales_price | Num2Fa }}
                 </span>
             </template>
 
@@ -97,6 +100,10 @@
             imageSize: {
                 type: [Number,String] ,
                 default: '100%'
+            } ,
+            imageProperty: {
+                type: String ,
+                default: 'small'
             } ,
             truncate: {
                 type: Number ,
