@@ -70,7 +70,6 @@
     import { mapState } from 'vuex';
     export default {
         async fetch({ $axios , store , params }) {
-
             if(store.state.product.Requested.spec) return;
 
             let { data } = await $axios({
@@ -121,7 +120,6 @@
             })
 
             store.state.product.Requested.spec = true;
-
         } ,
 
         computed: mapState({

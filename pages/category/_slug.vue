@@ -58,7 +58,7 @@
                             v-for="(product,idx) in Products_Ctg"
                             :key="`res-${idx}`">
                             <MiniCard
-                                :variation="{ product , sales_price: product.variation.sales_price }"
+                                :variation="{ product , sales_price: product.variation ? product.variation.sales_price : null }"
                                 small
                                 image-property="medium"
                                 image-class="col-5"

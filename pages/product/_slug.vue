@@ -67,39 +67,37 @@
                             <div class="row fs-13">
                                 <div class="col-md-6 col-lg-7">
                                     <div class="row">
-                                        <div class="col-12 col-lg-6">
+                                        <div class="col-12 col-lg-6 mb-2" v-if="Product.brand">
                                             برند :
-                                            <span class="web-color">
-                                                {{ Product.brand ? Product.brand.name : 'ندارد' }}
-                                            </span>
+                                            <router-link class="web-color" :to="`/brand/${Product.brand.slug}`">
+                                                {{ Product.brand.name }}
+                                            </router-link>
                                         </div>
 
-                                        <div class="col-12 col-lg-6 mt-2 mt-lg-0">
+                                        <div class="col-12 col-lg-6 mb-2" v-if="is_exist(Product.categories)">
                                             دسته بندی :
-                                            <span class="web-color">
-                                                <template v-if="is_exist(Product.categories)">
-                                                    <nuxt-link class="web-color" :to="`/category/${Product.categories[0].id}`">
-                                                        {{ Product.categories[0].title }}
-                                                    </nuxt-link>
-                                                </template>
-                                                <template v-else>
-                                                    ندارد
-                                                </template>
-                                            </span>
+                                            <nuxt-link class="web-color" :to="`/category/${Product.categories[0].slug}`">
+                                                {{ Product.categories[0].title }}
+                                            </nuxt-link>
                                         </div>
 
-                                        <div class="col-12 col-lg-6 mt-2">
+                                        <div class="col-12 col-lg-6 mb-2" v-if="Product.sending_time">
                                             زمان ارسال :
-                                            <span class="web-color"> {{ Product.sending_time || 'تعریف نشده' }} </span>
+                                            <span class="web-color"> {{ Product.sending_time }} </span>
                                         </div>
 
-                                        <div class="col-12 col-lg-6 mt-2">
+                                        <div class="col-12 col-lg-6 mb-2">
                                             وضعیت :
-                                            <span class="web-color"> آماده ارسال </span>
+                                            <span class="web-color">
+                                                {{ Product.variations && Product.variations.some(el => el.inventory)
+                                                    ? 'آماده ارسال'
+                                                    : 'نا موجود'
+                                                }}
+                                            </span>
                                         </div>
                                     </div>
 
-                                    <Variations :SyncColor="SyncColor"/>
+                                    <Variations v-if="is_exist(Product.variations)" :SyncColor="SyncColor"/>
 
                                     <div class="active-spec">
                                         <span> ویژگی های محصول </span>
@@ -112,7 +110,8 @@
                                     </div>
                                 </div>
 
-                                <div class="col-md-6 col-lg-5 box-info web-bg-ultra-fade">
+                                <div class="col-md-6 col-lg-5 box-info web-bg-ultra-fade"
+                                    v-if="is_exist(Product.variations) && Product.label == null">
                                     <div class="price web-color-dark">
                                         {{ Product.variations[0].sales_price | Num2Fa }}
                                         <span class="fs-13"> تومان </span>
@@ -131,6 +130,26 @@
                                         </v-btn>
                                     </div>
                                 </div>
+
+                                <div class="col-md-6 col-lg-5 box-info web-bg-ultra-fade" v-else>
+                                    <div class="price web-color-dark">
+                                        {{ Product.label ? Product.label.title : 'ناموجود !' }}
+                                    </div>
+
+                                    <p class="product-description">
+                                        <i class="flaticon-info bold fs-14 web-color ml-1"></i>
+                                        {{ Product.label && Product.label.description ?
+                                            Product.label.description
+                                            : 'متاسفانه این کالا در حال حاضر موجود نیست.'
+                                        }}
+                                    </p>
+
+                                    <div class="add-to-cart">
+                                        <v-btn class="as-btn" large block>
+                                            موجود شد اطلاع بده
+                                        </v-btn>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -146,16 +165,20 @@
 
         <el-card class="mt-3" :body-style="{ padding : '0px' }">
             <v-app class="remove-app-class">
-                <v-tabs v-model="TabValue" :background-color="web_color_ultra_fade" :color="web_color" right show-arrows>
-                    <v-tab v-for="tab in Tabs" :key="tab.name" :to="tab.name">
-                        {{ tab.title }}
-                        <v-icon class="ml-2" small> {{ tab.icon }} </v-icon>
-                    </v-tab>
+                <v-tabs v-model="TabValue"
+                    :background-color="web_color_ultra_fade"
+                    :color="web_color" right show-arrows>
+                    <template v-for="tab in Tabs">
+                        <v-tab v-if="checkTabs(tab.name)" :key="tab.name" :to="tab.name">
+                            {{ tab.title }}
+                            <v-icon class="ml-2" small> {{ tab.icon }} </v-icon>
+                        </v-tab>
+                    </template>
                 </v-tabs>
 
                 <v-tabs-items v-model="TabValue">
                     <v-tab-item v-for="tab in Tabs" :key="tab.name" :value="tab.name">
-                        <nuxt-child class="p-4"/>
+                        <nuxt-child v-if="$route.path.endsWith(tab.name)" class="p-4"/>
                     </v-tab-item>
                 </v-tabs-items>
             </v-app>
@@ -195,10 +218,12 @@
                             brand {
                                 id
                                 name
+                                slug
                             }
                             categories {
                                 id
                                 title
+                                slug
                             }
                             description
                             aparat_video
@@ -260,6 +285,12 @@
                                     sales_price
                                 }
                             }
+                            spec {
+                                id
+                                headers {
+                                    id
+                                }
+                            }
                         }
                     }
                 `
@@ -277,14 +308,15 @@
             Variations
         } ,
 
-        beforeCreate() {
-            if(
-                !(this.$route.path.endsWith('review') ||
-                this.$route.path.endsWith('spec') ||
-                this.$route.path.endsWith('comments') ||
-                this.$route.path.endsWith('qa'))
-            ) {
-                this.$router.replace({ path: this.$route.path + '/review' })
+        created() {
+            if(!this.Tabs.some(el => this.$route.path.endsWith(el.name))) {
+                if(this.hasReview || this.hasSpec) {
+                    this.hasReview
+                    ? this.$router.replace({ path: this.$route.path + '/review' })
+                    : this.$router.replace({ path: this.$route.path + '/spec' })
+                } else {
+                    this.$router.replace({ path: this.$route.path + '/comments' })
+                }
             }
         } ,
 
@@ -346,14 +378,42 @@
                         color_code: null
                     }];
                 }
+            } ,
+
+            hasReview() {
+                return !!this.Product.short_review
+                || !!this.Product.expert_review
+                || this.is_exist(this.Product.advantages)
+                || this.is_exist(this.Product.disadvantages);
+            } ,
+
+            hasSpec() {
+                return this.is_exist(this.Product.spec)
+                && this.is_exist(this.Product.spec.headers);
             }
         } ,
 
         methods: {
             SyncColor(value) {
                 let idx = $(`[data-color='${value}']`).attr('data-index');
-                this.$refs.SwiperBig.swiper.slideTo(idx , 500)
-            }   
+                this.$refs.SwiperBig.swiper.slideTo(idx , 500);
+            } ,
+
+            checkTabs(tab) {
+                switch(tab) {
+                    case 'review': {
+                        return this.hasReview;
+                        break;
+                    };
+                    case 'spec': {
+                        return this.hasSpec;
+                        break;
+                    };
+                    default: {
+                        return true;
+                    }
+                } 
+            }
         }
     }
 </script>

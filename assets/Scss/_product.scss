@@ -116,24 +116,41 @@
         display: flex;
         flex-direction: column;
         justify-content: center;
+        margin-top: 8px;
+        margin-bottom: 16px;
         li {
+            position: relative;
             margin-bottom: 12px;
             display: flex;
             align-items: center;
             &:last-child {
                 margin-bottom: 0;
             }
+            &::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: -5px;
+                height: 100%;
+                width: 50px;
+                opacity: 1;
+                bottom: 30px;
+                z-index: 2;
+                background: linear-gradient(to left, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.7) 60%, #ffffff);
+                pointer-events: none;
+            }
         }
         i {
             font-size: 14px;
             margin-left: 8px;
         }
-        .el-radio-group {
-            white-space: nowrap;
-            overflow: auto;
-            &::-webkit-scrollbar {
-                display: none;
+        .warranties {
+            .el-radio-group {
+                width: calc( 100% - 120px ) !important;
             }
+        }
+        .el-radio-group {
+            width: calc( 100% - 105px );
         }
         .el-radio {
             margin: 0px 4px !important;
@@ -146,6 +163,9 @@
         .el-radio__label {
             padding: 0px;
             font-size: 11px !important;
+        }
+        .swiper-slide {
+            width: fit-content;
         }
     }
 
@@ -204,9 +224,13 @@
 
     .ranks {
         background: #fcfcfc;
-        padding: 1.5rem;
+        padding: 24px 24px 5px;
         font-size: 14px;
         border-radius: 7px;
+    }
+
+    .el-slider__runway {
+        margin-top: 7px;
     }
 
     .el-alert__closebtn {
@@ -290,7 +314,7 @@
         }
 
         .box-info {
-            margin-top: 20px;
+            margin: 20px 15px 0px;
         }
 
         .add-to-cart {
@@ -303,5 +327,18 @@
             z-index: 99;
             padding: 10px;
         }
+
+        .attributes {
+            padding-right: 0;
+            padding-left: 0;
+        }
     }
+}
+
+.el-radio__input.is-checked+.el-radio__label {
+    transition: color .3s;
+}
+
+.el-radio.is-bordered.is-checked {
+    transition: border-color .3s;
 }

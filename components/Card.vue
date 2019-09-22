@@ -1,7 +1,7 @@
 <template>
     <div id="card-component" :class="{ 'hover' : Hover }">
         <div class="product-card">
-            <nuxt-link :to="`/product/${Product.slug}/review`">
+            <nuxt-link :to="`/product/${Product.slug}`">
                 <v-img
                     :src=" is_exist(Product.photos) ? $url + Product.photos[0].medium : '/images/none.png' "
                     height="200"
@@ -58,7 +58,7 @@
                 </div>
 
                 <div class="product-info labled text-center" v-else>
-                    <nuxt-link :to="`/product/${Product.slug}/review`">
+                    <nuxt-link :to="`/product/${Product.slug}`">
                         <div class="product-name mb-3"> {{ Product.name | truncate(50) }} </div>
                     </nuxt-link>
 
@@ -74,7 +74,6 @@
 
                     <template v-if="Info">
                         <div class="product-actions ltr d-flex justify-content-center">
-                            
                             <button class="wishlist-btn mr-1">
                                 <i class="flaticon-heart"></i>
                             </button>
@@ -82,7 +81,6 @@
                             <button class="compare-btn">
                                 <i class="flaticon-stats"></i>
                             </button>
-
                         </div>
                     </template>
                 </div>

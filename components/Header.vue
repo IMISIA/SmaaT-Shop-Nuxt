@@ -4,7 +4,7 @@
             <div class="row rtl py-md-2 mx-0">
                 <div class="col-lg-2 col-md-2 col-sm-3 text-left text-md-center">
                     <div class="hamburger hamburger--spin js-hamburger" v-show="Res"
-                        :class="{ 'is-active' : Ctg_drawer }" @click="Ctg_drawer = true">
+                         @click="ctgDrawer = true">
                         <div class="hamburger-box">
                             <div class="hamburger-inner"></div>
                         </div>
@@ -22,8 +22,8 @@
                     <template v-if="!Res">
                         <!-- Shopping Cart -->
                         <el-badge class="item" :value="Shopping_Cart.length">
-                            <vs-button class="cart-btn" to="/cart" :color="web_color" type="filled"
-                                icon-pack="lnr lnr-cart" icon="." icon-after>
+                            <vs-button class="cart-btn" :color="web_color" type="filled"
+                                icon-pack="lnr lnr-cart" icon="." icon-after @click="cartDrawer = true">
                                 سبد خرید    
                             </vs-button>
                         </el-badge>
@@ -90,10 +90,10 @@
                     </template>
 
                     <template v-else>
-                        <el-badge class="item mr-2" :value="Shopping_Cart.length">
-                            <span class="lnr lnr-cart h2"></span>
+                        <el-badge class="res-cart-btn" :value="Shopping_Cart.length">
+                            <span class="lnr lnr-cart h2" @click="cartDrawer = true"></span>
                         </el-badge>
-                        <span class="lnr lnr-user h2 ml-2 mr-3" @click="openModal('login')"></span>
+                        <span class="lnr lnr-user" @click="openModal('login')"></span>
                     </template>
 
                     <div class="el-search d-flex rtl ml-auto" :class=" Res ? 'w-75' : 'w-50' ">
@@ -164,7 +164,7 @@
         </nav>
 
         <v-app>
-            <v-navigation-drawer v-model="Ctg_drawer" mobile-break-point fixed temporary width="300">
+            <v-navigation-drawer v-model="ctgDrawer" mobile-break-point fixed right temporary width="280">
                 <div class="text-center p-3">
                     <img
                         class="site-logo"
@@ -218,7 +218,7 @@
                                 <v-list-item
                                     v-else
                                     :key="sub_1.id"
-                                    @click="Ctg_drawer = Ctg_drawer">
+                                    @click="ctgDrawer = ctgDrawer">
                                     <v-list-item-title class="fs-12">
                                         {{ sub_1.title }}
                                     </v-list-item-title>
@@ -232,7 +232,7 @@
                             v-else
                             :key="ctg.id"
                             :color="web_color"
-                            @click="Ctg_drawer = Ctg_drawer">
+                            @click="ctgDrawer = ctgDrawer">
 
                             <v-list-item-icon>
                                 <v-icon>fas fa-gem</v-icon>
@@ -247,6 +247,9 @@
                     </template>
 
                 </v-list>
+            </v-navigation-drawer>
+
+            <v-navigation-drawer v-model="cartDrawer" mobile-break-point fixed temporary width="320">
             </v-navigation-drawer>
         </v-app>
     </header>
@@ -311,8 +314,8 @@
 
         data() {
             return {
-                Ctg_drawer : false ,
-                Cart_drawer : false ,
+                ctgDrawer : false ,
+                cartDrawer : false ,
 
                 Search : '' ,
                 Loading_Search : false ,
@@ -438,7 +441,8 @@
                     }
 
                     .smt-header .el-input--suffix .el-input__inner ,
-                    .el-search .el-button {
+                    .el-search .el-button ,
+                    .el-radio.is-bordered.is-checked {
                         border-color: ${this.web_color} !important;
                     }
 
@@ -455,8 +459,9 @@
                     .products-ctg .el-radio-button__orig-radio:checked+.el-radio-button__inner:hover {
                         color: #fff !important;
                     }
-                    
+
                     .products-ctg .el-radio-button__inner:hover ,
+                    .el-radio__input.is-checked+.el-radio__label ,
                     .products-ctg .el-radio__input.is-checked+.el-radio__label {
                         color: ${this.web_color} !important;
                     }
@@ -565,5 +570,8 @@
     .el-badge__content.is-fixed {
         top: 5px !important;
         right: 15px !important;
+        @media (max-width:768px) {
+            top: 8px !important;
+        }
     }
 </style>

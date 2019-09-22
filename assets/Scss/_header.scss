@@ -1,6 +1,9 @@
 .site-logo {
     max-height: 50px;
     max-width: 150px;
+    @media (max-width:540px) {
+        max-height: 40px;
+    }
 }
 
 .link-logo {
@@ -79,6 +82,21 @@
             margin-top: 1px;
         }
     }
+
+    .lnr-user {
+        font-size: 31px;
+        margin: 0px 16px 0px 8px;
+        color: map-get($colors , "content");
+    }
+
+    .res-cart-btn {
+        color: map-get($colors , "content");
+        margin-right: 8px;
+        display: flex;
+        .lnr-cart {
+            margin-bottom: 0;
+        }
+    }
 }
 
 .mega-menu {
@@ -125,8 +143,7 @@
 }
 
 .hamburger {
-    padding: 15px 15px;
-    padding-right: 4px;
+    padding: 8px 4px 10px 15px;
     display: flex;
     cursor: pointer;
     transition-property: opacity, filter;
@@ -162,7 +179,7 @@
 
 .hamburger-box {
     width: 35px;
-    height: 24px;
+    height: 20px;
     display: inline-block;
     position: relative;
 }
@@ -173,7 +190,7 @@
     margin-top: -2px;
     width: 35px;
     height: 4px;
-    background-color: map-get($colors, "title");
+    background-color: map-get($colors, "content");
     border-radius: 4px;
     position: absolute;
     transition-property: transform;
@@ -186,7 +203,7 @@
         display: block;
         width: 35px;
         height: 4px;
-        background-color: map-get($colors, "title");
+        background-color: map-get($colors, "content");
         border-radius: 4px;
         position: absolute;
         transition-property: transform;
@@ -234,4 +251,8 @@
             transition: bottom 0.1s ease-out, transform 0.22s 0.12s cubic-bezier(0.215, 0.61, 0.355, 1);
         }
     }
+}
+
+.el-badge__content {
+    pointer-events: none;
 }

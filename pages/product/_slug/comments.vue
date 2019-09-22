@@ -13,7 +13,7 @@
                         {{ item }} :
                     </div>
                     <div class="col-md-7 mb-3" :key="`progress-${idx}`">
-                        <el-progress class="mt-2" :percentage="20*(idx+1)" :color="web_color" :show-text="false"></el-progress>
+                        <el-progress class="mt-2" :percentage="20*(idx+1)" :show-text="false"></el-progress>
                     </div>
                 </template>
             </div>
@@ -22,26 +22,33 @@
         <div class="col-md-6 comments-note">
             <span> شما هم می‌توانید در مورد این کالا نظر بدهید. </span>
             <p> برای ثبت نظر، لازم است ابتدا وارد حساب کاربری خود شوید.  </p>
-            <v-btn class="web-grd-from-dark fs-12 px-4" dark  @click="NewComment.Dialog = true">
+            <v-btn class="as-btn fs-12" large @click="NewComment.Dialog = true">
                 {{ $auth ? 'افزودن نظر جدید' : 'ابتدا وارد شوید' }}
             </v-btn>
         </div>
 
-        <vs-popup
-            class="add-comment single-product"
-            title="ثبت نظر"
-            :active.sync="NewComment.Dialog">
-            <v-app remove-app-class>
+        <!-- Add CM -->
+        <v-dialog v-model="NewComment.Dialog" width="600" :fullscreen="Res">
+            <div class="dialog-title web-bg-ultra-fade">
+                <v-btn text icon small>
+                    <v-icon @click="NewComment.Dialog = false">close</v-icon>
+                </v-btn>
+                <span> ثبت نظر </span>
+            </div>
+
+            <v-divider></v-divider>
+
+            <div class="dialog-content single-product">
                 <v-form v-model="NewComment.isValid">
                     <div class="row rtl mx-0">
-                        <div class="col-md-12 ranks web-bg-ultra-fade mb-3">
+                        <div class="col-md-12 ranks mb-3">
                             <div class="row">
                                 <template v-for="(item,idx) in ['کیفیت ساخت','ارزش خرید','نوآوری','امکانات','سرعت']">
                                     <div class="col-md-5 mb-0 mb-md-3" :key="idx">
                                         {{ item }} :
                                     </div>
                                     <div class="col-md-7 mb-3" :key="`progress-${idx}`">
-                                        <vs-slider class="my-2" ticks :color="web_color" :step="20" v-model="NewComment.ranks[idx]"/>
+                                        <el-slider v-model="NewComment.ranks[idx]" :max="5" :step="1" :show-tooltip="false"></el-slider>
                                     </div>
                                 </template>
                             </div>
@@ -54,6 +61,7 @@
                                 label="عنوان نظر را وارد کنید"
                                 reverse
                                 single-line
+                                :rules="[rules.required]"
                                 outlined>
                             </v-text-field>
                         </div>
@@ -66,11 +74,12 @@
                                 :rows="3"
                                 reverse
                                 single-line
+                                :rules="[rules.required]"
                                 outlined>
                             </v-textarea>
                         </div>
 
-                        <div class="col-md-6 input">
+                        <div class="col-md-6 input mb-5 mb-md-0">
                             <span class="title-input">
                                 <i class="fas fa-check ml-1 Advantages"></i>
                                 نقاط قوت
@@ -125,12 +134,12 @@
                         </div>
 
                         <div class="col-12 mt-5 text-left">
-                            <v-btn class="web-grd-from-dark" block :disabled="!NewComment.isValid" dark> ثبت </v-btn>
+                            <v-btn class="as-btn" block :disabled="!NewComment.isValid" large> ثبت </v-btn>
                         </div>
                     </div>
                 </v-form>
-            </v-app>
-        </vs-popup>
+            </div>
+        </v-dialog>
     </section>
 </template>
 
@@ -194,10 +203,12 @@
 
         data() {
             return {
+                Res : process.client ? this.$nuxt.$el.clientWidth < 770 : false ,
+
                 NewComment: {
                     Dialog: false ,
                     isValid: false ,
-                    ranks: [40,40,40,40,40] ,
+                    ranks: [3,3,3,3,3] ,
                     title: '' ,
                     content: '' ,
                     advantages: {
@@ -208,6 +219,10 @@
                         title: '' ,
                         value: []               
                     } ,
+                } ,
+
+                rules : {
+                    required: value => !!value || 'این فیلد الزامی است',
                 }
             }
         } ,

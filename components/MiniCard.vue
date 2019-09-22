@@ -3,7 +3,7 @@
         <slot name="before"></slot>
 
         <div :class="imageClass">
-            <nuxt-link :to="`/product/${variation.product.slug}/review`">
+            <nuxt-link :to="`/product/${variation.product.slug}`">
                 <v-img
                     :src=" is_exist(variation.product.photos)
                         ? $url + variation.product.photos[0][imageProperty]
@@ -18,19 +18,28 @@
         </div>
 
         <div :class="infoClass" class="d-flex flex-column justify-content-between">
-            <nuxt-link :to="`/product/${variation.product.slug}/review`">
+            <nuxt-link :to="`/product/${variation.product.slug}`">
                 <h3 class="product-name" :class="{ 'small':small , 'mini':mini }">
                     {{ variation.product.name | truncate(truncate) }}
                 </h3>
             </nuxt-link>
 
             <template v-if="hasPrice">
-                <div class="offer-price">
-                    <span> {{ 110000 | Num2Fa }} </span>
-                </div>
-                <span class="product-price web-color" data-price="تومان">
-                    {{ variation.sales_price | Num2Fa }}
-                </span>
+                <template v-if="is_exist(variation.product.variation) && variation.product.label == null">
+                    <div class="offer-price">
+                        <span> {{ 110000 | Num2Fa }} </span>
+                    </div>
+                    <span class="product-price web-color" data-price="تومان">
+                        {{ variation.sales_price | Num2Fa }}
+                    </span>
+                </template>
+
+                <template v-else>
+                    <vs-alert class="text-center" 
+                        :color=" variation.product.label ? variation.product.label.color : 'rgb(231, 154, 23)' " active="true">
+                        <span> {{ variation.product.label ? variation.product.label.title : 'ناموجود !' }} </span>
+                    </vs-alert>
+                </template>
             </template>
 
             <template v-if="hasVariations">
