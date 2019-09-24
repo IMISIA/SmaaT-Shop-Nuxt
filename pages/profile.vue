@@ -5,12 +5,13 @@
                 <el-card class="am-shadow" :body-style="{ padding : '0' }">
                     <div class="box-header web-bg-ultra-fade">
                         <v-avatar size="80">
-                            <img src="/images/user.png" class="mb-n5" alt="avatar">
+                            <img :src=" Me.avatar && Me.avatar.small ? $url + Me.avatar.small : '/images/user.png' "
+                                class="mb-n5" alt="avatar">
                         </v-avatar>
                     </div>
 
                     <div class="box-username">
-                        سید ایمان اصنافی
+                        {{ Me.full_name }}
                     </div>
 
                     <div class="box-actions row">
@@ -52,6 +53,7 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex';
     export default {
         validate({ store }) {
             return typeof store.state.Me === 'object' && Object.keys(store.state.Me).length !== 0 ? true : false;
@@ -69,6 +71,11 @@
                 ]    
             }
         } ,
+
+        computed: mapState([
+            '$url' ,
+            'Me'
+        ]) ,
 
         methods: {
             RouterMenu(event) {

@@ -5,7 +5,7 @@
             v-model="$modals.login"
             @click:outside="closeModal('login')"
             width="370"
-            :fullscreen="Res">
+            :fullscreen="$nuxt.$res">
             <div class="dialog-title web-bg-ultra-fade">
                 <v-btn text icon small @click="closeModal('login')">
                     <v-icon>close</v-icon>
@@ -62,7 +62,7 @@
             v-model="$modals.register"
             @click:outside="closeModal('register')"
             width="370"
-            :fullscreen="Res">
+            :fullscreen="$nuxt.$res">
             <div class="dialog-title web-bg-ultra-fade">
                 <v-btn text icon small @click="closeModal('register')">
                     <v-icon>close</v-icon>
@@ -130,7 +130,7 @@
             v-model="$modals.resetPass"
             @click:outside="closeModal('resetPass')"
             width="370"
-            :fullscreen="Res">
+            :fullscreen="$nuxt.$res">
             <div class="dialog-title web-bg-ultra-fade">
                 <v-btn text icon small @click="closeModal('resetPass')">
                     <v-icon>close</v-icon>
@@ -185,8 +185,6 @@
     export default {
         data() {
             return {
-                Res : process.client ? this.$nuxt.$el.clientWidth < 770 : false ,
-
                 login: {
                     valid: false ,
                     loading: false ,

@@ -25,7 +25,7 @@
             </nuxt-link>
 
             <template v-if="hasPrice">
-                <template v-if="is_exist(variation.product.variation) && variation.product.label == null">
+                <template v-if="is_exist(variation.product.variation) && !variation.product.label">
                     <div class="offer-price">
                         <span> {{ 110000 | Num2Fa }} </span>
                     </div>
@@ -59,14 +59,18 @@
                     </li>
                 </ul>
 
-                <ul class="variations-small" :class="{ 'mini':mini }" v-else>
-                    <li v-if="variation.warranty">
+                <ul class="variations-small" :class="{ 'mini':mini , 'flex-column' : allSmallVariations }" v-else>
+                    <li v-if="count">
+                        {{ count | Num2Fa }} عدد
+                    </li>
+                    <li class="d-inline-flex" v-if="variation.color">
+                        <span class="el-color-small" :style="{ backgroundColor : variation.color.code }"></span>
+                        {{ variation.color.name }}
+                    </li>
+                    <li v-if="variation.warranty && allSmallVariations">
                         گارانتی {{ variation.warranty.title }}
                     </li>
-                    <li v-if="variation.color">
-                        رنگ {{ variation.color.name }}
-                    </li>
-                    <li v-if="variation.size">
+                    <li v-if="variation.size && allSmallVariations">
                         سایز {{ variation.size.name }}
                     </li>
                 </ul>
@@ -92,6 +96,10 @@
                 type: Boolean ,
                 default: true
             } ,
+            allSmallVariations: {
+                type: Boolean ,
+                default: true
+            } ,
             small: {
                 type: Boolean ,
             } ,
@@ -113,6 +121,9 @@
             imageProperty: {
                 type: String ,
                 default: 'small'
+            } ,
+            count: {
+                type: [Number,String]
             } ,
             truncate: {
                 type: Number ,

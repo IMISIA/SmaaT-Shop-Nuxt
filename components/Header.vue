@@ -4,7 +4,7 @@
             <div class="row rtl py-md-2 mx-0">
                 <div class="col-lg-2 col-md-2 col-sm-3 text-left text-md-center">
                     <div class="hamburger hamburger--spin js-hamburger" v-show="Res"
-                         @click="ctgDrawer = true">
+                         @click="drawerCtg = true">
                         <div class="hamburger-box">
                             <div class="hamburger-inner"></div>
                         </div>
@@ -23,7 +23,7 @@
                         <!-- Shopping Cart -->
                         <el-badge class="item" :value="Shopping_Cart.length">
                             <vs-button class="cart-btn" :color="web_color" type="filled"
-                                icon-pack="lnr lnr-cart" icon="." icon-after @click="cartDrawer = true">
+                                icon-pack="lnr lnr-cart" icon="." icon-after @click="drawerCart = true">
                                 سبد خرید    
                             </vs-button>
                         </el-badge>
@@ -91,7 +91,7 @@
 
                     <template v-else>
                         <el-badge class="res-cart-btn" :value="Shopping_Cart.length">
-                            <span class="lnr lnr-cart h2" @click="cartDrawer = true"></span>
+                            <span class="lnr lnr-cart h2" @click="drawerCart = true"></span>
                         </el-badge>
                         <span class="lnr lnr-user" @click="openModal('login')"></span>
                     </template>
@@ -164,7 +164,7 @@
         </nav>
 
         <v-app>
-            <v-navigation-drawer v-model="ctgDrawer" mobile-break-point fixed right temporary width="280">
+            <v-navigation-drawer v-model="drawerCtg" mobile-break-point fixed right temporary width="280">
                 <div class="text-center p-3">
                     <img
                         class="site-logo"
@@ -174,7 +174,7 @@
 
                 <span class="d-block border-top w-75 m-auto"></span>
 
-                <v-list class="Ctg-list" dense shaped>
+                <v-list class="ctg-list" dense shaped>
                     <template v-for="ctg in Categories">
 
                         <v-list-group
@@ -218,7 +218,7 @@
                                 <v-list-item
                                     v-else
                                     :key="sub_1.id"
-                                    @click="ctgDrawer = ctgDrawer">
+                                    @click="drawerCtg = drawerCtg">
                                     <v-list-item-title class="fs-12">
                                         {{ sub_1.title }}
                                     </v-list-item-title>
@@ -232,7 +232,7 @@
                             v-else
                             :key="ctg.id"
                             :color="web_color"
-                            @click="ctgDrawer = ctgDrawer">
+                            @click="drawerCtg = drawerCtg">
 
                             <v-list-item-icon>
                                 <v-icon>fas fa-gem</v-icon>
@@ -245,11 +245,50 @@
                         </v-list-item>
 
                     </template>
-
                 </v-list>
             </v-navigation-drawer>
 
-            <v-navigation-drawer v-model="cartDrawer" mobile-break-point fixed temporary width="320">
+            <v-navigation-drawer v-model="drawerCart" mobile-break-point fixed temporary width="340">
+                <v-toolbar>
+                    <v-btn color="#808695" fab small text @click="drawerCart = false">
+                        <v-icon class="fs-20">fas fa-arrow-left</v-icon>
+                    </v-btn>
+
+                    <div class="flex-grow-1"></div>
+
+                    <v-btn text :color="web_color" to="/cart">
+                        مشاهده سبد خرید
+                    </v-btn>
+                </v-toolbar>
+
+                <section class="drawer-cart-content web-bg-ultra-fade">
+                    <mini-card
+                        v-for="item in Shopping_Cart"
+                        :key="item.id"
+                        :variation="item.variation"
+                        :count="item.count"
+                        mini
+                        :all-small-variations="false"
+                        image-class="col-4 pr-0"
+                        :image-size="80"
+                        info-class="col-8 pr-0 py-2">
+                    </mini-card>
+                </section>
+
+                <div class="drawer-cart-action">
+                    <div class="drawer-final-price">
+                        <span class="final-price-text">مبلغ قابل پرداخت</span>
+
+                        <span class="final-price-amount" data-price="تومان">
+                            {{ finalPrice | Num2Fa }}
+                        </span>
+                    </div>
+
+                    <v-btn class="as-btn" large block to="/checkout">
+                        نهایی کردن سفارش
+                        <v-icon class="ml-3">check</v-icon>
+                    </v-btn>
+                </div>
             </v-navigation-drawer>
         </v-app>
     </header>
@@ -257,10 +296,15 @@
 
 <script>
     import { mapState , mapMutations } from 'vuex';
-    import mixin from '~/mixins/mixin'
+    import mixin from '~/mixins/mixin';
+    import MiniCard from '~/components/MiniCard.vue';
 
     export default {
         mixins : [mixin] ,
+
+        components: {
+            MiniCard
+        } ,
 
         created() {
             if(process.client) this.Dynamic_Color();
@@ -314,8 +358,8 @@
 
         data() {
             return {
-                ctgDrawer : false ,
-                cartDrawer : false ,
+                drawerCtg : false ,
+                drawerCart : false ,
 
                 Search : '' ,
                 Loading_Search : false ,
@@ -342,7 +386,12 @@
                 'Me' ,
                 'Shopping_Cart' ,
                 'Categories'
-            ])
+            ]) ,
+
+            finalPrice() {
+                return this.Shopping_Cart.reduce( (total,el) => total + el.count * el.variation.sales_price , 0 )
+                + 10000 - 7500;
+            }
         } ,
 
         methods : {
@@ -512,7 +561,7 @@
 </script>
 
 <style lang="scss">
-    .Ctg-list.v-list {
+    .ctg-list {
         transform: scaleX(-1);
         padding: 8px;
         .v-list-item__title {
@@ -520,13 +569,13 @@
             text-align: right;
             font-size: 12px !important;
         }
-    }
-
-    .v-navigation-drawer {
         .v-icon {
             font-size: 18px !important;
             margin-top: 4px;
         }
+    }
+
+    .v-navigation-drawer {
         .v-list-item__icon {
             margin-right: 18px !important;
         }

@@ -22,16 +22,58 @@
         <div class="col-md-6 comments-note">
             <span> شما هم می‌توانید در مورد این کالا نظر بدهید. </span>
             <p> برای ثبت نظر، لازم است ابتدا وارد حساب کاربری خود شوید.  </p>
-            <v-btn class="as-btn fs-12" large @click="NewComment.Dialog = true">
+            <v-btn class="as-btn fs-12" large @click="NewComment.actions.modal = true">
                 {{ $auth ? 'افزودن نظر جدید' : 'ابتدا وارد شوید' }}
             </v-btn>
         </div>
 
+        <section class="list-comments">
+            <div class="list-comments-header">
+                نظرات کاربران
+                <span>
+                    ( {{ 40 | Num2Fa }} نظر )
+                </span>
+            </div>
+
+            <ul>
+                <li class="row web-bg-ultra-fade" v-for="n in 3" :key="n">
+                    <div class="col-md-3 col-lg-2 comment-writer">
+                        <v-avatar size="70">
+                            <img src="/images/user.png" alt="avatar">
+                        </v-avatar>
+
+                        <p>
+                            سید ایمان اصنافی
+                            <el-tooltip effect="dark" content="در روز فلان" placement="top">
+                                <span> 23 ساعت پیش </span>
+                            </el-tooltip>
+                        </p>
+                    </div>
+
+                    <div class="col-md-9 col-lg-10 comment-content">
+                        <span> سایت بسیلر خوبیه اتفاقا </span>
+
+                        <p> لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. </p>
+
+                        <div class="comment-actions">
+                            <div class="alert alert-danger">تایید نشده</div>
+
+                            <v-spacer></v-spacer>
+
+                            <v-btn class="web-color-dark" text>
+                                به این پرسش پاسخ دهید (۱ پاسخ)
+                            </v-btn>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
         <!-- Add CM -->
-        <v-dialog v-model="NewComment.Dialog" width="600" :fullscreen="Res">
+        <v-dialog v-model="NewComment.actions.modal" width="600" :fullscreen="$nuxt.$res">
             <div class="dialog-title web-bg-ultra-fade">
                 <v-btn text icon small>
-                    <v-icon @click="NewComment.Dialog = false">close</v-icon>
+                    <v-icon @click="NewComment.actions.modal = false">close</v-icon>
                 </v-btn>
                 <span> ثبت نظر </span>
             </div>
@@ -39,47 +81,41 @@
             <v-divider></v-divider>
 
             <div class="dialog-content single-product">
-                <v-form v-model="NewComment.isValid">
-                    <div class="row rtl mx-0">
-                        <div class="col-md-12 ranks mb-3">
-                            <div class="row">
-                                <template v-for="(item,idx) in ['کیفیت ساخت','ارزش خرید','نوآوری','امکانات','سرعت']">
-                                    <div class="col-md-5 mb-0 mb-md-3" :key="idx">
-                                        {{ item }} :
-                                    </div>
-                                    <div class="col-md-7 mb-3" :key="`progress-${idx}`">
-                                        <el-slider v-model="NewComment.ranks[idx]" :max="5" :step="1" :show-tooltip="false"></el-slider>
-                                    </div>
-                                </template>
+                <v-form v-model="NewComment.actions.valid">
+                    <div class="row ranks mb-4">
+                        <template v-for="(item,idx) in ['کیفیت ساخت','ارزش خرید','نوآوری','امکانات','سرعت']">
+                            <div class="col-md-5 mb-0 mb-md-3" :key="idx">
+                                {{ item }} :
                             </div>
-                        </div>
+                            <div class="col-md-7 mb-3" :key="`progress-${idx}`">
+                                <el-slider v-model="NewComment.ranks[idx]" :max="5" :step="1" :show-tooltip="false"></el-slider>
+                            </div>
+                        </template>
+                    </div>
 
-                        <div class="col-12 input">
-                            <span class="title-input required"> عنوان نظر </span>
-                            <v-text-field
-                                v-model="NewComment.title"
-                                label="عنوان نظر را وارد کنید"
-                                reverse
-                                single-line
-                                :rules="[rules.required]"
-                                outlined>
-                            </v-text-field>
-                        </div>
+                    <span class="title-input required"> عنوان نظر </span>
+                    <v-text-field
+                        v-model="NewComment.title"
+                        label="عنوان نظر را وارد کنید"
+                        reverse
+                        single-line
+                        :rules="[rules.required]"
+                        outlined>
+                    </v-text-field>
 
-                        <div class="col-12">
-                            <span class="title-input required"> متن نظر </span>
-                            <v-textarea
-                                v-model="NewComment.content"
-                                label="متن نظر را وارد کنید"
-                                :rows="3"
-                                reverse
-                                single-line
-                                :rules="[rules.required]"
-                                outlined>
-                            </v-textarea>
-                        </div>
+                    <span class="title-input required"> متن نظر </span>
+                    <v-textarea
+                        v-model="NewComment.content"
+                        label="متن نظر را وارد کنید"
+                        :rows="3"
+                        reverse
+                        single-line
+                        :rules="[rules.required]"
+                        outlined>
+                    </v-textarea>
 
-                        <div class="col-md-6 input mb-5 mb-md-0">
+                    <div class="row rtl">
+                        <div class="col-md-6">
                             <span class="title-input">
                                 <i class="fas fa-check ml-1 Advantages"></i>
                                 نقاط قوت
@@ -91,7 +127,6 @@
                                 @click:prepend-inner="Add_Adv(true)"
                                 @keyup.native.enter="Add_Adv(true)"
                                 reverse
-                                hide-details
                                 single-line
                                 outlined>
                             </v-text-field>
@@ -106,7 +141,7 @@
                             </el-alert>
                         </div>
 
-                        <div class="col-md-6 input">
+                        <div class="col-md-6">
                             <span class="title-input">
                                 <i class="fas fa-times ml-1 Disadvantages"></i>
                                 نقاط ضعف
@@ -118,7 +153,6 @@
                                 @click:prepend-inner="Add_Adv(false)"
                                 @keyup.native.enter="Add_Adv(false)"
                                 reverse
-                                hide-details
                                 single-line
                                 outlined>
                             </v-text-field>
@@ -132,11 +166,10 @@
                                 @close="Delete_Adv(false,item)">
                             </el-alert>
                         </div>
-
-                        <div class="col-12 mt-5 text-left">
-                            <v-btn class="as-btn" block :disabled="!NewComment.isValid" large> ثبت </v-btn>
-                        </div>
                     </div>
+
+                    <v-btn class="as-btn" block
+                        :disabled="!NewComment.actions.valid" :loading="NewComment.actions.loading" large> ثبت </v-btn>
                 </v-form>
             </div>
         </v-dialog>
@@ -146,7 +179,6 @@
 <script>
     import { mapState } from 'vuex';
     export default {
-
         async fetch({ $axios , store , params }) {
             if(store.state.product.Requested.comments) return;
 
@@ -203,11 +235,7 @@
 
         data() {
             return {
-                Res : process.client ? this.$nuxt.$el.clientWidth < 770 : false ,
-
                 NewComment: {
-                    Dialog: false ,
-                    isValid: false ,
                     ranks: [3,3,3,3,3] ,
                     title: '' ,
                     content: '' ,
@@ -219,6 +247,11 @@
                         title: '' ,
                         value: []               
                     } ,
+                    actions: {
+                        modal: false ,
+                        valid: false ,
+                        loading: false
+                    }
                 } ,
 
                 rules : {

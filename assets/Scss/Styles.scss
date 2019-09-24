@@ -181,6 +181,17 @@ hr.v-divider {
     font-weight: bold !important;
 }
 
+#back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 90;
+    transition: right .5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    &.hidden {
+        right: -50px;
+    }
+}
+
 .rounded-7 {
     border-radius: 7px !important;
 }
@@ -468,4 +479,8 @@ span.title-field {
         padding-left: 12px !important;
         margin-top: 0px !important;
     }
+}
+
+.vs-button--icon {
+    z-index: inherit !important;
 }

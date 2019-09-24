@@ -26,7 +26,6 @@
                         <template #after>
                             <div class="col-6 col-md-2 input-number my-2 mt-lg-0">
                                 <div class="d-inline-block">
-                                    <!-- <vs-input-number v-model="Quantities[variation.id]" :color="web_color"/> -->
                                     <el-input-number v-model="Quantities[variation.id]" :min="1" size="small"></el-input-number>
                                 </div>
                             </div>
@@ -58,6 +57,7 @@
     import { mapState } from 'vuex';
     import cartAside from '~/components/CartAside.vue';
     import miniCard from '~/components/MiniCard.vue';
+    
     export default {
         mixins: [mixin] ,
 

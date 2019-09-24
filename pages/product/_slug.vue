@@ -113,7 +113,7 @@
                                 <div class="col-md-6 col-lg-5 box-info web-bg-ultra-fade"
                                     v-if="is_exist(Product.variations) && Product.label == null">
                                     <div class="price web-color-dark">
-                                        {{ Product.variations[0].sales_price | Num2Fa }}
+                                        {{ Product.variations[0].sales_price * Quantity | Num2Fa }}
                                         <span class="fs-13"> تومان </span>
                                     </div>
 
@@ -121,6 +121,10 @@
                                         <i class="flaticon-info bold fs-14 web-color ml-1"></i>
                                         {{ Product.description }}
                                     </p>
+
+                                    <div class="input-number">
+                                        <vs-input-number v-model="Quantity" label="عدد" :color="web_color_dark"/>
+                                    </div>
 
                                     <div class="add-to-cart">
                                         <v-btn class="as-btn" large block>
@@ -178,11 +182,19 @@
 
                 <v-tabs-items v-model="TabValue">
                     <v-tab-item v-for="tab in Tabs" :key="tab.name" :value="tab.name">
-                        <nuxt-child v-if="$route.path.endsWith(tab.name)" class="p-4"/>
+                        <nuxt-child v-if="$route.path.endsWith(tab.name)" class="p-3 p-md-4"/>
                     </v-tab-item>
                 </v-tabs-items>
             </v-app>
         </el-card>
+
+        <product-slider class="pt-3"
+            :Products="{
+                title: 'محصولات جانبی' ,
+                data: Accessories ,
+                size: 12
+            }"
+        />
     </section>
 </template>
 
@@ -190,6 +202,7 @@
     import mixin from '~/mixins/mixin';
     import { mapState } from 'vuex';
     import Variations from '~/components/Variations.vue';
+    import ProductSlider from '~/components/ProductSlider.vue';
 
     export default {
         mixins: [mixin] ,
@@ -305,7 +318,8 @@
         } ,
 
         components: {
-            Variations
+            Variations ,
+            ProductSlider
         } ,
 
         created() {
@@ -348,6 +362,8 @@
                     slideToClickedSlide: true
                 } ,
 
+                Quantity: 1 ,
+
                 TabValue: null ,
                 Tabs: [
                     { name: 'qa' , title: 'پرسش و پاسخ' , icon: 'far fa-question-circle' } ,
@@ -361,7 +377,8 @@
         computed: {
             ...mapState({
                 $url: '$url' ,
-                Product: state => state.product.Single_Product ,
+                Accessories: state => state.product.Products ,
+                Product: state => state.product.Single_Product
             }) ,
 
             Valid_Images() {

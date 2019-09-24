@@ -1,5 +1,5 @@
 <template>
-    <v-dialog class="add-address" v-model="modal" width="1000" :fullscreen="Res" persistent>
+    <v-dialog class="add-address" v-model="modal" width="1000" :fullscreen="$nuxt.$res" persistent>
         <div class="dialog-title web-bg-ultra-fade">
             <v-btn text icon small @click="closeModal()">
                 <v-icon>close</v-icon>
@@ -183,7 +183,6 @@
 
         data() {
             return {
-                Res : process.client ? this.$nuxt.$el.clientWidth < 770 : false ,
                 newAddress: {
                     valid: false ,
                     loading: false ,

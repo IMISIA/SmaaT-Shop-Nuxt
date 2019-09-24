@@ -126,6 +126,7 @@ export const actions = {
                                 }
                                 color {
                                     name
+                                    code
                                 }
                                 size {
                                     name
@@ -134,10 +135,16 @@ export const actions = {
                                     id
                                     name
                                     slug
+                                    label {
+                                        title
+                                    }
                                     photos {
                                         id
                                         file_name
                                         small
+                                    }
+                                    variation {
+                                        id
                                     }
                                 }
                             }
@@ -231,7 +238,6 @@ export const actions = {
             }
         })
     } ,
-
 
     // Payloads : type , name , params , resQuery , resolverBefore(state) , resolverAfter(state , data)
     Request(state , pld) {
