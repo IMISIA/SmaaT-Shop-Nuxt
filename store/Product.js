@@ -14,6 +14,8 @@ export const state = () => ({
         spec: [] ,
     } ,
 
+    Brand_Info: {} ,
+
     Single_Product : {} ,
     Variations_Select : 0 ,
     Validate_Price : true ,

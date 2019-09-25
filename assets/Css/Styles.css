@@ -1,3 +1,10 @@
+.header-banner {
+  z-index: 999;
+}
+.header-banner .v-responsive {
+  z-index: 999;
+}
+
 .site-logo {
   max-height: 50px;
   max-width: 150px;
@@ -607,6 +614,12 @@
   color: rgba(255, 71, 87, 0.71) !important;
 }
 
+.category > .row {
+  direction: rtl;
+  margin: 0 !important;
+  padding-top: 16px;
+}
+
 .filter-bar {
   height: fit-content;
   z-index: 2;
@@ -846,6 +859,7 @@
 }
 
 .filter-btn {
+  direction: ltr;
   text-align: center;
   margin-bottom: 15px;
 }
@@ -891,6 +905,37 @@
 }
 #categories-overlay.show {
   opacity: 1;
+}
+
+.brand-info {
+  padding: 20px;
+}
+.brand-info .brand-logo {
+  height: 140px;
+  width: 140px;
+  margin: auto;
+  padding: 10px;
+  background-color: #fff;
+  background-size: 80% 80%;
+  background-repeat: no-repeat;
+  background-position: center;
+  border-radius: 10px;
+  box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.1);
+}
+.brand-info .brand-title {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 20px;
+}
+.brand-info > p {
+  font-size: 12px;
+  margin-bottom: 0;
+  text-align: center;
+  line-height: 2.2;
+  color: #767676;
+  margin-top: 15px;
 }
 
 .single-product {
@@ -1757,7 +1802,7 @@ footer {
   background: #fafafa;
   border-top: 1.5px solid #dcdee2;
   text-align: right;
-  margin-top: 40px;
+  margin-top: 20px;
   padding: 25px 0px;
 }
 footer h1, footer .col-header {
@@ -1816,7 +1861,7 @@ footer .col-list a:hover {
   width: 100px;
 }
 
-@media (max-width: 770px) {
+@media (max-width: 768px) {
   footer .container {
     padding-right: 1.5rem !important;
     padding-left: 1.5rem !important;
@@ -1970,6 +2015,48 @@ legend {
 @keyframes dots {
   50% {
     transform: translateX(-31px);
+  }
+}
+.fadeInUp {
+  animation-name: fadeInUp;
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+  -webkit-animation-name: fadeInUp;
+  -webkit-animation-duration: 0.5s;
+  -webkit-animation-fill-mode: both;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 5%, 0);
+    -webkit-transform: translate3d(0, 5%, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
+  }
+}
+.fadeOutDown {
+  animation-name: fadeOutDown;
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+  -webkit-animation-name: fadeOutDown;
+  -webkit-animation-duration: 0.5s;
+  -webkit-animation-fill-mode: both;
+}
+
+@keyframes fadeOutDown {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    -webkit-transform: translate3d(0, 0, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(0, 5%, 0);
+    -webkit-transform: translate3d(0, 5%, 0);
   }
 }
 hr.v-divider {

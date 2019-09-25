@@ -75,18 +75,7 @@ export default {
         } ,
 
         DynamicSidebar(target, checker, top = 0) {
-            let helper = {
-                target: $(`<div class="helper-${target.substr(1)}"></div>`).insertAfter(target) ,
-                offsetFromTop() {
-                    return this.target.offset().top;
-                }
-            }
-
-            helper.target.css({
-                position: 'absolute',
-                top: '0' ,
-                width: '100%' ,
-            })
+            let firstPosition = $(target).offset().top;
 
             let element = {
                 target: $(target) ,
@@ -138,7 +127,7 @@ export default {
 
                 if(
                     element.height() < $(checker).outerHeight() &&
-                    scrollFromTop > (helper.offsetFromTop() - top)
+                    scrollFromTop > (firstPosition - top)
                 ) {
                     if(element.reachDown()) {
                         (scrollFromTop + top) < element.offsetFromTop() ? element.fixed() : element.absolute();

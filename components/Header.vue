@@ -119,7 +119,7 @@
             <ul class="rtl">
                 <span class="ctg-hover web-bg"></span>
                 <li class="ctg-item" v-for="ctg in Categories" :key="ctg.id">
-                    <nuxt-link :to="`/category/${ctg.slug}`">
+                    <nuxt-link :to="`/category/${ctg.id}`">
                         {{ ctg.title }}
                         <i class="lnr lnr-chevron-down mr-2" v-if="is_exist(ctg.childs)"></i>
                     </nuxt-link>
@@ -129,7 +129,7 @@
                             <div class="col-md-8">
                                 <div class="row flex-column">
                                     <div class="col-4 col-lg-3 mb-1" v-for="sub_1 in ctg.childs" :key="sub_1.id">
-                                        <nuxt-link :to="`/category/${sub_1.slug}`">
+                                        <nuxt-link :to="`/category/${sub_1.id}`">
                                             <p class="sub_1 web-color">
                                                 <i class="lnr lnr-chevron-left bold"></i>
                                                 {{ sub_1.title }}
@@ -137,7 +137,7 @@
                                         </nuxt-link>
                                         <ul class="sub_2" v-if="is_exist(sub_1.childs)">
                                             <li v-for="sub_2 in sub_1.childs" :key="sub_2.id">
-                                                <nuxt-link :to="`/category/${sub_2.slug}`">
+                                                <nuxt-link :to="`/category/${sub_2.id}`">
                                                     {{ sub_2.title }}
                                                 </nuxt-link>
                                             </li>
@@ -325,14 +325,19 @@
                         if( $(this).find('i.lnr-chevron-down').length ) {
                             $('#categories-overlay').addClass('show');
                         }
-                        $(this).find('div.mega-menu').addClass('d-block');
+                        $(this).find('div.mega-menu').removeClass('d-block fadeOutDown').addClass('d-block fadeInUp');
                     } ,
                     function () {
                         $('.ctg-hover').css({
                             transform: ''
                         })
                         $('#categories-overlay').removeClass('show');
-                        $(this).find('div.mega-menu').removeClass('d-block')
+                        $(this).find('div.mega-menu').addClass('fadeOutDown');
+                        setTimeout(() => {
+                            if( !$(this).is(':hover') ) {
+                                $(this).find('div.mega-menu').removeClass('d-block fadeOutDown');
+                            }
+                        }, 500);
                     }
                 );
 
@@ -532,8 +537,7 @@
                 var style = document.createElement('style');
                 style.type = 'text/css';
                 style.innerHTML = `
-
-                    .image-slider , .aside-poster {
+                    .image-slider , .aside-poster , .poster {
                         height: 400px;
                     }
 
@@ -548,7 +552,6 @@
                             height: 200px;
                         }
                     }
-
                 `;
                 document.getElementsByTagName('head')[0].appendChild(style);
             } ,

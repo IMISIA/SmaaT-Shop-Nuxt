@@ -24,7 +24,7 @@
 
                 <swiper :options="SwiperOption">
                     <swiper-slide class="py-2" v-for="brand in Brands" :key="brand.id">
-                        <nuxt-link :to="`/brand/${brand.slug}`">
+                        <nuxt-link :to="`/brand/${brand.id}`">
                             <v-img
                                 class="m-auto"
                                 :src="$url + brand.logo.small"

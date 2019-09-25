@@ -23,8 +23,8 @@
 
     <Auth />
 
-    <v-btn id="back-to-top" class="web-grd-from-dark hidden" small fab dark
-      @click="$vuetify.goTo(0 , { duration : 1000 })">
+    <v-btn id="back-to-top" class="web-grd-from-dark hidden" small
+      fab dark @click="$vuetify.goTo(0 , { duration : 1000 })">
       <v-icon>expand_less</v-icon>
     </v-btn>
   </div>

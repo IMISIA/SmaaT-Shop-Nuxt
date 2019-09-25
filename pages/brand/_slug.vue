@@ -1,17 +1,32 @@
 <template>
-    <CategoryPage />
+    <category-page>
+        <template #brand-info v-if="brandInfo && !!Object.keys(brandInfo).length">
+            <div class="el-card am-shadow mb-3">
+                <div class="brand-info web-bg-ultra-fade">
+                    <div class="brand-logo"
+                        :style="{ backgroundImage : `url('${brandInfo.logo ? $url + brandInfo.logo.large : '/images/none.png'}')` }">
+                    </div>
+
+                    <span class="brand-title"> برند {{ brandInfo.name || 'بدون نام' }} </span>
+
+                    <p v-show="brandInfo.description"> {{ brandInfo.description }} </p>
+                </div>
+            </div>
+        </template>
+    </category-page>
 </template>
 
 <script>
     import CategoryPage from '~/components/CategoryPage.vue';
+    import { mapState } from 'vuex';
 
     export default {
         // watchQuery: true ,
 
         async fetch({ $axios , store , params , query }) {
             let ObjectParams = {
-                categories: [params.slug] ,
-                brands: [query.brands] ,
+                categories: [params.categories] ,
+                brands: [params.slug] ,
                 sizes: [query.sizes] ,
                 colors: [query.colors] ,
                 warranties: [query.warranties] ,
@@ -53,6 +68,17 @@
                                 value
                             }
                         }
+                    }
+                }
+
+                brand(id:${params.slug}) {
+                    id
+                    name
+                    description
+                    logo {
+                        id
+                        file_name
+                        large
                     }
                 }
             `
@@ -126,10 +152,21 @@
                 Val : data.data.category ,
                 Obj_Assign: true
             })
+
+            store.commit( 'Set_state' , {
+                Module : 'product' ,
+                Prop : 'Brand_Info' ,
+                Val : data.data.brand ,
+            })
         } ,
 
         components: {
             CategoryPage
-        }
+        } ,
+
+        computed: mapState({
+            $url: '$url' ,
+            brandInfo: state => state.product.Brand_Info
+        })
     }
 </script>
