@@ -7,7 +7,7 @@
 
 .site-logo {
   max-height: 50px;
-  max-width: 150px;
+  max-width: 100px;
 }
 @media (max-width: 540px) {
   .site-logo {
@@ -16,7 +16,7 @@
 }
 
 .link-logo {
-  max-width: 50%;
+  max-width: 60%;
 }
 
 .smt-header {
@@ -147,7 +147,6 @@
 }
 
 .hamburger {
-  padding: 8px 4px 10px 15px;
   display: flex;
   cursor: pointer;
   transition-property: opacity, filter;
@@ -155,7 +154,6 @@
   transition-timing-function: linear;
   font: inherit;
   color: inherit;
-  float: right;
   text-transform: none;
   background-color: transparent;
   border: 0;
@@ -187,7 +185,7 @@
   top: 50%;
   margin-top: -2px;
   width: 35px;
-  height: 4px;
+  height: 3px;
   background-color: #767676;
   border-radius: 4px;
   position: absolute;
@@ -199,7 +197,7 @@
   content: "";
   display: block;
   width: 35px;
-  height: 4px;
+  height: 3.5px;
   background-color: #767676;
   border-radius: 4px;
   position: absolute;
@@ -208,10 +206,10 @@
   transition-timing-function: ease;
 }
 .hamburger-inner::before {
-  top: -10px;
+  top: -9px;
 }
 .hamburger-inner::after {
-  bottom: -10px;
+  bottom: -9px;
 }
 
 .hamburger--spin .hamburger-inner {
@@ -255,7 +253,7 @@
 
 .drawer-cart-content {
   direction: rtl;
-  height: calc( 86% - 64px );
+  height: calc( 105% - (64px + 120px) );
   padding: 15px 15px 20px;
   overflow: auto;
 }
@@ -277,7 +275,7 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 16%;
+  height: 120px;
   padding: 20px 20px 10px;
   box-shadow: 0px -3px 4px -1px rgba(0, 0, 0, 0.11);
   border-radius: 25px 25px 0px 0px;

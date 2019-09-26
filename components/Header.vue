@@ -2,13 +2,15 @@
     <header class="smt-header">
         <div class="container-fuild py-2 px-md-3">
             <div class="row rtl py-md-2 mx-0">
-                <div class="col-lg-2 col-md-2 col-sm-3 text-left text-md-center">
+                <div class="col-lg-2 col-md-2 col-sm-3 d-flex align-items-center justify-content-center">
                     <div class="hamburger hamburger--spin js-hamburger" v-show="Res"
                          @click="drawerCtg = true">
                         <div class="hamburger-box">
                             <div class="hamburger-inner"></div>
                         </div>
                     </div>
+
+                    <v-spacer v-show="Res"></v-spacer>
 
                     <nuxt-link to="/" class="d-inline-block link-logo">
                         <img
@@ -29,14 +31,16 @@
                         </el-badge>
                             
                         <!-- Login / Register -->
-                        <div class="mx-5">
+                        <div class="m-auto">
                             <vs-dropdown vs-custom-content vs-trigger-click>
                                 <a class="login-text mx-4" href.prevent>
                                     <v-icon light>keyboard_arrow_down</v-icon>
                                     <template v-if="is_exist(Me)">
                                         {{ Me.full_name.trim() || Me.username || Me.email }}
-                                        <v-avatar class="ml-2" :size="40" :color="web_color">
-                                            <img :src=" Me.avatar && Me.avatar.small ? $url + Me.avatar.small : '/images/user.png' " alt="avatar">
+                                        <v-avatar class="ml-2 d-none d-xl-inline-flex" :size="40" :color="web_color">
+                                            <img
+                                                :src=" Me.avatar && Me.avatar.small ? $url + Me.avatar.small : '/images/user.png' "
+                                                alt="avatar">
                                         </v-avatar>
                                     </template>
                                     <template v-else>
@@ -47,7 +51,6 @@
                                 <vs-dropdown-menu class="rtl">
                                     <v-list dense shaped class="py-0" v-if="is_exist(Me)">
                                         <v-list-item-group :color="web_color">
-
                                             <v-list-item to="/profile">
                                                 <v-list-item-action class="pl-2">
                                                     <i class="fs-18 ml-2 lnr lnr-user"></i>
@@ -65,7 +68,6 @@
                                                     <v-list-item-title class="fs-12 text-right text-danger"> خروج از حساب </v-list-item-title>
                                                 </v-list-item-content>
                                             </v-list-item>
-
                                         </v-list-item-group>
                                     </v-list>
                                     
