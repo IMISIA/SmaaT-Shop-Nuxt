@@ -54,6 +54,21 @@
                             }
                         }
                     }
+                    parent {
+                        id
+                        slug
+                        title
+                        childs {
+                            id
+                            slug
+                            title
+                            childs {
+                                id
+                                slug
+                                title
+                            }
+                        }
+                    }
                 }
             `
 
@@ -125,6 +140,12 @@
                 Prop : 'Filters' ,
                 Val : data.data.category ,
                 Obj_Assign: true
+            })
+
+            store.commit( 'Set_state' , {
+                Module : 'product' ,
+                Prop : 'TreeCtg' ,
+                Val : data.data.category.parent ,
             })
         } ,
 

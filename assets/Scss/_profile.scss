@@ -17,6 +17,10 @@
     }
 }
 
+#profile-aside {
+    height: fit-content;
+}
+
 .box-actions {
     &.small {
         button {
@@ -70,7 +74,8 @@
     }
 }
 
-.user-info {
+.user-info , .order-info {
+    direction: rtl;
     margin: 0px !important;
     > div[class^="col-"] {
         text-align: right;
@@ -188,6 +193,28 @@
         width: 100%;
         border-radius: 5px;
         border-width: 1.5px !important;
+    }
+}
+
+.orders {
+    thead {
+        background: #85b3be;
+    }
+
+    tr {
+        transition: background .3s;
+    }
+    
+    .v-data-table th {
+        text-align: center;
+        color: #fff !important;
+    }
+    
+    .v-data-table td {
+        height: 100px !important;
+        color: map-get($colors , "content");
+        font-size: 13px;
+        text-align: center;
     }
 }
 

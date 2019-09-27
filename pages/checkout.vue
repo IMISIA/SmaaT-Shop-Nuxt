@@ -331,7 +331,7 @@
                             slidesPerView: 2
                         }
                     }
-                }                
+                }           
             }
         } ,
 

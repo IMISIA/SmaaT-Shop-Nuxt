@@ -23,14 +23,18 @@
         </el-card>
 
         <!-- Categories Tree -->
-        <el-card class="am-shadow">
+        <el-card class="am-shadow ltr">
             <div slot="header"> دسته‌بندی نتایج </div>
 
             <el-tree
-                :data="TreeCtg"
+                :data="TreeCtg ? [TreeCtg] : Categories"
                 :props="TreeDefaultProps"
                 @node-click="NodeClick"
+                node-key="id"
                 accordion
+                highlight-current
+                :default-expanded-keys="[TreeCtg ? parseInt($route.params.slug) : null]"
+                :current-node-key="TreeCtg ? parseInt($route.params.slug) : null"
             ></el-tree>
         </el-card>
 
@@ -335,16 +339,9 @@
         computed: {
             ...mapState({
                 Categories: 'Categories' ,
-                Filters: state => state.product.Filters
+                Filters: state => state.product.Filters ,
+                TreeCtg: state => state.product.TreeCtg
             }) ,
-
-            TreeCtg() {
-                if(this.$route.params.slug) {
-                    return this.Categories.filter( Ctg => Ctg.slug == this.$route.params.slug );
-                } else {
-                    return this.Categories;
-                }
-            } ,
 
             Brands() {
                 return this.Filters.brands.filter( el => el.name.search(this.Params.brands.query) !== -1 );

@@ -166,7 +166,7 @@
         </nav>
 
         <v-app>
-            <v-navigation-drawer v-model="drawerCtg" mobile-break-point fixed right temporary width="280">
+            <v-navigation-drawer v-model="drawerCtg" fixed right temporary width="280">
                 <div class="text-center p-3">
                     <img
                         class="site-logo"
@@ -250,7 +250,7 @@
                 </v-list>
             </v-navigation-drawer>
 
-            <v-navigation-drawer v-model="drawerCart" mobile-break-point fixed temporary width="340">
+            <v-navigation-drawer v-model="drawerCart" fixed temporary width="340">
                 <v-toolbar>
                     <v-btn color="#808695" fab small text @click="drawerCart = false">
                         <v-icon class="fs-20">fas fa-arrow-left</v-icon>

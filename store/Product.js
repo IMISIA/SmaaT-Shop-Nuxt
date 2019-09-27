@@ -5,6 +5,7 @@ export const state = () => ({
 
     // Management Products In Category Page
     Products_Ctg : [] ,
+    TreeCtg: null ,
     Total: 0 ,
     Filters: {
         sizes: [] ,

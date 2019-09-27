@@ -197,7 +197,7 @@
   content: "";
   display: block;
   width: 35px;
-  height: 3.5px;
+  height: 3px;
   background-color: #767676;
   border-radius: 4px;
   position: absolute;
@@ -1607,6 +1607,10 @@
   font-size: 15px;
 }
 
+#profile-aside {
+  height: fit-content;
+}
+
 .box-actions {
   border-top: 1px solid #EBEEF5;
   margin-right: 0px !important;
@@ -1658,21 +1662,22 @@
   height: calc(100% - 54px);
 }
 
-.user-info {
+.user-info, .order-info {
+  direction: rtl;
   margin: 0px !important;
 }
-.user-info > div[class^=col-] {
+.user-info > div[class^=col-], .order-info > div[class^=col-] {
   text-align: right;
   padding: 20px 30px;
   border-right: 1px solid #f1f1f1;
   border-bottom: 1px solid #f1f1f1;
 }
-.user-info p {
+.user-info p, .order-info p {
   color: #737373;
   font-size: 15px;
   margin: 0 !important;
 }
-.user-info span {
+.user-info span, .order-info span {
   display: block;
   font-size: 13px;
   margin-bottom: 7px;
@@ -1773,6 +1778,23 @@
   width: 100%;
   border-radius: 5px;
   border-width: 1.5px !important;
+}
+
+.orders thead {
+  background: #85b3be;
+}
+.orders tr {
+  transition: background 0.3s;
+}
+.orders .v-data-table th {
+  text-align: center;
+  color: #fff !important;
+}
+.orders .v-data-table td {
+  height: 100px !important;
+  color: #767676;
+  font-size: 13px;
+  text-align: center;
 }
 
 @media (max-width: 768px) {

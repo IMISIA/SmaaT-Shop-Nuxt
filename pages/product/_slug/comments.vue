@@ -228,10 +228,19 @@
             store.state.product.Requested.comments = true;
         } ,
 
-        computed: mapState({
-            Product: state => state.product.Single_Product ,
-            $auth: '$auth'
-        }) ,
+        mounted() {
+            this.$nextTick(function() {
+                setTimeout(() => {
+                    if(this.$route.hash == '#add') {
+                        this.$vuetify.goTo('.v-tabs' , {duration: 500})
+                        setTimeout(() => {
+                            if(this.$auth) this.NewComment.actions.modal = true;
+                            this.$router.replace({ hash: '' });
+                        }, 500);
+                    }
+                }, 500);
+            })
+        } ,
 
         data() {
             return {
@@ -259,6 +268,11 @@
                 }
             }
         } ,
+
+        computed: mapState({
+            Product: state => state.product.Single_Product ,
+            $auth: '$auth'
+        }) ,
 
         methods: {
             Add_Adv(isAdvantages) {

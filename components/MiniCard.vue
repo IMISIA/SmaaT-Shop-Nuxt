@@ -43,7 +43,7 @@
             </template>
 
             <template v-if="hasVariations">
-                <ul class="variations" v-if="!small && !mini">
+                <ul class="variations" :class="variationsClass" v-if="!small && !mini">
                     <li v-if="variation.warranty">
                         <i class="fas fa-shield-alt ml-1"></i>
                         گارانتی {{ variation.warranty.title }}
@@ -59,7 +59,8 @@
                     </li>
                 </ul>
 
-                <ul class="variations-small" :class="{ 'mini':mini , 'flex-column' : allSmallVariations }" v-else>
+                <ul class="variations-small" v-else
+                    :class="[{ 'mini':mini , 'flex-column':allSmallVariations } , variationsClass]">
                     <li v-if="count">
                         {{ count | Num2Fa }} عدد
                     </li>
@@ -113,6 +114,9 @@
             infoClass: {
                 type: String ,
                 default: 'col-sm-6 col-md-4 py-3'
+            } ,
+            variationsClass: {
+                type: String ,
             } ,
             imageSize: {
                 type: [Number,String] ,

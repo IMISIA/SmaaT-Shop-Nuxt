@@ -2,50 +2,52 @@
     <section class="container-fluid profile pt-3">
         <div class="row flex-md-row-reverse">
             <div class="col-lg-3 col-md-4 mb-3 mb-md-0">
-                <el-card class="am-shadow" :body-style="{ padding : '0' }">
-                    <div class="box-header web-bg-ultra-fade">
-                        <v-avatar size="80">
-                            <img :src=" Me.avatar && Me.avatar.small ? $url + Me.avatar.small : '/images/user.png' "
-                                class="mb-n5" alt="avatar">
-                        </v-avatar>
-                    </div>
+                <section id="profile-aside">
+                    <el-card class="am-shadow" :body-style="{ padding : '0' }">
+                        <div class="box-header web-bg-ultra-fade">
+                            <v-avatar size="80">
+                                <img :src=" Me.avatar && Me.avatar.small ? $url + Me.avatar.small : '/images/user.png' "
+                                    class="mb-n5" alt="avatar">
+                            </v-avatar>
+                        </div>
 
-                    <div class="box-username">
-                        {{ Me.full_name }}
-                    </div>
+                        <div class="box-username">
+                            {{ Me.full_name }}
+                        </div>
 
-                    <div class="box-actions row">
-                        <v-btn class="col-6 col-sm-12 col-lg-6" text color="#515151">
-                            تغییر رمز عبور
-                            <i class="lnr lnr-lock"></i>
-                        </v-btn>
+                        <div class="box-actions row">
+                            <v-btn class="col-6 col-sm-12 col-lg-6" text color="#515151">
+                                تغییر رمز عبور
+                                <i class="lnr lnr-lock"></i>
+                            </v-btn>
 
-                        <v-btn class="col-6 col-sm-12 col-lg-6" text color="#dc3545">
-                            خروج از حساب
-                            <i class="lnr lnr-exit"></i>
-                        </v-btn>
-                    </div>
-                </el-card>
+                            <v-btn class="col-6 col-sm-12 col-lg-6" text color="#dc3545">
+                                خروج از حساب
+                                <i class="lnr lnr-exit"></i>
+                            </v-btn>
+                        </div>
+                    </el-card>
 
-                <el-card class="am-shadow mt-3 profile-menu" :body-style="{ padding : '0px' }">
-                    <div slot="header">
-                        حساب کاربری شما
-                    </div>
+                    <el-card class="am-shadow mt-3 profile-menu" :body-style="{ padding : '0px' }">
+                        <div slot="header">
+                            حساب کاربری شما
+                        </div>
 
-                    <el-menu :default-active="$route.path.split('/')[2]" active-text-color="#0ecfc6" text-color="#515151">
-                        <el-menu-item
-                            v-for="item in itemsMenu"
-                            :key="item.index"
-                            :index="item.index"
-                            @click="RouterMenu">
-                            <i :class="item.icon"></i>
-                            <span> {{ item.title }} </span>
-                        </el-menu-item>
-                    </el-menu>
-                </el-card>
+                        <el-menu :default-active="$route.path.split('/')[2]" active-text-color="#0ecfc6" text-color="#515151">
+                            <el-menu-item
+                                v-for="item in itemsMenu"
+                                :key="item.index"
+                                :index="item.index"
+                                @click="RouterMenu">
+                                <i :class="item.icon"></i>
+                                <span> {{ item.title }} </span>
+                            </el-menu-item>
+                        </el-menu>
+                    </el-card>
+                </section>
             </div>
 
-            <div class="col-lg-9 col-md-8 pr-md-0">
+            <div class="col-lg-9 col-md-8 pr-md-0" id="profile-content">
                 <nuxt />
             </div>
         </div>
@@ -54,10 +56,13 @@
 
 <script>
     import { mapState } from 'vuex';
+    import mixin from '~/mixins/mixin'
     export default {
         validate({ store }) {
             return typeof store.state.Me === 'object' && Object.keys(store.state.Me).length !== 0 ? true : false;
         } ,
+
+        mixins: [mixin] ,
 
         data() {
             return {
@@ -70,6 +75,12 @@
                     { index: 'history' , title: 'بازدیدهای اخیر' , icon: 'el-icon-time' } ,
                 ]    
             }
+        } ,
+
+        mounted() {
+            this.$nextTick(function() {
+                if(!this.Res) this.DynamicSidebar('#profile-aside' , '#profile-content' , 16)
+            })
         } ,
 
         computed: mapState([

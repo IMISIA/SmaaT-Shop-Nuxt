@@ -102,7 +102,7 @@
 </template>
 
 <script>
-    import {mapState} from 'vuex';
+    import { mapState } from 'vuex';
     import miniCard from '~/components/MiniCard.vue';
     export default {
         components: {
