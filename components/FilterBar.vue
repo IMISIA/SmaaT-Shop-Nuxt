@@ -23,7 +23,7 @@
         </el-card>
 
         <!-- Categories Tree -->
-        <el-card class="am-shadow ltr">
+        <el-card class="am-shadow">
             <div slot="header"> دسته‌بندی نتایج </div>
 
             <el-tree
@@ -33,8 +33,8 @@
                 node-key="id"
                 accordion
                 highlight-current
-                :default-expanded-keys="[TreeCtg ? parseInt($route.params.slug) : null]"
-                :current-node-key="TreeCtg ? parseInt($route.params.slug) : null"
+                :default-expanded-keys="[TreeCtg ? parseInt($route.params.slug) : '']"
+                :current-node-key="TreeCtg ? parseInt($route.params.slug) : ''"
             ></el-tree>
         </el-card>
 
@@ -226,7 +226,7 @@
         </el-card>
 
         <!-- Price Range -->
-        <el-card class="collapsible am-shadow" v-if="is_exist(Filters.warranties)">
+        <el-card class="collapsible am-shadow">
             <v-expansion-panels>
                 <v-expansion-panel>
                     <v-expansion-panel-header>
@@ -250,7 +250,7 @@
                                     class="search-input">
                                 </el-input>
                             </div>
-                            <div class="col-6" data-label="از" data-currency=" تومان">
+                            <div class="col-6" data-label="تا" data-currency=" تومان">
                                 <el-input
                                     :value="PriceRange[1] * 1000 | Num2Fa"
                                     readonly

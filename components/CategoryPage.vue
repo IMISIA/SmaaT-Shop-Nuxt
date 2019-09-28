@@ -55,31 +55,46 @@
                     </div>
 
                     <div class="row mx-0 rtl">
-                        <div
-                            v-show="!Res"
-                            class="col-md-4 col-lg-3 col-sm-6 product"
-                            v-for="(product,idx) in Products_Ctg"
-                            :key="idx">
-                            <Card :Product="product" :Hover="false" :Info="false"/>
-                        </div>
+                        <template v-if="!Res">
+                            <div class="col-md-4 col-lg-3 col-sm-6 product"
+                                v-for="(product,idx) in Products_Ctg" :key="idx">
+                                <card :Product="product" :Hover="false" :Info="false">
+                                    <template #before v-if="is_exist(product.colors)">
+                                        <ul class="colors absolute d-flex flex-column">
+                                            <li v-for="(color,idx) in product.colors.slice(0,4)" :key="idx">
+                                                <span :style="{ background : color.code + '!important' }"></span>
+                                            </li>
+                                            <li class="pr-2 fs-20" v-show="product.colors.length > 4"> + </li>
+                                        </ul>
+                                    </template>
+                                </card>
+                            </div>
+                        </template>
 
-                        <div
-                            v-show="Res"
-                            class="col-md-4 col-lg-3 col-sm-6 product"
-                            v-for="(product,idx) in Products_Ctg"
-                            :key="`res-${idx}`">
-                            <MiniCard
-                                :variation="{ product , sales_price: product.variation ? product.variation.sales_price : null }"
-                                small
-                                image-property="medium"
-                                image-class="col-5"
-                                :image-size="130"
-                                info-class="col-7 py-2 pr-0"
-                                :has-variations="false"
-                                :has-price="true"
-                                :truncate="50"
-                            />
-                        </div>
+                        <template v-else>
+                            <div class="col-md-4 col-lg-3 col-sm-6 product"
+                                v-for="(product,idx) in Products_Ctg" :key="`res-${idx}`">
+                                <mini-card
+                                    :variation="{ product , sales_price: product.variation ? product.variation.sales_price : null }"
+                                    small
+                                    image-property="medium"
+                                    image-class="col-5"
+                                    :image-size="130"
+                                    info-class="col-7 py-2 pr-0"
+                                    :has-variations="false"
+                                    :has-price="true"
+                                    :truncate="50">
+                                    <template #before v-if="is_exist(product.colors)">
+                                        <ul class="colors d-flex flex-column">
+                                            <li v-for="(color,idx) in product.colors.slice(0,4)" :key="idx">
+                                                <span :style="{ background : color.code + '!important' }"></span>
+                                            </li>
+                                            <li class="pr-2 fs-20" v-show="product.colors.length > 4"> + </li>
+                                        </ul>
+                                    </template>
+                                </mini-card>
+                            </div>
+                        </template>
                     </div>
                 </el-card>
 

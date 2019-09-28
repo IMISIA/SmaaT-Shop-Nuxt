@@ -142,7 +142,7 @@
                 Obj_Assign: true
             })
 
-            store.commit( 'Set_state' , {
+            if(data.data.category) store.commit( 'Set_state' , {
                 Module : 'product' ,
                 Prop : 'TreeCtg' ,
                 Val : data.data.category.parent ,

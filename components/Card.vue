@@ -1,6 +1,8 @@
 <template>
     <div id="card-component" :class="{ 'hover' : Hover }">
         <div class="product-card">
+            <slot name="before"></slot>
+
             <nuxt-link :to="`/product/${Product.slug}`">
                 <v-img
                     :src=" is_exist(Product.photos) ? $url + Product.photos[0].medium : '/images/none.png' "
@@ -14,7 +16,8 @@
             <div class="image-overlay web-bg"></div>
 
             <div>
-                <div class="product-info text-center" v-if="is_exist(Product.variation) && Product.label == null">
+                <div class="product-info text-center" :class="{ labled : !is_exist(Product.colors) }"
+                    v-if="is_exist(Product.variation) && Product.label == null">
                     <nuxt-link :to="`/product/${Product.slug}`">
                         <div class="product-name mb-1"> {{ Product.name | truncate(50) }} </div>
                     </nuxt-link>
@@ -30,16 +33,15 @@
                     <template v-if="Info">
                         <div class="pt-1 text-center mt-2" v-if="is_exist(Product.colors)">
                             <div class="text-color"> رنگ ها </div>
-                            <div class="colors d-flex justify-content-center">
-                                <div v-for="(color,idx) in Product.colors.slice(0,4)" :key="idx">
+                            <ul class="colors d-flex justify-content-center">
+                                <li v-for="(color,idx) in Product.colors.slice(0,4)" :key="idx">
                                     <span :style="{ background : color.code + '!important' }"></span>
-                                </div>
-                                <span class="pr-2 fs-20" v-show="Product.colors.length > 4"> + </span>
-                            </div>
+                                </li>
+                                <li class="pr-2 fs-20" v-show="Product.colors.length > 4"> + </li>
+                            </ul>
                         </div>
 
                         <div class="product-actions ltr d-flex justify-content-center">
-                            
                             <button class="addCart-btn mr-1">
                                 <i class="flaticon-shopping-cart"></i>
                                 <span> افزودن به سبد خرید </span>
@@ -52,7 +54,6 @@
                             <button class="compare-btn">
                                 <i class="flaticon-stats"></i>
                             </button>
-
                         </div>
                     </template>
                 </div>
