@@ -74,7 +74,7 @@ export default {
             Object.keys(obj).map( el => obj[el] = '' )
         } ,
 
-        DynamicSidebar(target, checker, top = 0) {
+        DynamicSidebar(target, checker, top = 0, overflowSidebar = 0) {
             let firstPosition = $(target).offset().top;
 
             let element = {
@@ -126,7 +126,7 @@ export default {
                 let scrollFromTop = $(this).scrollTop();
 
                 if(
-                    element.height() < $(checker).outerHeight() &&
+                    (element.height() + overflowSidebar) < $(checker).outerHeight() &&
                     scrollFromTop > (firstPosition - top)
                 ) {
                     if(element.reachDown()) {

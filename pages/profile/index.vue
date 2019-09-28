@@ -20,7 +20,7 @@
             </el-card>
         </div>
 
-        <div class="col-12 col-lg-6 col-even" v-if="true">
+        <div class="col-12 col-lg-6 col-even">
             <span class="headline-info"> لیست آخرین علاقه‌مندی‌ها </span>
 
             <el-card class="am-shadow" :body-style="{ padding : '0' }">
@@ -29,7 +29,7 @@
                         :variation="variation"
                         imageClass="col-3 col-md-2 px-2"
                         infoClass="col-7 col-md-8 py-3 pr-0"
-                        small
+                        mini
                         :imageSize="89"
                         :hasPrice="true"
                         :hasVariations="false">
@@ -55,7 +55,8 @@
         <div class="col-12">
             <span class="headline-info"> آخرین سفارشات </span>
 
-            <el-card class="am-shadow"></el-card>
+            <el-card v-if="false" class="am-shadow"></el-card>
+            <no-data v-else :buttonTitle="null" message="سفارشی ثبت نشده است"></no-data>
         </div>
 
         <!-- Edit User Info -->

@@ -2,7 +2,6 @@
     <footer>
         <div class="container">
             <div class="row rtl">
-
                 <div class="col-md-2 d-flex align-items-center justify-content-center">
                     <nuxt-link to="/">
                         <img
@@ -88,7 +87,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
         </div>
     </footer>

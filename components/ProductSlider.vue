@@ -78,6 +78,10 @@
             Card
         } ,
 
+        mounted() {
+            $('.next-product , .prev-product').removeClass('includeIconOnly');
+        } ,
+
         data() {
             return {
                 dual: !!this.Products.data && !!this.Offers.data ,

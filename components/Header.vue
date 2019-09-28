@@ -107,8 +107,7 @@
                             placeholder="جستجو در فروشگاه ..."
                             :remote-method="Search_Method"
                             :loading="Loading_Search">
-                            <el-option
-                                value="IMISIA">
+                            <el-option value="IMISIA">
                             </el-option>
                         </el-select>
                         <el-button class="web-bg-fade text-white" slot="append" icon="el-icon-search"></el-button>
@@ -466,6 +465,15 @@
                         background: -moz-linear-gradient(90deg, ${this.web_color} 10%, ${this.web_color_dark} 90%) !important;
                         background: -o-linear-gradient(90deg, ${this.web_color} 10%, ${this.web_color_dark} 90%) !important;
                         background: linear-gradient(90deg, ${this.web_color} 10%, ${this.web_color_dark} 90%) !important;
+                    }
+
+                    .web-grd-text {
+                        background: -webkit-linear-gradient(90deg, ${this.web_color} 10%, ${this.web_color_dark} 90%);
+                        background: -moz-linear-gradient(90deg, ${this.web_color} 10%, ${this.web_color_dark} 90%);
+                        background: -o-linear-gradient(90deg, ${this.web_color} 10%, ${this.web_color_dark} 90%);
+                        background: linear-gradient(90deg, ${this.web_color} 10%, ${this.web_color_dark} 90%);              
+                        -webkit-background-clip: text;
+                        -webkit-text-fill-color: transparent;
                     }
 
                     /* =============== Borders =============== */

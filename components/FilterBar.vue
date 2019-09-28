@@ -293,7 +293,8 @@
 
         mounted() {
             this.$nextTick(function() {
-                if(!this.Res) this.DynamicSidebar('.filter-bar' , $('.products-ctg').parent() , 16);
+                if(!this.Res) this.DynamicSidebar('.filter-bar' , $('.products-ctg').parent() ,
+                16 , $('.brand-info').outerHeight() + 16);
             })
         } ,
 

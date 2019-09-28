@@ -79,7 +79,7 @@
     margin: 0px !important;
     > div[class^="col-"] {
         text-align: right;
-        padding: 20px 30px;
+        padding: 20px 30px !important;
         border-right: 1px solid #f1f1f1;
         border-bottom: 1px solid #f1f1f1;
     }
@@ -101,7 +101,7 @@
 }
 
 @media (min-width:1265px) {
-    .addresses , .favorites {
+    .addresses , .favorites , .user-reviews {
         .col-lg-6:nth-child(even) {
             padding-right: 0;
         }
@@ -215,6 +215,36 @@
         color: map-get($colors , "content");
         font-size: 13px;
         text-align: center;
+    }
+}
+
+.user-reviews {
+    direction: rtl;
+    text-align: justify;
+    .el-card__body {
+        padding: 0px 24px 24px;
+    }
+    h4 {
+        font-size: 15px;
+        font-weight: 700;
+        line-height: 2;
+        color: map-get($colors , "title");
+        background-color: #fcfcfc;
+        margin: 0px -24px 10px;
+        padding: 10px 20px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    p {
+        font-size: 12px;
+        line-height: 2.2;
+        color: map-get($colors , "content");
+    }
+    .alert {
+        margin-bottom: 0;
+        padding: 8px 12px;
+        font-size: 10px;
     }
 }
 

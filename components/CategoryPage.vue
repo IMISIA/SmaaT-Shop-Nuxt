@@ -28,7 +28,7 @@
                     </div>
                 </div>
 
-                <el-card class="products-ctg am-shadow" :body-style="{ padding : '0px' }">
+                <el-card v-if="is_exist(Products_Ctg)" class="products-ctg am-shadow" :body-style="{ padding : '0px' }">
                     <div slot="header" class="header" v-if="!Res">
                         <i class="flaticon-settings bold text-muted ml-3"></i>
                         <span>مرتب سازی ب اساس :</span>
@@ -97,6 +97,13 @@
                         </template>
                     </div>
                 </el-card>
+
+                <no-data
+                    v-else
+                    message="متاسفانه محصولی یافت نشد!"
+                    button-title="بازدید محصولات دیگر"
+                    :button-link="{ params: {slug : null} }">
+                </no-data>
 
                 <div class="pagination-ctg" v-show="Math.ceil(Total/8) > 1">
                     <v-pagination
