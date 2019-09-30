@@ -194,6 +194,40 @@ legend {
     }
 }
 
+#is-offline {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(74,74,74,.43);
+    z-index: 999;
+    > div {
+        background: #fff;
+        padding: 40px 100px 25px;
+        text-align: center;
+        border-radius: 20px;
+        box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2) ,
+        0px 24px 38px 3px rgba(0, 0, 0, 0.14) ,
+        0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+        > span {
+            display: block;
+            font-size: 12px;
+            color: map-get($colors , "content");
+            margin-bottom: 20px;
+        }
+    }
+    p {
+        margin: 30px 0px 0px;
+        font-weight: 700;
+        text-align: center;
+        color: map-get($colors , "title");
+    }
+}
+
 @keyframes fade-infinite {
     0%   { opacity:1 }
     50%  { opacity:0 }
@@ -465,7 +499,7 @@ span.title-field {
     font-size: 13px;
 }
 
-@each $size in ( 10 , 12 , 13 , 14 , 16 , 18 , 20 ) {
+@each $size in ( 10 , 12 , 13 , 14 , 16 , 18 , 20 , 22 ) {
     .fs-#{$size} {
         font-size: #{$size}px !important; 
     }

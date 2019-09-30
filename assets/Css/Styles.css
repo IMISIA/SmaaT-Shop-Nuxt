@@ -98,6 +98,11 @@
   margin-bottom: 0;
 }
 
+.element-search {
+  height: auto !important;
+  padding: 0px !important;
+}
+
 .mega-menu {
   text-align: right !important;
   width: 75%;
@@ -174,7 +179,7 @@
 }
 
 .hamburger-box {
-  width: 35px;
+  width: 33px;
   height: 20px;
   display: inline-block;
   position: relative;
@@ -184,7 +189,7 @@
   display: block;
   top: 50%;
   margin-top: -2px;
-  width: 35px;
+  width: 100%;
   height: 3px;
   background-color: #767676;
   border-radius: 4px;
@@ -196,7 +201,7 @@
 .hamburger-inner::before, .hamburger-inner::after {
   content: "";
   display: block;
-  width: 35px;
+  width: 100%;
   height: 3px;
   background-color: #767676;
   border-radius: 4px;
@@ -935,7 +940,7 @@
   background: rgba(74, 74, 74, 0.43);
   opacity: 0;
   z-index: 233;
-  transition: opacity 0.2s cubic-bezier(0.215, 0.61, 0.355, 1) 0.1s;
+  transition: opacity 0.5s;
   pointer-events: none;
 }
 #categories-overlay.show {
@@ -2130,6 +2135,38 @@ legend {
   margin: 25px 0px;
 }
 
+#is-offline {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(74, 74, 74, 0.43);
+  z-index: 999;
+}
+#is-offline > div {
+  background: #fff;
+  padding: 40px 100px 25px;
+  text-align: center;
+  border-radius: 20px;
+  box-shadow: 0px 11px 15px -7px rgba(0, 0, 0, 0.2), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 9px 46px 8px rgba(0, 0, 0, 0.12);
+}
+#is-offline > div > span {
+  display: block;
+  font-size: 12px;
+  color: #767676;
+  margin-bottom: 20px;
+}
+#is-offline p {
+  margin: 30px 0px 0px;
+  font-weight: 700;
+  text-align: center;
+  color: #5d5959;
+}
+
 @keyframes fade-infinite {
   0% {
     opacity: 1;
@@ -2417,6 +2454,10 @@ span.title-field.required::after {
 
 .fs-20 {
   font-size: 20px !important;
+}
+
+.fs-22 {
+  font-size: 22px !important;
 }
 
 .h-20 {

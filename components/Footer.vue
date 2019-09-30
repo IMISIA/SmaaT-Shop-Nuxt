@@ -1,6 +1,6 @@
 <template>
     <footer>
-        <div class="container">
+        <section class="container">
             <div class="row rtl">
                 <div class="col-md-2 d-flex align-items-center justify-content-center">
                     <nuxt-link to="/">
@@ -19,8 +19,7 @@
                 <hr>
 
                 <div class="col-12 col-sm-6 col-md-4">
-                    
-                    <div class="col-header mt-2">
+                    <div class="col-header">
                         اطلاعات
                         {{ SiteSetting.title }}
                     </div>
@@ -29,55 +28,44 @@
                         <li>
                             <a :href="`tel:${SiteSetting.phone || '09105009868'}`">
                                 شماره تماس :
-                                {{ SiteSetting.phone || '۰۹۱۰۵۰۰۹۸۶۸' }} 
+                                {{ (SiteSetting.phone || '9105009868') | Num2Fa(false) }} 
                             </a>
                         </li>
                         <li>
                             <address class="d-inline-block m-0">
                                 آدرس :
-                                {{ SiteSetting.address || '۰۹۱۰۵۰۰۹۸۶۸' }} 
+                                {{ SiteSetting.address || 'تعریف نشده' }} 
                             </address>
                         </li>
                         <li>
-                            <a :href="`mailto:${SiteSetting.phone || 'AmirKhadangi920@Gmail.com'}`">
+                            <a :href="`mailto:${SiteSetting.email || ''}`">
                                 آدرس ایمیل :
-                                {{ SiteSetting.email || 'AmirKhadangi920@Gmail.com' }} 
+                                {{ SiteSetting.email || 'تعریف نشده' }} 
                             </a>
                         </li>
                     </ul>
-
                 </div>
 
                 <div class="col-6 col-sm-3 col-md-2">
-                    
-                    <div class="col-header mt-2">
-                        دیگر صفحات
-                    </div>
+                    <div class="col-header"> دسته‌بندی ها </div>
 
                     <ul class="col-list">
-                        <li v-for="(item,idx) in Other_Pages" :key="idx">
-                            <nuxt-link :to="item.link">
+                        <li v-for="(item,idx) in Categories.slice(0,3)" :key="idx">
+                            <nuxt-link :to="`category/${item.id}`">
                                 {{ item.title }}
                             </nuxt-link>
                         </li>
                     </ul>
-
                 </div>
 
                 <div class="col-6 col-sm-3 col-md-2">
-                    
-                    <div class="col-header mt-2">
-                        دیگر صفحات
-                    </div>
-
                     <ul class="col-list">
-                        <li v-for="(item,idx) in Other_Pages" :key="idx">
-                            <nuxt-link :to="item.link">
+                        <li v-for="(item,idx) in Categories.slice(3,7)" :key="idx">
+                            <nuxt-link :to="`category/${item.id}`">
                                 {{ item.title }}
                             </nuxt-link>
                         </li>
                     </ul>
-
                 </div>
 
                 <div class="col-12 col-md-4">
@@ -88,7 +76,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
     </footer>
 </template>
 
@@ -96,21 +84,10 @@
     import { mapState } from 'vuex';
 
     export default {
-        data() {
-            return {
-                Other_Pages: [
-                    { title: 'وبلاگ' , link: '/' } ,
-                    { title: 'سوالات متداول' , link: '/' } ,
-                    { title: 'حریم خصوصی' , link: '/' }
-                ]
-            }
-        } ,
-
-        computed: {
-            ...mapState([
-                '$url' ,
-                'SiteSetting'
-            ])
-        }
+        computed: mapState([
+            '$url' ,
+            'SiteSetting' ,
+            'Categories'
+        ])
     }
 </script>

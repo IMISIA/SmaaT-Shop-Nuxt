@@ -3,7 +3,7 @@
         <slot name="before"></slot>
 
         <div :class="imageClass">
-            <nuxt-link :to="`/product/${variation.product.slug}`">
+            <nuxt-link class="d-flex h-100" :to="`/product/${variation.product.slug}`">
                 <v-img
                     :src=" is_exist(variation.product.photos)
                         ? $url + variation.product.photos[0][imageProperty]
@@ -19,7 +19,7 @@
 
         <div :class="infoClass" class="d-flex flex-column justify-content-between">
             <nuxt-link :to="`/product/${variation.product.slug}`">
-                <h3 class="product-name" :class="{ 'small':small , 'mini':mini }">
+                <h3 class="product-name" :class="{ 'small':small , 'mini':mini , 'mb-0' : hasPrice }">
                     {{ variation.product.name | truncate(truncate) }}
                 </h3>
             </nuxt-link>

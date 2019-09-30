@@ -106,6 +106,11 @@
     }
 }
 
+.element-search {
+    height: auto !important;
+    padding: 0px !important;
+}
+
 .mega-menu {
     text-align: right !important;
     width: 75%;
@@ -183,7 +188,7 @@
 }
 
 .hamburger-box {
-    width: 35px;
+    width: 33px;
     height: 20px;
     display: inline-block;
     position: relative;
@@ -193,7 +198,7 @@
     display: block;
     top: 50%;
     margin-top: -2px;
-    width: 35px;
+    width: 100%;
     height: 3px;
     background-color: map-get($colors, "content");
     border-radius: 4px;
@@ -206,7 +211,7 @@
     &::after {
         content: "";
         display: block;
-        width: 35px;
+        width: 100%;
         height: 3px;
         background-color: map-get($colors, "content");
         border-radius: 4px;
