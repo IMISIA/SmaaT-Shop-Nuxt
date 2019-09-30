@@ -1,5 +1,5 @@
 import moment from 'moment-jalaali';
-// import numeral from 'numeral'
+// import numeral from 'numeral';
 
 export default {
     created() {

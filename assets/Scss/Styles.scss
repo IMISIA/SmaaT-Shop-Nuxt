@@ -352,6 +352,10 @@ hr.v-divider {
     box-shadow: 0 5px 10px -8px #00bcd421, 0 6px 25px -12px rgba(0,0,0,.1) !important;
 }
 
+.color-inherit {
+    color: inherit !important;
+}
+
 .search-input {
     input {
         background: map-get($colors , "background");
@@ -366,6 +370,22 @@ hr.v-divider {
     }
     .el-input__icon {
         color: map-get($colors , "sub-color");
+    }
+}
+
+.content-noti {
+    padding: 10px;
+    .con-text-noti {
+        h3 {
+            display: none;
+        }
+        p {
+            direction: rtl;
+            padding-right: 15px !important;
+            font-size: 12px !important;
+            text-align: justify;
+            margin-bottom: 0;
+        }
     }
 }
 

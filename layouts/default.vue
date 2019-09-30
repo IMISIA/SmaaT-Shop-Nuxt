@@ -49,12 +49,17 @@
     } ,
 
     created() {
-      // Cookie.set('JWT' , 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjUzOGVlZDIwZWQ5ZGJkNmFiYWZhNDc0MDNlMDk4OTM2MzRhZGU5MzZkMzk0YjFmMTdmZWM3MmQxZjgwZDVlZDFjZGZhNDg4OTE2NzY4Y2RmIn0.eyJhdWQiOiIxIiwianRpIjoiNTM4ZWVkMjBlZDlkYmQ2YWJhZmE0NzQwM2UwOTg5MzYzNGFkZTkzNmQzOTRiMWYxN2ZlYzcyZDFmODBkNWVkMWNkZmE0ODg5MTY3NjhjZGYiLCJpYXQiOjE1Njc1MTc4MjEsIm5iZiI6MTU2NzUxNzgyMSwiZXhwIjoxNTk5MTQwMjIxLCJzdWIiOiI5YTczMjljMzA0YjQiLCJzY29wZXMiOltdfQ.dCEh-wKQmgDrUvfZFIlhKQFhDO6nojV5u2HZMadnmYHY4RcIMpxK0KSXUgriVZV3NtcfZ9cE0JTxKb-IOGs2_jLefsvuQ4Y2oL3Ppiall6SLHDYHjfprdGWZGg5AA1uW1qRd5IV5KoK_B068mCr50J_IUaoP91xv0obsWIUhHMqbmb_-XOydKviizIkFtYxJ0dpN2vV-S_oURxDyvHHhnPBTcAZmRtyLUJXUMocZaxBuF5CFqgyPGnM2qjIOw6rDILK1mys_RALdZEIvYOq82BrEBXy6jDi9fgiM5PQ-tfWTVLTzeMlVzsXiJly_0wJ2dYdU2rrGUeC5bjH9tT6WajV5p5GM9S4_O4JrPiwSQR24EAS-k_v251EfoiOLj7_OfYXtSCU2Ih3hVLrjh9WE4kAPmIhE2w3_lexJB5QLhmyl56GzhsNib-_BkpvZYP9j9u-IXjIpqZ4gOWOSq140jj-MQGq3ca7YXEm7kZntRkjuI7wgtOQ3Azki8DMfPgpfywGv6rlN_5LWZcz0qP2CdH8gcGxsmVoN9ZYgWQDtW0L0fvx1evcnr1bNIhFxndTZmavFSM7nrvbAGx-pNaDKNNyRXmqasKKShW1GF4ylZxlXLU7wEVQ8-a0GxfKeIubwAGoSyHjpHXEgYJTZ4404kjLc-ugViEr2K7mm38Jt8kg' , 1)
-      // Cookie.remove('JWT');
+      this.$nuxt.$axios.defaults.baseURL = 'https://cors-anywhere.herokuapp.com/' + this.$nuxt.$axios.defaults.baseURL;
       this.$nuxt.$res = process.client ? this.$nuxt.$el.clientWidth < 770 : false;
-      if(process.client && this.$reload) {
-        Cookie.remove('JWT');
-        location.reload();
+      if(process.client) {
+        if(this.$reload) {
+          Cookie.remove('JWT');
+          location.reload();
+        };
+        if(this.$auth) {
+          this.$nuxt.$axios.defaults.baseURL = this.$nuxt.$axios.defaults.baseURL + '/auth';
+          this.$nuxt.$axios.setToken(Cookie.get('JWT') , 'Bearer');
+        };
       }
     } ,
 
@@ -91,6 +96,7 @@
 
     computed: mapState([
       '$reload',
+      '$auth' ,
       '$url',
       'SiteSetting'
     ])

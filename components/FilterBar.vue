@@ -391,11 +391,10 @@
 
             DeleteAllFilters() {
                 this.$router.replace({ query: { page: 1 } })
-                .then( () => this.SetParams() )
             } ,
 
-            NodeClick(node) {
-                console.log(node);
+            NodeClick(data, node) {
+                if(node.isLeaf) this.$router.replace({ params: {slug: data.id} });
             } ,
 
             beforeEnter(el) {

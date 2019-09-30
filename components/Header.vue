@@ -25,7 +25,8 @@
                         <!-- Shopping Cart -->
                         <el-badge class="item" :value="Shopping_Cart.length">
                             <vs-button class="cart-btn" :color="web_color" type="filled"
-                                icon-pack="lnr lnr-cart" icon="." icon-after @click="drawerCart = true">
+                                icon-pack="lnr lnr-cart" icon="." icon-after
+                                @click="Shopping_Cart.length ? drawerCart = true : $router.push('/cart')">
                                 سبد خرید    
                             </vs-button>
                         </el-badge>
@@ -60,7 +61,7 @@
                                                 </v-list-item-content>
                                             </v-list-item>
 
-                                            <v-list-item>
+                                            <v-list-item @click="Logout">
                                                 <v-list-item-action class="pl-2 text-danger">
                                                     <i class="fs-18 ml-2 lnr lnr-exit"></i>
                                                 </v-list-item-action>
@@ -93,7 +94,9 @@
 
                     <template v-else>
                         <el-badge class="res-cart-btn" :value="Shopping_Cart.length">
-                            <span class="lnr lnr-cart h2" @click="drawerCart = true"></span>
+                            <span class="lnr lnr-cart h2" 
+                                @click="Shopping_Cart.length ? drawerCart = true : $router.push('/cart')">
+                            </span>
                         </el-badge>
                         <span class="lnr lnr-user" @click="$auth ? $router.push('/profile') : openModal('login')"></span>
                     </template>
@@ -101,16 +104,18 @@
                     <div class="search-site d-flex rtl ml-auto" :class=" Res ? 'w-75' : 'w-50' ">
                         <el-select
                             class="w-100"
-                            v-model="Search"
+                            v-model="Search.query"
                             filterable
                             remote
+                            no-data-text="متاسفانه محصولی یافت نشد"
+                            loading-text="در حال جستجو ..."
                             placeholder="جستجو در فروشگاه ..."
                             :remote-method="Search_Method"
-                            :loading="Loading_Search">
-                            <el-option v-for="item in Shopping_Cart" :key="item.id"
+                            :loading="Search.loading">
+                            <el-option v-for="item in Search.result" :key="item.id"
                                 class="element-search" :value="item.id">
                                 <mini-card
-                                    :variation="item.variation"
+                                    :variation="{ product: item , sales_price: item.variation ? item.variation.sales_price : null }"
                                     mini
                                     :has-variations="false"
                                     :has-price="true"
@@ -118,6 +123,13 @@
                                     :image-size="80"
                                     info-class="col-9 pr-0 py-2">
                                 </mini-card>
+                            </el-option>
+                            <el-option class="fs-13 text-center rtl" v-if="is_exist(Search.result) && Search.total > 10">
+                                <nuxt-link class="color-inherit" :to="{path:'/category', query:{query:Search.query}}">
+                                    نمایش تمام نتایج برای
+                                    <span class="web-color">{{ Search.query }}</span>
+                                    <span class="text-muted fs-10"> ( {{ Search.total - 10 | Num2Fa }} نتیجه دیگر ) </span>
+                                </nuxt-link>
                             </el-option>
                         </el-select>
                         <el-button class="web-bg-fade text-white" slot="append" icon="el-icon-search"></el-button>
@@ -176,7 +188,18 @@
 
         <v-app>
             <v-navigation-drawer v-model="drawerCtg" fixed right temporary width="280">
-                <div class="text-center p-3">
+                <div class="user-info-drawer" v-if="is_exist(Me)">
+                    <v-avatar :size="55" :color="web_color">
+                        <img
+                            :src=" Me.avatar && Me.avatar.small ? $url + Me.avatar.small : '/images/user.png' "
+                            alt="avatar">
+                    </v-avatar>
+                    <span>
+                        {{ Me.full_name.trim() || Me.username || Me.email }}
+                    </span>
+                </div>
+
+                <div v-else class="text-center p-3">
                     <img
                         class="site-logo"
                         :src=" SiteSetting.logo && SiteSetting.logo.medium ? $url + SiteSetting.logo.medium : '/images/none.png' "
@@ -188,7 +211,7 @@
                 <v-list class="ctg-list" dense shaped>
                     <template v-for="ctg in Categories">
                         <v-list-group v-if="is_exist(ctg.childs)" :key="ctg.id"
-                            prepend-icon="fas fa-gem" :color="web_color" no-action>
+                            :prepend-icon="ctg.icon || 'category'" :color="web_color" no-action>
                             <template v-slot:activator>
                                 <v-list-item-title>
                                     {{ ctg.title }}
@@ -218,7 +241,7 @@
 
                         <v-list-item v-else :key="ctg.id" :color="web_color" :to="`category/${ctg.id}`">
                             <v-list-item-icon>
-                                <v-icon>fas fa-gem</v-icon>
+                                <v-icon> {{ ctg.icon || 'category' }} </v-icon>
                             </v-list-item-icon>
 
                             <v-list-item-title>
@@ -302,7 +325,7 @@
 </template>
 
 <script>
-    import { mapState , mapMutations } from 'vuex';
+    import { mapState , mapMutations , mapActions } from 'vuex';
     import mixin from '~/mixins/mixin';
     import MiniCard from '~/components/MiniCard.vue';
 
@@ -353,7 +376,14 @@
                         $(this).addClass('d-block')
                     } ,
                     function () {
-                        $(this).removeClass('d-block')
+                        if( !$(this).parent().is(':hover') ) {
+                            $(this).css({ pointerEvents: 'none' });
+                            $(this).addClass('fadeOutDown');
+                            setTimeout(() => {
+                                $(this).removeClass('d-block fadeOutDown');
+                                $(this).css({ pointerEvents: '' });
+                            }, 500);
+                        }
                     }
                 );
 
@@ -373,8 +403,13 @@
                 drawerCtg : false ,
                 drawerCart : false ,
 
-                Search : '' ,
-                Loading_Search : false ,
+                Search: {
+                    query: '' ,
+                    result: null ,
+                    total: 0 ,
+                    loading: false ,
+                    timeout : null
+                } ,
 
                 Login: {
                     dialog: false ,
@@ -412,6 +447,11 @@
         methods : {
             ...mapMutations([
                 'openModal'
+            ]) ,
+
+            ...mapActions([
+                'Request' ,
+                'Logout'
             ]) ,
 
             Dynamic_Color() {
@@ -575,8 +615,44 @@
                 document.getElementsByTagName('head')[0].appendChild(style);
             } ,
 
-            Search_Method(Str) {
-                console.log(Str);
+            Search_Method(str) {
+                this.Search.query = str;
+
+                if(str) {
+                    this.Search.loading = true;
+                } else {
+                    this.Search.result = null;
+                    return;
+                }
+
+                clearTimeout(this.Search.timeout);
+                this.Search.timeout = setTimeout(() => {
+                    this.Request({
+                        name: 'products' ,
+                        params: { query: str } ,
+                        resQuery: `
+                            data {
+                                id
+                                name
+                                slug
+                                photos {
+                                    id
+                                    file_name
+                                    small
+                                }
+                                variation {
+                                    sales_price
+                                }
+                            }
+                            total
+                        ` ,
+                        resolverAfter: (state , data) => {
+                            this.Search.result = data.data.products.data;
+                            this.Search.total = data.data.products.total;
+                            this.Search.loading = false;
+                        } ,
+                    })
+                }, 1000);
             } ,
 
             OK() {

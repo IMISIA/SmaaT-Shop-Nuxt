@@ -17,14 +17,15 @@
 
             <div class="dialog-content">
                 <v-form v-model="login.valid">
-                    <span class="title-field required"> ایمیل یا شماره موبایل </span>
+                    <span class="title-field required"> ایمیل </span>
                     <v-text-field
                         v-model="login.email"
-                        label="ایمیل یا شماره موبایل خود را وارد نمایید"
+                        label="ایمیل خود را وارد نمایید"
                         reverse
                         single-line
                         outlined
-                        :rules="[rules.required]"
+                        @keyup.enter="LoginMethod"
+                        :rules="[rules.required,rules.email]"
                     ></v-text-field>
 
                     <span class="title-field required"> رمز عبور </span>
@@ -37,6 +38,7 @@
                         reverse
                         single-line
                         outlined
+                        @keyup.enter="LoginMethod"
                         :rules="[rules.required,rules.minPass]"
                     ></v-text-field>
 
@@ -45,7 +47,8 @@
                         block
                         large
                         :loading="login.loading"
-                        :disabled="!login.valid || login.loading">
+                        :disabled="!login.valid || login.loading"
+                        @click="LoginMethod">
                         ورود به سایت
                     </v-btn>
 
@@ -74,14 +77,15 @@
 
             <div class="dialog-content">
                 <v-form v-model="register.valid">
-                    <span class="title-field required"> ایمیل یا شماره موبایل </span>
+                    <span class="title-field required"> ایمیل </span>
                     <v-text-field
                         v-model="register.email"
-                        label="ایمیل یا شماره موبایل خود را وارد نمایید"
+                        label="ایمیل خود را وارد نمایید"
                         reverse
                         single-line
                         outlined
-                        :rules="[rules.required]"
+                        @keyup.enter="RegisterMethod"
+                        :rules="[rules.required,rules.email]"
                     ></v-text-field>
 
                     <span class="title-field required"> رمز عبور </span>
@@ -94,6 +98,7 @@
                         reverse
                         single-line
                         outlined
+                        @keyup.enter="RegisterMethod"
                         :rules="[rules.required,rules.minPass]"
                     ></v-text-field>
 
@@ -105,6 +110,7 @@
                         reverse
                         single-line
                         outlined
+                        @keyup.enter="RegisterMethod"
                         :rules="[rules.required,matchPass]"
                     ></v-text-field>
 
@@ -113,7 +119,8 @@
                         large
                         block
                         :loading="register.loading"
-                        :disabled="!register.valid || register.loading">
+                        :disabled="!register.valid || register.loading"
+                        @click="RegisterMethod">
                         ثبت‌ نام
                     </v-btn>
 
@@ -125,8 +132,8 @@
             </div>
         </v-dialog>
 
-        <!-- Register -->
-        <v-dialog
+        <!-- Change Pass -->
+        <v-dialog v-if="false"
             v-model="$modals.resetPass"
             @click:outside="closeModal('resetPass')"
             width="370"
@@ -181,7 +188,8 @@
 </template>
 
 <script>
-    import { mapState , mapMutations } from 'vuex';
+    import { mapState , mapMutations , mapActions } from 'vuex';
+    import Cookie from '~/plugins/cookie';
     export default {
         data() {
             return {
@@ -218,7 +226,7 @@
                         const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
                         return pattern.test(value) || 'پست الکترونیک نامعتبر است'
                     }
-                } ,
+                }
             }
         } ,
 
@@ -235,7 +243,6 @@
                 }
             } ,
 
-
             matchResetPass() {
                 if(this.resetPass.password) {
                     return v => (!!v && v) === this.resetPass.password || 'رمز عبور با تاییدیه آن مطابقت ندارد'
@@ -251,11 +258,85 @@
                 'closeModal'
             ]) ,
 
+            ...mapActions([
+                'Request'
+            ]) ,
+
             changeModal(from , to) {
                 this.closeModal(from);
                 setTimeout(() => {
                     this.openModal(to)
                 }, 300);
+            } ,
+
+            LoginMethod() {
+                if(!this.login.valid) return;
+
+                this.Request({
+                    type: 'mutation' ,
+                    name: 'login' ,
+                    params: {
+                        email: this.login.email ,
+                        password: this.login.password
+                    } ,
+                    resQuery: 'id token' ,
+                    resolverBefore: () => {
+                        this.login.loading = true;
+                    } ,
+                    resolverAfter: (state , data) => {
+                        if(data.errors && data.errors.length) {
+                            Object.keys(data.errors[0].validation).map( el => {
+                                this.Notif(data.errors[0].validation[el], 'warning', 'error');
+                            })
+                            this.login.loading = false;
+                        } else if(data && data.status == 400) {
+                            this.Notif('ایمیل یا رمز عبور اشتباه است' , 'warning', 'error');
+                            this.login.loading = false;
+                        } else {
+                            Cookie.set('JWT' ,  data.data.login.token);
+                            location.reload();
+                        }
+                    }
+                })
+            } ,
+
+            RegisterMethod() {
+                if(!this.register.valid) return;
+
+                this.Request({
+                    type: 'mutation' ,
+                    name: 'register' ,
+                    params: {
+                        email: this.register.email ,
+                        password: this.register.password ,
+                        password_confirmation: this.register.confirm_password
+                    } ,
+                    resQuery: 'id token' ,
+                    resolverBefore: () => {
+                        this.register.loading = true;
+                    } ,
+                    resolverAfter: (state , data) => {
+                        if(data.errors && data.errors.length) {
+                            Object.keys(data.errors[0].validation).map( el => {
+                                this.Notif(data.errors[0].validation[el], 'warning', 'error');
+                            })
+                            this.register.loading = false;
+                        } else {
+                            Cookie.set('JWT' ,  data.data.register.token);
+                            location.reload();
+                        }
+                    }
+                })
+            } ,
+
+            Notif(msg, color,  icon, time = 3000)  {
+                this.$vs.notify({
+                    text: `${msg}` ,
+                    color: color ,
+                    icon: icon ,
+                    position: 'top-left',
+                    time: time
+                })
             }
         }
     }

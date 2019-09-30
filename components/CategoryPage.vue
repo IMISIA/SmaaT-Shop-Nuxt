@@ -58,16 +58,7 @@
                         <template v-if="!Res">
                             <div class="col-md-4 col-lg-3 col-sm-6 product"
                                 v-for="(product,idx) in Products_Ctg" :key="idx">
-                                <card :Product="product" :Hover="false" :Info="false">
-                                    <template #before v-if="is_exist(product.colors)">
-                                        <ul class="colors absolute d-flex flex-column">
-                                            <li v-for="(color,idx) in product.colors.slice(0,4)" :key="idx">
-                                                <span :style="{ background : color.code + '!important' }"></span>
-                                            </li>
-                                            <li class="pr-2 fs-20" v-show="product.colors.length > 4"> + </li>
-                                        </ul>
-                                    </template>
-                                </card>
+                                <card :Product="product" :Hover="false" :Info="false" absolute-colors/>
                             </div>
                         </template>
 
@@ -105,11 +96,11 @@
                     :button-link="{ params: {slug : null} }">
                 </no-data>
 
-                <div class="pagination-ctg" v-show="Math.ceil(Total/8) > 1">
+                <div class="pagination-ctg" v-show="Math.ceil(Total/20) > 1">
                     <v-pagination
                         v-model="Page"
                         @input="ApplyFilters"
-                        :length="Math.ceil(Total/8)"
+                        :length="Math.ceil(Total/20)"
                         :total-visible=" Res ? 4 : 10 "
                         :color="web_color"
                         next-icon="navigate_before"
@@ -192,8 +183,8 @@
                 OrderingItems: [
                     { title: 'جدیدترین' , label: 'latest' } ,
                     { title: 'قدیمی‌ترین' , label: 'oldest' } ,
-                    { title: 'ارزان‌ترین' , label: '1' } ,
-                    { title: 'گران‌ترین' , label: '2' } ,
+                    // { title: 'ارزان‌ترین' , label: '1' } ,
+                    // { title: 'گران‌ترین' , label: '2' } ,
                 ] ,
 
                 Page: parseInt(this.$route.query.page) || 1 ,
@@ -205,6 +196,14 @@
                 Products_Ctg: state => state.product.Products_Ctg ,
                 Total: state => state.product.Total
             })
+        } ,
+
+        watch: {
+            '$route.query'() {
+                if(this.$refs.FilterBar) this.$refs.FilterBar.SetParams();
+                this.FilterDialog = false;
+                this.SortDialog = false;
+            }
         } ,
 
         methods: {
@@ -224,7 +223,7 @@
                 })
 
                 if( !_.isEqual(QueryStr , this.$route.query) ) {
-                    this.$router.replace({ query : QueryStr });
+                    this.$router.replace({ query : QueryStr })
                 }
             } ,
 
@@ -242,7 +241,6 @@
 
                 if( !_.isEqual(QueryStr , this.$route.query) ) {
                     this.$router.replace({ query : QueryStr })
-                    .then( () => this.$refs.FilterBar.SetParams() );
                 }
             }
         }

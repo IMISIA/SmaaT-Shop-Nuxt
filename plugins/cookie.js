@@ -18,7 +18,7 @@ export default {
         return objCookie[name];
     } ,
 
-    set(name , value , exdays = -1) {
+    set(name , value , exdays = 30) {
         let date = new Date();
         date.setTime(date.getTime() + (exdays * 24 * 60 * 60 * 1000));
         let expires = "expires=" + date.toUTCString();
@@ -26,6 +26,6 @@ export default {
     } ,
 
     remove(name) {
-        if(process.client) document.cookie = name + '=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        if(process.client) this.set(name, '', -1);
     }
 }

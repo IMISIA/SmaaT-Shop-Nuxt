@@ -25,7 +25,8 @@
 
                 <swiper :options="SwiperOption">
                     <swiper-slide class="py-2" v-for="(porduct,idx) in Products.data" :key="idx">
-                        <Card :Product="porduct"/>
+                        <Card :Product="porduct" :Hover="!$nuxt.$res"
+                            :Info="!$nuxt.$res" :absolute-colors="$nuxt.$res"/>
                     </swiper-slide>
                 </swiper>
             </el-card>

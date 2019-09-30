@@ -64,15 +64,17 @@
         border-radius: 50px;
         transform: scaleX(0);
         transition: all .3s ease-in-out;
+        pointer-events: none;
     }
 
     li.ctg-item {
+        margin-bottom: -2px;
         > a {
             display: flex;
             align-items: center;
             height: 100%;
             color: #fff;
-            padding: 8px 15px;
+            padding: 8px 15px 10px;
             white-space: nowrap;
             font-size: 12px;
             transition: box-shadow .5s;
@@ -109,6 +111,12 @@
 .element-search {
     height: auto !important;
     padding: 0px !important;
+    .con-vs-alert {
+        height: unset !important;
+        .vs-alert {
+            padding: 0px !important;
+        }
+    }
 }
 
 .mega-menu {
@@ -151,6 +159,18 @@
     }
     .col-3 , .col-4 {
         display: inline-table;
+    }
+}
+
+.user-info-drawer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    span {
+        color: map-get($colors , "title");
+        font-size: 14px;
+        margin-top: 15px;
     }
 }
 

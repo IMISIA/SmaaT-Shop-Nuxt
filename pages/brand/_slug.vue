@@ -33,7 +33,7 @@
                 query: query.query ? `"${query.query}"` : false ,
                 ordering: query.ordering ? `"${query.ordering}"` : false ,
                 page: parseInt(query.page) || 1 ,
-                per_page: 8
+                per_page: 20
             }
 
             let QueryParams = ''

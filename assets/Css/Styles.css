@@ -62,13 +62,17 @@
   border-radius: 50px;
   transform: scaleX(0);
   transition: all 0.3s ease-in-out;
+  pointer-events: none;
+}
+.smt-header li.ctg-item {
+  margin-bottom: -2px;
 }
 .smt-header li.ctg-item > a {
   display: flex;
   align-items: center;
   height: 100%;
   color: #fff;
-  padding: 8px 15px;
+  padding: 8px 15px 10px;
   white-space: nowrap;
   font-size: 12px;
   transition: box-shadow 0.5s;
@@ -100,6 +104,12 @@
 
 .element-search {
   height: auto !important;
+  padding: 0px !important;
+}
+.element-search .con-vs-alert {
+  height: unset !important;
+}
+.element-search .con-vs-alert .vs-alert {
   padding: 0px !important;
 }
 
@@ -149,6 +159,18 @@
 }
 .mega-menu .col-3, .mega-menu .col-4 {
   display: inline-table;
+}
+
+.user-info-drawer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px;
+}
+.user-info-drawer span {
+  color: #5d5959;
+  font-size: 14px;
+  margin-top: 15px;
 }
 
 .hamburger {
@@ -2290,6 +2312,10 @@ hr.v-divider {
   box-shadow: 0 5px 10px -8px #00bcd421, 0 6px 25px -12px rgba(0, 0, 0, 0.1) !important;
 }
 
+.color-inherit {
+  color: inherit !important;
+}
+
 .search-input input {
   background: #f8f8f8;
   border: unset;
@@ -2303,6 +2329,20 @@ hr.v-divider {
 }
 .search-input .el-input__icon {
   color: #808695;
+}
+
+.content-noti {
+  padding: 10px;
+}
+.content-noti .con-text-noti h3 {
+  display: none;
+}
+.content-noti .con-text-noti p {
+  direction: rtl;
+  padding-right: 15px !important;
+  font-size: 12px !important;
+  text-align: justify;
+  margin-bottom: 0;
 }
 
 .add-btn-dashed {

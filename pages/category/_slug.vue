@@ -6,7 +6,7 @@
     import CategoryPage from '~/components/CategoryPage.vue';
 
     export default {
-        // watchQuery: true ,
+        watchQuery: true ,
 
         async fetch({ $axios , store , params , query }) {
             let ObjectParams = {
@@ -18,7 +18,7 @@
                 query: query.query ? `"${query.query}"` : false ,
                 ordering: query.ordering ? `"${query.ordering}"` : false ,
                 page: parseInt(query.page) || 1 ,
-                per_page: 8
+                per_page: 20
             }
 
             let QueryParams = ''
@@ -120,8 +120,6 @@
                 `
                 }
             })
-
-            console.log(data);
 
             store.commit( 'Set_state' , {
                 Module : 'product' ,

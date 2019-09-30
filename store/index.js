@@ -213,8 +213,8 @@ export const actions = {
         }
 
         app.$axios.setToken(JWT , 'Bearer');
+        if(JWT) app.$axios.defaults.baseURL = app.$axios.defaults.baseURL + '/auth';
         await app.$axios({
-            url: JWT ? '/auth' : '' ,
             method : 'POST' ,
             data : {
                 query : query.init()
@@ -239,11 +239,12 @@ export const actions = {
         })
     } ,
 
-    // Payloads : type , name , params , resQuery , resolverBefore(state) , resolverAfter(state , data)
-    Request(state , pld) {
+    // Payloads : type , name , params , resQuery
+    // resolverBefore(state) , resolverAfter(state , data) , resolverCatch(Err)
+    Request({ state } , pld) {
         if(pld.resolverBefore) pld.resolverBefore(state);
 
-        let params = null;
+        let params = '';
         if(pld.params && typeof pld.params === 'object') {
             Object.entries(pld.params).map( ([key , val]) => {
                 if(val && ( isNaN(val) ? !_.isEmpty(val) : true ) ) {
@@ -278,5 +279,26 @@ export const actions = {
         `;
 
         console.log(query);
+
+        this.$axios({
+            method: 'POST' ,
+            data : { query }
+        })
+        .then( ({data}) => {
+            console.log(data , this.$axios.defaults.baseURL);
+            if(data.errors) {
+                data.errors.map( Err => console.error(Err.message) )
+            }
+            if(pld.resolverAfter) pld.resolverAfter(state , data);
+        })
+        .catch( Err => {
+            if(pld.resolverCatch) pld.resolverCatch(Err);
+            console.log(Err);
+        })
+    } ,
+
+    Logout() {
+        Cookie.remove('JWT');
+        location.reload();
     }
 }

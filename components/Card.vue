@@ -1,7 +1,13 @@
 <template>
     <div id="card-component" :class="{ 'hover' : Hover }">
         <div class="product-card">
-            <slot name="before"></slot>
+            <ul class="colors absolute d-flex flex-column"
+                v-if="absoluteColors && is_exist(Product.colors)">
+                <li v-for="(color,idx) in Product.colors.slice(0,4)" :key="idx">
+                    <span :style="{ background : color.code + '!important' }"></span>
+                </li>
+                <li class="pr-2 fs-20" v-show="Product.colors.length > 4"> + </li>
+            </ul>
 
             <nuxt-link :to="`/product/${Product.slug}`">
                 <v-img
@@ -24,7 +30,7 @@
 
                     <div class="product-price web-color">
                         <div class="offer-price">
-                            <span> {{ 1500000 | Num2Fa }} </span>
+                            <!-- <span> {{ 1500000 | Num2Fa }} </span> -->
                         </div>
                         {{ Product.variation.sales_price | Num2Fa }}
                         <span> تومان </span>
@@ -42,7 +48,7 @@
                         </div>
 
                         <div class="product-actions ltr d-flex justify-content-center">
-                            <button class="addCart-btn mr-1">
+                            <button class="addCart-btn mr-1" @click="AddToCart(Product)">
                                 <i class="flaticon-shopping-cart"></i>
                                 <span> افزودن به سبد خرید </span>
                             </button>
@@ -92,6 +98,7 @@
 
 <script>
     import { mapState } from 'vuex';
+    import user from '~/mixins/user';
 
     export default {
         props: {
@@ -105,8 +112,14 @@
             Info: {
                 type: Boolean ,
                 default: true
+            } ,
+            absoluteColors: {
+                type: Boolean ,
+                default: false
             }
         } ,
+
+        mixins: [user] ,
 
         mounted() {
             if(this.Info) {
