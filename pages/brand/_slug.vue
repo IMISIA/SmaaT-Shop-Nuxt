@@ -117,6 +117,7 @@
                                     }
                                     color {
                                         name
+                                        code
                                     }
                                     size {
                                         name

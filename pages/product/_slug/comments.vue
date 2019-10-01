@@ -22,47 +22,45 @@
         <div class="col-md-6 comments-note">
             <span> شما هم می‌توانید در مورد این کالا نظر بدهید. </span>
             <p> برای ثبت نظر، لازم است ابتدا وارد حساب کاربری خود شوید.  </p>
-            <v-btn class="as-btn fs-12" large @click="NewComment.actions.modal = true">
+            <v-btn class="as-btn fs-12" large
+                @click="$auth ? NewComment.actions.modal = true : openModal('login')">
                 {{ $auth ? 'افزودن نظر جدید' : 'ابتدا وارد شوید' }}
             </v-btn>
         </div>
 
-        <section class="list-comments">
+        <section class="list-comments" v-if="Product.reviews && Product.reviews.length">
             <div class="list-comments-header">
                 نظرات کاربران
                 <span>
-                    ( {{ 40 | Num2Fa }} نظر )
+                    ( {{ Product.reviews.length | Num2Fa }} نظر )
                 </span>
             </div>
 
             <ul>
-                <li class="row web-bg-ultra-fade" v-for="n in 3" :key="n">
+                <li class="row web-bg-ultra-fade" v-for="review in Product.reviews" :key="review.id">
                     <div class="col-md-3 col-lg-2 comment-writer">
                         <v-avatar size="70">
-                            <img src="/images/user.png" alt="avatar">
+                            <img :src="review.writer.avatar && review.writer.avatar.small
+                                ? $url + review.writer.avatar.small : '/images/user.png'"
+                                alt="avatar">
                         </v-avatar>
 
                         <p>
-                            سید ایمان اصنافی
-                            <el-tooltip effect="dark" content="در روز فلان" placement="top">
-                                <span> 23 ساعت پیش </span>
+                            {{ review.writer && review.writer.full_name ? review.writer.full_name : 'ناشناس' }}
+                            <el-tooltip effect="dark" :content="review.created_at | created" placement="top">
+                                <span> {{ review.created_at | ago }} </span>
                             </el-tooltip>
                         </p>
                     </div>
 
                     <div class="col-md-9 col-lg-10 comment-content">
-                        <span> سایت بسیلر خوبیه اتفاقا </span>
+                        <span> {{ review.title }} </span>
 
-                        <p> لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. </p>
+                        <p> {{ review.message }} </p>
 
                         <div class="comment-actions">
-                            <div class="alert alert-danger">تایید نشده</div>
-
+                            <div class="alert alert-danger" v-if="!review.is_accept">تایید نشده</div>
                             <v-spacer></v-spacer>
-
-                            <v-btn class="web-color-dark" text>
-                                به این پرسش پاسخ دهید (۱ پاسخ)
-                            </v-btn>
                         </div>
                     </div>
                 </li>
@@ -82,7 +80,7 @@
 
             <div class="dialog-content single-product">
                 <v-form v-model="NewComment.actions.valid">
-                    <div class="row ranks mb-4">
+                    <div class="row ranks mb-4" v-if="false">
                         <template v-for="(item,idx) in ['کیفیت ساخت','ارزش خرید','نوآوری','امکانات','سرعت']">
                             <div class="col-md-5 mb-0 mb-md-3" :key="idx">
                                 {{ item }} :
@@ -169,7 +167,9 @@
                     </div>
 
                     <v-btn class="as-btn" block
-                        :disabled="!NewComment.actions.valid" :loading="NewComment.actions.loading" large> ثبت </v-btn>
+                        :disabled="!NewComment.actions.valid"
+                        :loading="NewComment.actions.loading"
+                        large @click="addCm"> ثبت </v-btn>
                 </v-form>
             </div>
         </v-dialog>
@@ -177,7 +177,8 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex';
+    import { mapState , mapMutations , mapActions } from 'vuex';
+    import moment from '~/mixins/moment';
     export default {
         async fetch({ $axios , store , params }) {
             if(store.state.product.Requested.comments) return;
@@ -201,7 +202,7 @@
                                     last_name
                                     full_name
                                     avatar {
-                                    small
+                                        small
                                     }
                                 }
                                 ranks {
@@ -216,17 +217,21 @@
                     }
                 `
                 }
-            })
+            });
+
+            console.log(data);
 
             store.commit( 'Set_state' , {
                 Module : 'product' ,
                 Prop : 'Single_Product' ,
                 Val : data.data.product ,
                 Obj_Assign: true
-            })
+            });
 
-            store.state.product.Requested.comments = true;
+            store.commit('Requested' , 'comments');
         } ,
+
+        mixins: [moment] ,
 
         mounted() {
             this.$nextTick(function() {
@@ -271,10 +276,19 @@
 
         computed: mapState({
             Product: state => state.product.Single_Product ,
-            $auth: '$auth'
+            $auth: '$auth' ,
+            $url: '$url'
         }) ,
 
         methods: {
+            ...mapMutations([
+                'openModal'
+            ]) ,
+
+            ...mapActions([
+                'Request'
+            ]) ,
+
             Add_Adv(isAdvantages) {
                 let prop = isAdvantages ? 'advantages' : 'disadvantages';
                 if(this.NewComment[prop].title) {
@@ -286,6 +300,56 @@
             Delete_Adv(isAdvantages,item) {
                 let prop = isAdvantages ? 'advantages' : 'disadvantages';
                 _.pull(this.NewComment[prop].value, item)
+            } ,
+
+            addCm() {
+                if(!this.$auth) {
+                    this.openModal('login');
+                    setTimeout(() => {
+                        $('#alert-login').removeClass('d-none');
+                    }, 50);
+                    return;
+                }
+
+                this.NewComment.actions.loading = true;
+
+                this.Request({
+                    type: 'mutation' ,
+                    name: 'createReview' ,
+                    params: {
+                        product_id: this.Product.id ,
+                        title: this.NewComment.title ,
+                        message: this.NewComment.content ,
+                        advantages: this.NewComment.advantages.value.map(el => `"${el}"`) ,
+                        disadvantages: this.NewComment.disadvantages.value.map(el => `"${el}"`)
+                    } ,
+                    resQuery: 'id' ,
+                    resolverAfter: ({data}) => {
+                        if(data.errors && data.errors.length) {
+                            Object.keys(data.errors[0].validation).map( el => {
+                                this.Notif(data.errors[0].validation[el], 'warning', 'error');
+                            })
+                            this.NewComment.actions.loading = false;
+                        } else if(data.data && data.data.createReview && data.data.createReview.id) {
+                            this.NewComment.actions.loading = false;
+                            this.NewComment.actions.modal = false;
+                            this.Notif('نظر شما با موفقیت ثبت و در انتظار تایید میباشد', 'success', 'check');
+                        } else {
+                            this.NewComment.actions.loading = false;
+                            this.Notif('متاسفانه عملیات با موفقیت انجام نشد', 'warning', 'error');
+                        }
+                    }
+                })
+            } ,
+
+            Notif(msg, color,  icon, time = 3000)  {
+                this.$vs.notify({
+                    text: `${msg}` ,
+                    color: color ,
+                    icon: icon ,
+                    position: 'top-left',
+                    time: time
+                })
             }
         }
     }

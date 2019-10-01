@@ -4,7 +4,7 @@
             <el-card class="product-slider">
                 <div slot="header" class="text-right bold">
                     <span> برند های ویژه </span>
-                    <div class="d-inline">
+                    <div :style="{ display: 'contents !important' }">
                         <vs-button
                             class="next-product"
                             color="#BDBDBD"

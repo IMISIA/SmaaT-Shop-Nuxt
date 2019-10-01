@@ -267,15 +267,33 @@
 
                 <section class="drawer-cart-content web-bg-ultra-fade">
                     <mini-card
-                        v-for="item in Shopping_Cart"
-                        :key="item.id"
+                        v-for="(item,idx) in Shopping_Cart"
+                        :key="idx"
                         :variation="item.variation"
                         :count="item.count"
                         mini
                         :all-small-variations="false"
                         image-class="col-4 pr-0"
                         :image-size="80"
-                        info-class="col-8 pr-0 py-2">
+                        info-class="col-7 pr-0 py-2">
+
+                        <template #after>
+                            <div class="col-1 px-0">
+                                <i class="del-btn lnr lnr-cross"
+                                    @click="RemoveCart(item.variation.id, idx , $event)">
+                                    <svg version="1.1" id="loader-1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                                        y="0px" width="15px" height="15px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;"
+                                        xml:space="preserve">
+                                        <path fill="#767676"
+                                            d="M43.935,25.145c0-10.318-8.364-18.683-18.683-18.683c-10.318,0-18.683,8.365-18.683,18.683h4.068c0-8.071,6.543-14.615,14.615-14.615c8.072,0,14.615,6.543,14.615,14.615H43.935z"
+                                            transform="rotate(294.233 25 25)">
+                                            <animateTransform attributeType="xml" attributeName="transform" type="rotate" from="0 25 25" to="360 25 25"
+                                                dur="0.6s" repeatCount="indefinite"></animateTransform>
+                                        </path>
+                                    </svg>
+                                </i>
+                            </div>
+                        </template>
                     </mini-card>
                 </section>
 
@@ -327,10 +345,11 @@
 <script>
     import { mapState , mapMutations , mapActions } from 'vuex';
     import mixin from '~/mixins/mixin';
+    import user from '~/mixins/user';
     import MiniCard from '~/components/MiniCard.vue';
 
     export default {
-        mixins : [mixin] ,
+        mixins : [mixin,user] ,
 
         components: {
             MiniCard
@@ -646,7 +665,7 @@
                             }
                             total
                         ` ,
-                        resolverAfter: (state , data) => {
+                        resolverAfter: ({data}) => {
                             this.Search.result = data.data.products.data;
                             this.Search.total = data.data.products.total;
                             this.Search.loading = false;

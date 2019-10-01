@@ -33,19 +33,19 @@
                     <ul class="product-options">
                         <li>
                             <el-tooltip class="item" effect="dark" content="علاقه مندی" placement="left">
-                                <v-btn color="#9b9b9b" fab text>
+                                <v-btn color="#9b9b9b" fab text @click="AddFav(Product.id)">
                                     <i class="flaticon-heart"></i>
                                 </v-btn>
                             </el-tooltip>
                         </li>
-                        <li>
+                        <li v-if="false">
                             <el-tooltip class="item" effect="dark" content="مقایسه" placement="left">
                                 <v-btn color="#9b9b9b" fab text>
                                     <i class="flaticon-stats"></i>
                                 </v-btn>
                             </el-tooltip>
                         </li>
-                        <li>
+                        <li v-if="false">
                             <el-tooltip class="item" effect="dark" content="اشتراک گذاری" placement="left">
                                 <v-btn color="#9b9b9b" fab text>
                                     <i class="flaticon-share"></i>
@@ -127,7 +127,8 @@
                                     </div>
 
                                     <div class="add-to-cart">
-                                        <v-btn class="as-btn" large block>
+                                        <v-btn class="as-btn" large block
+                                            @click="addCart">
                                             <!-- <i class="lnr lnr-cart"></i> -->
                                             <!-- <i class="flaticon-shopping-cart"></i> -->
                                             افزودن به سبد خرید
@@ -200,12 +201,13 @@
 
 <script>
     import mixin from '~/mixins/mixin';
+    import user from '~/mixins/user';
     import { mapState } from 'vuex';
     import Variations from '~/components/Variations.vue';
     import ProductSlider from '~/components/ProductSlider.vue';
 
     export default {
-        mixins: [mixin] ,
+        mixins: [mixin,user] ,
 
         validate({ params }) {
             return params.slug ? true : false;
@@ -378,7 +380,9 @@
             ...mapState({
                 $url: '$url' ,
                 Accessories: state => state.product.Products ,
-                Product: state => state.product.Single_Product
+                Product: state => state.product.Single_Product ,
+                Variations_Select: state => state.product.Variations_Select ,
+                Validate_Price: state => state.product.Validate_Price
             }) ,
 
             Valid_Images() {
@@ -430,6 +434,12 @@
                         return true;
                     }
                 } 
+            } ,
+
+            addCart() {
+                let Product = this.Product;
+                Product.variation = this.Product.variations[this.Variations_Select];
+                this.AddToCart(Product , this.Quantity);
             }
         }
     }

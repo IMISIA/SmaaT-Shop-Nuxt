@@ -16,6 +16,10 @@
             <v-divider></v-divider>
 
             <div class="dialog-content">
+                <p class="alert alert-warning fs-12 d-none" id="alert-login">
+                    ابتدا باید وارد حساب کاربری خود شوید
+                </p>
+
                 <v-form v-model="login.valid">
                     <span class="title-field required"> ایمیل </span>
                     <v-text-field
@@ -283,7 +287,7 @@
                     resolverBefore: () => {
                         this.login.loading = true;
                     } ,
-                    resolverAfter: (state , data) => {
+                    resolverAfter: ({data}) => {
                         if(data.errors && data.errors.length) {
                             Object.keys(data.errors[0].validation).map( el => {
                                 this.Notif(data.errors[0].validation[el], 'warning', 'error');
@@ -315,7 +319,7 @@
                     resolverBefore: () => {
                         this.register.loading = true;
                     } ,
-                    resolverAfter: (state , data) => {
+                    resolverAfter: ({data}) => {
                         if(data.errors && data.errors.length) {
                             Object.keys(data.errors[0].validation).map( el => {
                                 this.Notif(data.errors[0].validation[el], 'warning', 'error');

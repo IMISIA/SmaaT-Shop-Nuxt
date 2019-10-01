@@ -53,13 +53,13 @@
                                 <span> افزودن به سبد خرید </span>
                             </button>
 
-                            <button class="wishlist-btn mr-1">
+                            <button class="wishlist-btn mr-1" @click="AddFav(Product.id)">
                                 <i class="flaticon-heart"></i>
                             </button>
 
-                            <button class="compare-btn">
+                            <!-- <button class="compare-btn">
                                 <i class="flaticon-stats"></i>
-                            </button>
+                            </button> -->
                         </div>
                     </template>
                 </div>
@@ -81,13 +81,13 @@
 
                     <template v-if="Info">
                         <div class="product-actions ltr d-flex justify-content-center">
-                            <button class="wishlist-btn mr-1">
+                            <button class="wishlist-btn mr-1" @click="AddFav(Product.id)">
                                 <i class="flaticon-heart"></i>
                             </button>
 
-                            <button class="compare-btn">
+                            <!-- <button class="compare-btn">
                                 <i class="flaticon-stats"></i>
-                            </button>
+                            </button> -->
                         </div>
                     </template>
                 </div>

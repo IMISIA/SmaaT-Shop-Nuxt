@@ -50,8 +50,13 @@
                     <div class="col-header"> دسته‌بندی ها </div>
 
                     <ul class="col-list">
-                        <li v-for="(item,idx) in Categories.slice(0,3)" :key="idx">
-                            <nuxt-link :to="`category/${item.id}`">
+                        <li>
+                            <nuxt-link to="/category">
+                                تمام محصولات
+                            </nuxt-link>
+                        </li>                        
+                        <li v-for="(item,idx) in Categories.slice(0,2)" :key="idx">
+                            <nuxt-link :to="`/category/${item.id}`">
                                 {{ item.title }}
                             </nuxt-link>
                         </li>
@@ -60,8 +65,8 @@
 
                 <div class="col-6 col-sm-3 col-md-2">
                     <ul class="col-list">
-                        <li v-for="(item,idx) in Categories.slice(3,7)" :key="idx">
-                            <nuxt-link :to="`category/${item.id}`">
+                        <li v-for="(item,idx) in Categories.slice(2,6)" :key="idx">
+                            <nuxt-link :to="`/category/${item.id}`">
                                 {{ item.title }}
                             </nuxt-link>
                         </li>

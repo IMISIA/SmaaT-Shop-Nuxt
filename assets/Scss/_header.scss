@@ -295,7 +295,7 @@
 .drawer-cart-content {
     direction: rtl;
     height: calc( 105% - (64px + 120px) );
-    padding: 15px 15px 20px;
+    padding: 15px 15px 35px;
     overflow: auto;
     &::-webkit-scrollbar {
         display: none;
@@ -306,6 +306,30 @@
         box-shadow: 0 5px 10px -8px #00bcd421, 0 6px 25px -12px rgba(0,0,0,.1);
         margin-bottom: 10px;
         border-radius: 10px;
+    }
+    i.del-btn {
+        position: absolute;
+        top: 50%;
+        left: 10px;
+        transform: translateY(-50%);
+        color: rgba(255, 71, 87, 0.71);
+        font-size: 13px;
+        padding: 6px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background .5s , color .5s;
+        background: rgba(255, 71, 87, 0.05);
+        svg {
+            display: none;
+        }
+        &.disabled {
+            svg {
+                display: block;
+            }
+            color: map-get($colors , "content");
+            background: map-get($colors , "background");
+            cursor: default;
+        }
     }
 }
 

@@ -68,7 +68,6 @@
                                 <mini-card
                                     :variation="{ product , sales_price: product.variation ? product.variation.sales_price : null }"
                                     small
-                                    image-property="medium"
                                     image-class="col-5"
                                     :image-size="130"
                                     info-class="col-7 py-2 pr-0"

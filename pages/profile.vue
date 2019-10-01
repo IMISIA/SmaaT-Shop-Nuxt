@@ -16,12 +16,12 @@
                         </div>
 
                         <div class="box-actions row">
-                            <v-btn class="col-6 col-sm-12 col-lg-6" text color="#515151">
+                            <!-- <v-btn class="col-6 col-sm-12 col-lg-6" text color="#515151">
                                 تغییر رمز عبور
                                 <i class="lnr lnr-lock"></i>
-                            </v-btn>
+                            </v-btn> -->
 
-                            <v-btn class="col-6 col-sm-12 col-lg-6" text color="#dc3545">
+                            <v-btn class="col-12" text color="#dc3545" @click="Logout">
                                 خروج از حساب
                                 <i class="lnr lnr-exit"></i>
                             </v-btn>
@@ -55,11 +55,51 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex';
-    import mixin from '~/mixins/mixin'
+    import { mapState, mapActions } from 'vuex';
+    import mixin from '~/mixins/mixin';
     export default {
         validate({ store }) {
             return typeof store.state.Me === 'object' && Object.keys(store.state.Me).length !== 0 ? true : false;
+        } ,
+
+        async fetch({ $axios , store }) {
+            let { data } = await $axios({
+                method: 'POST' ,
+                data: {
+                query: `
+                    {
+                        me {
+                            id
+                            phones {
+                                type
+                                phone_number
+                            }
+                            national_code
+                            favorites {
+                                id
+                                slug
+                                name
+                                photos {
+                                    id
+                                    file_name
+                                    small
+                                }
+                                variation {
+                                    id
+                                    sales_price
+                                }
+                            }
+                        }
+                    }
+                `
+                }
+            })
+
+            store.commit( 'Set_state' , {
+                Prop : 'Me' ,
+                Val : data.data.me ,
+                Obj_Assign: true
+            })
         } ,
 
         mixins: [mixin] ,
@@ -89,6 +129,10 @@
         ]) ,
 
         methods: {
+            ...mapActions([
+                'Logout'
+            ]) ,
+
             RouterMenu(event) {
                 this.$router.push('/profile/' + event.index)
             }

@@ -1,14 +1,15 @@
 <template>
   <div>
     <div class="row m-0 pt-3">
-      <div class="col-md-9 pr-md-0">
+      <!-- col-md-9 pr-md-0 -->
+      <div class="col-12">
         <slider :slides="SiteSetting.slider" />
       </div>
 
-      <div class="col-md-3 pt-3 pt-md-0">
+      <!-- <div class="col-md-3 pt-3 pt-md-0">
         <img class="aside-poster"
           src="https://dkstatics-public.digikala.com/digikala-adservice-banners/1000007945.gif" alt="پوستر" />
-      </div>
+      </div> -->
     </div>
 
     <product-slider class="pt-3"
@@ -70,6 +71,7 @@
                           }
                           color {
                               name
+                              code
                           }
                           size {
                               name

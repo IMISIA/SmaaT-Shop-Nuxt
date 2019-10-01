@@ -31,11 +31,15 @@ footer {
     }
 
     .col-list {
+        margin-bottom: 0;
         li {
             font-size: 13px;
             color: map-get($colors , "content");
             line-height: 25px;
             margin-bottom: 5px;
+            &:last-child {
+                margin-bottom: 0;
+            }
         }
         a {
             color: map-get($colors , "content");

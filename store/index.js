@@ -26,12 +26,22 @@ export const state = () => ({
     Shopping_Cart: [] ,
 
     // Manage Compare List
-    Compare_List: [] ,
+    Compare_List: []
 })
 
 export const mutations = {
-    // Payloads : Prop , Val , Module , Obj_Assign
+    // Payloads : Prop , Val , Module , Obj_Assign , Push
     Set_state(state , payload) {
+        if(payload.Push) {
+            if(payload.Module) {
+                state[payload.Module][payload.Prop].push(payload.Val);
+            } else {
+                state[payload.Prop].push(payload.Val);
+            }
+
+            return;
+        }
+
         if(payload.Module) {
             payload.Obj_Assign
             ? state[payload.Module][payload.Prop] = { ...state[payload.Module][payload.Prop] , ...payload.Val }
@@ -43,6 +53,19 @@ export const mutations = {
         }
     } ,
 
+    // Payloads : Prop , Module , Val Or Idx
+    Pop_state(state , pld) {
+        if(pld.Module) {
+            pld.Val
+            ? _.pull(state[pld.Module][pld.Prop], pld.Val)
+            : state[pld.Module][pld.Prop].splice(pld.Idx , 1)
+        } else {
+            pld.Val
+            ? _.pull(state[pld.Prop], pld.Val)
+            : state[pld.Prop].splice(pld.Idx, 1)
+        }
+    } ,
+
     openModal(state , name) {
         $('.con-vs-dropdown--menu').css({ display: 'none' });
         state.$modals[name] = true;
@@ -50,6 +73,10 @@ export const mutations = {
 
     closeModal(state , name) {
         state.$modals[name] = false;
+    } ,
+
+    Requested(state , name) {
+        state.product.Requested[name] = true;
     }
 }
 
@@ -214,6 +241,7 @@ export const actions = {
 
         app.$axios.setToken(JWT , 'Bearer');
         if(JWT) app.$axios.defaults.baseURL = app.$axios.defaults.baseURL + '/auth';
+
         await app.$axios({
             method : 'POST' ,
             data : {
@@ -231,7 +259,7 @@ export const actions = {
             state.Brands = data.data.brands.data;
         })
         .catch( Err => {
-            if( Err.response && Err.response.status === 401 ) {
+            if( Err.response && Err.response.status == 401 ) {
                 state.$reload = true;
             } else {
                 console.error(Err);
@@ -240,9 +268,9 @@ export const actions = {
     } ,
 
     // Payloads : type , name , params , resQuery
-    // resolverBefore(state) , resolverAfter(state , data) , resolverCatch(Err)
-    Request({ state } , pld) {
-        if(pld.resolverBefore) pld.resolverBefore(state);
+    // resolverBefore(store) , resolverAfter({store , data}) , resolverCatch(Err)
+    Request(store , pld) {
+        if(pld.resolverBefore) pld.resolverBefore(store);
 
         let params = '';
         if(pld.params && typeof pld.params === 'object') {
@@ -285,11 +313,11 @@ export const actions = {
             data : { query }
         })
         .then( ({data}) => {
-            console.log(data , this.$axios.defaults.baseURL);
+            console.log(data);
             if(data.errors) {
                 data.errors.map( Err => console.error(Err.message) )
             }
-            if(pld.resolverAfter) pld.resolverAfter(state , data);
+            if(pld.resolverAfter) pld.resolverAfter({store, data});
         })
         .catch( Err => {
             if(pld.resolverCatch) pld.resolverCatch(Err);

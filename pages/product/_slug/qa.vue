@@ -34,74 +34,79 @@
                 class="as-btn mt-3 px-5"
                 large
                 :disabled="!NewQuestion.actions.valid || NewQuestion.actions.loading"
-                :loading="NewQuestion.actions.loading">
+                :loading="NewQuestion.actions.loading"
+                @click="Question_Answer(false)">
                 ثبت پرسش
             </v-btn>
         </v-form>
 
-        <section class="list-comments">
+        <section class="list-comments" v-if="Product.questions && Product.questions.length">
             <div class="list-comments-header">
                 پرسش ها و پاسخ ها
                 <span>
-                    ( {{ 80 | Num2Fa }} پرسش )
+                    ( {{ Product.questions.length | Num2Fa }} پرسش )
                 </span>
             </div>
 
             <ul>
-                <template  v-for="n in 3">
-                    <li class="row web-bg-ultra-fade" :key="n">
+                <template  v-for="question in Product.questions">
+                    <li class="row web-bg-ultra-fade" :key="question.id">
                         <div class="col-md-3 col-lg-2 comment-writer">
                             <v-avatar size="70">
-                                <img src="/images/user.png" alt="avatar">
+                                <img :src="question.writer.avatar && question.writer.avatar.small
+                                    ? $url + question.writer.avatar.small : '/images/user.png'"
+                                    alt="avatar">
                             </v-avatar>
 
                             <p>
-                                سید ایمان اصنافی
-                                <el-tooltip effect="dark" content="در روز فلان" placement="top">
-                                    <span> 23 ساعت پیش </span>
+                                {{ question.writer && question.writer.full_name ? question.writer.full_name : 'ناشناس' }}
+                                <el-tooltip effect="dark" :content="question.created_at | created" placement="top">
+                                    <span> {{ question.created_at | ago }} </span>
                                 </el-tooltip>
                             </p>
                         </div>
 
                         <div class="col-md-9 col-lg-10 comment-content">
-                            <span> سایت بسیلر خوبیه اتفاقا </span>
+                            <span> {{ question.title }} </span>
 
-                            <p> لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. </p>
+                            <p> {{ question.message }} </p>
 
                             <div class="comment-actions">
-                                <div class="alert alert-danger">تایید نشده</div>
+                                <div class="alert alert-danger" v-if="!question.is_accept">تایید نشده</div>
 
                                 <v-spacer></v-spacer>
 
-                                <v-btn class="web-color-dark" text @click="NewAnswer.actions.modal = true">
-                                    به این پرسش پاسخ دهید (۱ پاسخ)
+                                <v-btn class="web-color-dark" text @click="answerModal(question.id)">
+                                    به این پرسش پاسخ دهید
                                 </v-btn>
                             </div>
                         </div>
                     </li>
 
-                    <li class="row answer" :key="'answer-'+n">
-                        <div class="col-md-3 col-lg-2 comment-writer">
+                    <!-- Answers -->
+                    <li class="row answer" v-for="answer in question.aswers" :key="answer.id">
+                        <div class="col-md-3 col-lg-2 comment-writer" :key="'answer-'+question.id">
                             <v-avatar size="70">
-                                <img src="/images/user.png" alt="avatar">
+                                <img :src="answer.writer.avatar && answer.writer.avatar.small
+                                    ? $url + answer.writer.avatar.small : '/images/user.png'"
+                                    alt="avatar">
                             </v-avatar>
 
                             <p>
-                                سید ایمان اصنافی
-                                <el-tooltip effect="dark" content="در روز فلان" placement="top">
-                                    <span> 23 ساعت پیش </span>
+                                {{ answer.writer && answer.writer.full_name ? answer.writer.full_name : 'ناشناس' }}
+                                <el-tooltip effect="dark" :content="answer.created_at | created" placement="top">
+                                    <span> {{ answer.created_at | ago }} </span>
                                 </el-tooltip>
                             </p>
                         </div>
 
                         <div class="col-md-9 col-lg-10 comment-content">
-                            <span> سایت بسیلر خوبیه اتفاقا </span>
+                            <span> {{ answer.title }} </span>
 
-                            <p> لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ و با استفاده از طراحان گرافیک است. چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است و برای شرایط فعلی تکنولوژی مورد نیاز و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد. </p>
+                            <p> {{ answer.message }} </p>
 
                             <div class="comment-actions">
-                                <div class="alert alert-danger">تایید نشده</div>
-
+                                <div class="alert alert-danger" v-if="!answer.is_accept">تایید نشده</div>
                                 <v-spacer></v-spacer>
                             </div>
                         </div>
@@ -148,7 +153,7 @@
                         block
                         :loading="NewAnswer.actions.loading"
                         :disabled="!NewAnswer.actions.valid || NewAnswer.actions.loading"
-                        large> 
+                        large @click="Question_Answer(true)"> 
                         ثبت پاسخ
                     </v-btn>
                 </v-form>
@@ -158,7 +163,8 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex';
+    import { mapState, mapActions, mapMutations } from 'vuex';
+    import moment from '~/mixins/moment';
     export default {
         async fetch({ $axios , store , params }) {
             if(store.state.product.Requested.qa) return;
@@ -185,28 +191,14 @@
                                         small
                                     }
                                 }
-                                answers {
-                                    id
-                                    title
-                                    message
-                                    is_accept
-                                    created_at
-                                    writer {
-                                        id
-                                        first_name
-                                        last_name
-                                        full_name
-                                        avatar {
-                                            small
-                                        }
-                                    }
-                                }
                             }
                         }
                     }
                 `
                 }
             })
+
+            console.log(data);
 
             store.commit( 'Set_state' , {
                 Module : 'product' ,
@@ -215,8 +207,10 @@
                 Obj_Assign: true
             })
 
-            store.state.product.Requested.qa = true;
+            store.commit('Requested' , 'qa');
         } ,
+
+        mixins: [moment] ,
 
         data() {
             return {
@@ -230,6 +224,7 @@
                 } ,
 
                 NewAnswer: {
+                    parent_id: '' ,
                     title: '' ,
                     content: '' ,
                     actions: {
@@ -247,7 +242,73 @@
 
         computed: mapState({
             Product: state => state.product.Single_Product ,
-            $auth: '$auth'
-        })
+            $auth: '$auth' ,
+            $url: '$url'
+        }) ,
+
+        methods: {
+            ...mapMutations([
+                'openModal'
+            ]) ,
+
+            ...mapActions([
+                'Request'
+            ]) ,
+
+            answerModal(id) {
+                this.NewAnswer.actions.modal = true;
+                this.NewAnswer.parent_id = id;
+            } ,
+
+            Question_Answer(isAnswer) {
+                if(!this.$auth) {
+                    this.openModal('login');
+                    setTimeout(() => {
+                        $('#alert-login').removeClass('d-none');
+                    }, 50);
+                    return;
+                }
+
+                isAnswer ? this.NewAnswer.actions.loading = true : this.NewQuestion.actions.loading = true;
+
+                this.Request({
+                    type: 'mutation' ,
+                    name: 'createQuestionAndAnswer' ,
+                    params: {
+                        product_id: this.Product.id ,
+                        title: isAnswer ? this.NewAnswer.title : this.NewQuestion.title ,
+                        message: isAnswer ? this.NewAnswer.content : this.NewQuestion.content ,
+                        question_id: isAnswer ? this.NewAnswer.parent_id : null
+                    } ,
+                    resQuery: 'id' ,
+                    resolverAfter: ({data}) => {
+                        if(data.errors && data.errors.length) {
+                            Object.keys(data.errors[0].validation).map( el => {
+                                this.Notif(data.errors[0].validation[el], 'warning', 'error');
+                            })
+                            isAnswer ? this.NewAnswer.actions.loading = false : this.NewQuestion.actions.loading = false;
+                        } else if(data.data && data.data.createQuestionAndAnswer && data.data.createQuestionAndAnswer.id) {
+                            if(isAnswer) this.NewAnswer.actions.modal = false;
+                            isAnswer ? this.NewAnswer.actions.loading = false : this.NewQuestion.actions.loading = false;
+                            this.Notif(`${isAnswer ? 'پاسخ' : 'پرسش'} شما با موفقیت ثبت و در انتظار تایید میباشد`
+                            , 'success', 'check');
+                        } else {
+                            isAnswer ? this.NewAnswer.actions.loading = false : this.NewQuestion.actions.loading = false;
+                            this.Notif('متاسفانه عملیات با موفقیت انجام نشد', 'warning', 'error');
+                        }
+                    }
+                })
+            } ,
+
+            Notif(msg, color,  icon, time = 3000)  {
+                this.$vs.notify({
+                    text: `${msg}` ,
+                    color: color ,
+                    icon: icon ,
+                    position: 'top-left',
+                    time: time
+                })
+            }
+        }
     }
 </script>

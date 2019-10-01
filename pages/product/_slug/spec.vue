@@ -110,16 +110,16 @@
                     }
                 `
                 }
-            })
+            });
 
             store.commit( 'Set_state' , {
                 Module : 'product' ,
                 Prop : 'Single_Product' ,
                 Val : data.data.product ,
                 Obj_Assign: true
-            })
+            });
 
-            store.state.product.Requested.spec = true;
+            store.commit('Requested' , 'spec');
         } ,
 
         computed: mapState({

@@ -5,7 +5,7 @@
             <el-card class="product-slider">
                 <div slot="header" class="text-right bold">
                     <span> {{ Products.title }} </span>
-                    <div class="d-inline">
+                    <div :style="{ display: 'contents !important' }">
                         <vs-button
                             class="next-product"
                             color="#BDBDBD"
@@ -79,10 +79,6 @@
             Card
         } ,
 
-        mounted() {
-            $('.next-product , .prev-product').removeClass('includeIconOnly');
-        } ,
-
         data() {
             return {
                 dual: !!this.Products.data && !!this.Offers.data ,
@@ -90,9 +86,9 @@
                 SwiperOption: {
                     slidesPerView: this.Products.size / 2.4 ,
                     spaceBetween: 5 ,
-                    autoplay: {
-                        delay: 10000,
-                    } ,
+                    // autoplay: {
+                    //     delay: 10000,
+                    // } ,
                     navigation: {
                         nextEl: '.next-product',
                         prevEl: '.prev-product'
@@ -137,7 +133,7 @@
         } 
     }
 
-    .next-product , .prev-product {
+    .includeIconOnly.small.next-product , .includeIconOnly.small.prev-product {
         height: 23px !important;
         width: 24px !important;
         padding: 3px !important;

@@ -1,6 +1,5 @@
 <template>
      <article class="row mx-0 rtl">
-
         <!-- Title -->
         <div class="col-12 mb-4">
             <p class="bold mb-1"> نقد و بررسی اجمالی </p>
@@ -71,7 +70,6 @@
                 </li>
             </ul>
         </div>
-
     </article>
 </template>
 

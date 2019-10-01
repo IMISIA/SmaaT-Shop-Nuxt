@@ -5,9 +5,7 @@
         <div :class="imageClass">
             <nuxt-link class="d-flex h-100" :to="`/product/${variation.product.slug}`">
                 <v-img
-                    :src=" is_exist(variation.product.photos)
-                        ? $url + variation.product.photos[0][imageProperty]
-                        : '/images/none.png' "
+                    :src="image"
                     :height="imageSize"
                     :width="imageSize"
                     class="m-auto"
@@ -26,9 +24,9 @@
 
             <template v-if="hasPrice">
                 <template v-if="is_exist(variation.product.variation) && !variation.product.label">
-                    <div class="offer-price">
+                    <!-- <div class="offer-price">
                         <span> {{ 110000 | Num2Fa }} </span>
-                    </div>
+                    </div> -->
                     <span class="product-price web-color" data-price="تومان">
                         {{ variation.sales_price | Num2Fa }}
                     </span>
@@ -122,10 +120,6 @@
                 type: [Number,String] ,
                 default: '100%'
             } ,
-            imageProperty: {
-                type: String ,
-                default: 'small'
-            } ,
             count: {
                 type: [Number,String]
             } ,
@@ -135,9 +129,25 @@
             }
         } ,
 
-        computed: mapState([
-            '$url'
-        ]) ,
+        computed: {
+            ...mapState([
+                '$url'
+            ]) ,
+
+            image() {
+                if(this.is_exist(this.variation.product.photos)) {
+                    return this.$url + (
+                        this.variation.product.photos[0].small ||
+                        this.variation.product.photos[0].medium ||
+                        this.variation.product.photos[0].big ||
+                        this.variation.product.photos[0].wide ||
+                        this.variation.product.photos[0].watermark
+                    );
+                } else {
+                    return '/images/none.png';
+                }
+            }
+        } , 
 
         methods: {
             is_exist(val) {

@@ -1,6 +1,6 @@
 <template>
     <section class="row rtl">
-        <div class="col-12" :class="{ 'col-lg-6' : true }">
+        <div class="col-12" :class="{ 'col-lg-6' : Me.favorites && Me.favorites.length }">
             <span class="headline-info"> اطلاعات شخصی </span>
 
             <el-card class="am-shadow" :body-style="{ padding : '0' }">
@@ -20,13 +20,13 @@
             </el-card>
         </div>
 
-        <div class="col-12 col-lg-6 col-even">
+        <div class="col-12 col-lg-6 col-even" v-if="Me.favorites && Me.favorites.length">
             <span class="headline-info"> لیست آخرین علاقه‌مندی‌ها </span>
 
             <el-card class="am-shadow" :body-style="{ padding : '0' }">
-                <div class="recent-fav" v-for="{variation} in Shopping_Cart.slice(0,3)" :key="variation.id">
+                <div class="recent-fav" v-for="(fav,idx) in Me.favorites.slice(0,3)" :key="idx">
                     <mini-card
-                        :variation="variation"
+                        :variation="{ product: fav , sales_price: fav.variation ? fav.variation.sales_price : null }"
                         imageClass="col-3 col-md-2 px-2"
                         infoClass="col-7 col-md-8 py-3 pr-0"
                         mini
@@ -36,7 +36,8 @@
 
                         <template #after>
                             <div class="col-2 flex-center">
-                                <vs-button color="danger" type="border" size="small" icon="close" radius>
+                                <vs-button color="danger" type="border" size="small"
+                                    icon="close" radius @click="DelFav(fav.id , idx)">
                                 </vs-button>
                             </div>
                         </template>
@@ -92,7 +93,8 @@
                             block
                             large
                             :loading="editUser.actions.loading"
-                            :disabled="!editUser.actions.valid || editUser.actions.loading">
+                            :disabled="!editUser.actions.valid || editUser.actions.loading"
+                            @click="updateUser">
                             ثبت اطلاعات کاربری
                         </v-btn>
                     </div>
@@ -103,9 +105,12 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex';
+    import { mapState, mapActions } from 'vuex';
     import miniCard from '~/components/MiniCard.vue';
+    import user from '~/mixins/user';
     export default {
+        mixins: [user] ,
+
         components: {
             miniCard
         } ,
@@ -120,12 +125,12 @@
         data() {
             return {
                 information_keys: [
-                    { key: 'full_name' , title: 'نام و نام خانوداگی' , size: 'col-md-6' } ,
-                    { key: 'username' , title: 'نام کاربری' , size: 'col-md-6' } ,
-                    { key: 'phone_number' , title: 'شماره تلفن همراه' , size: 'col-md-6' } ,
+                    { key: 'first_name' , title: 'نام' , size: 'col-md-6' } ,
+                    { key: 'last_name' , title: 'نام خانوداگی' , size: 'col-md-6' } ,
+                    // { key: 'phone_number' , title: 'شماره تلفن همراه' , size: 'col-md-6' } ,
                     { key: 'national_code' , title: 'کد ملی' , size: 'col-md-6' } ,
-                    { key: 'email' , title: 'پست الکترونیک' , size: 'col-md-6' } ,
                     { key: 'gender' , title: 'جنسیت' , size: 'col-md-6' } ,
+                    { key: 'email' , title: 'پست الکترونیک' , size: 'col-12' } ,
                 ] ,
 
                 editUser: {
@@ -145,8 +150,53 @@
         } ,
 
         computed: mapState([
-            'Me' ,
-            'Shopping_Cart'
-        ])
+            'Me'
+        ]) ,
+
+        methods: {
+            ...mapActions([
+                'Request'
+            ]) ,
+
+            updateUser() {
+                this.editUser.actions.loading = true;
+                
+                this.Request({
+                    type: 'mutation' ,
+                    name: 'updateUser' ,
+                    params: {
+                        id: this.Me.id ,
+                        first_name: this.editUser.first_name ,
+                        last_name: this.editUser.last_name ,
+                        email: this.editUser.email ,
+                        national_code: this.editUser.national_code ,
+                    } ,
+                    resQuery: 'id first_name last_name email national_code' ,
+                    resolverAfter: ({store , data}) => {
+                        if(data.errors && data.errors.length) {
+                            Object.keys(data.errors[0].validation).map( el => {
+                                this.Notif(data.errors[0].validation[el], 'warning', 'error');
+                            })
+                            this.editUser.actions.loading = false;
+                        } else if(data.data && data.data.updateUser && data.data.updateUser.id) {
+                            this.editUser.actions.loading = false;
+                            this.editUser.actions.modal = false;
+
+                            this.Notif('اطلاعات شما باموفقیت بروزرسانی شد', 'primary', 'check'); 
+
+                            store.commit('Set_state' , {
+                                Prop: 'Me' ,
+                                Val: data.data.updateUser ,
+                                Obj_Assign: true
+                            })
+                        } else {
+                            this.Notif('متاسفانه عملیات با موفقیت انجام نشد', 'warning', 'error');
+                            this.editUser.actions.modal = false;
+                        }
+                    }
+                })
+            }
+        }
+            
     }
 </script>

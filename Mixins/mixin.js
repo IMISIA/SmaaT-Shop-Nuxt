@@ -2,8 +2,9 @@ var Color = require('color');
 
 export default {
     created() {
+        this.web_color = this.$store.state.SiteSetting.theme_color || '#0ecfc6';
         // this.web_color = '#e91e63';
-        this.web_color = '#0ecfc6';
+        // this.web_color = '#0ecfc6';
         if(process.client) {
             this.window.width = window.innerWidth;
             this.$nextTick(() => {
