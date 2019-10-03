@@ -1,7 +1,7 @@
 import pkg from './package'
 
 export default {
-  mode: 'universal',
+  mode: 'spa',
 
   /*
   ** Headers of the page
@@ -68,7 +68,8 @@ export default {
     // See https://github.com/nuxt-community/axios-module#options
     // baseURL : 'http://luxbuystore.ir/graphql' ,
     // baseURL : 'http://metro-market.ir/graphql' ,
-    baseURL : 'http://75c0dfab.ngrok.io/graphql' ,
+    // baseURL : 'http://75c0dfab.ngrok.io/graphql' ,
+    baseURL : '/graphql' ,
   },
 
   /*

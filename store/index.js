@@ -1,8 +1,8 @@
 import Cookie from '~/plugins/cookie';
 
 export const state = () => ({
-    $url: 'http://luxbuystore.ir' ,
-    // $url: '' ,
+    // $url: 'http://luxbuystore.ir' ,
+    $url: '' ,
 
     $auth: false ,
     $reload: false ,
