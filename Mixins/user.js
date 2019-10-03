@@ -15,10 +15,10 @@ export default {
             'Request'
         ]) ,
 
-        AddToCart(product , count = 1) {
+        AddToCart(product , count = 1 , isEdit = false) {
             if(!count) count = 1;
 
-            if(this.Shopping_Cart.find( el => el.variation.id == product.variation.id )) {
+            if(!isEdit && this.Shopping_Cart.find( el => el.variation.id == product.variation.id )) {
                 this.Notif('محصول مورد نظر در سبد خرید موجود می‌باشد', 'warning', 'error');
                 return;
             }
@@ -33,18 +33,34 @@ export default {
                 resQuery: 'status message' ,
                 resolverAfter: ({store , data}) => {
                     if(data.data && data.data.addCart && data.data.addCart.status == 200) {
-                        this.Notif(data.data.addCart.message, '#00C853', 'check'); 
+                        isEdit
+                        ? this.Notif('محصول مورد نظر بروزرسانی شد', 'primary', 'check')
+                        : this.Notif(data.data.addCart.message, '#00C853', 'check')
 
-                        product.variation.product = product;
-                        store.commit('Set_state' , {
-                            Prop: 'Shopping_Cart' ,
-                            Val: {
-                                id: product.variation.id ,
-                                count: count ,
-                                variation: product.variation
-                            } ,
-                            Push: true
-                        })
+                        if(isEdit) {
+                            let clone = JSON.parse(JSON.stringify(store.state.Shopping_Cart));
+                            clone.map( (el,idx) => {
+                                if(el.variation.id == product.variation.id) {
+                                    clone[idx].count = count;
+        
+                                    store.commit('Set_state' , {
+                                        Prop: 'Shopping_Cart' ,
+                                        Val: clone
+                                    })
+                                }
+                            })
+                        } else {
+                            product.variation.product = product;
+                            store.commit('Set_state' , {
+                                Prop: 'Shopping_Cart' ,
+                                Val: {
+                                    id: product.variation.id ,
+                                    count: count ,
+                                    variation: product.variation
+                                } ,
+                                Push: true
+                            })
+                        }
                     } else {
                         this.Notif('متاسفانه عملیات با موفقیت انجام نشد', 'warning', 'error');
                     }

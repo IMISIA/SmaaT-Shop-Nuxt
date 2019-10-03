@@ -8,23 +8,23 @@
             </v-btn>
         </div>
 
-        <div class="row rtl">
-            <div class="col-12 col-lg-6 mb-3" v-for="n in 3" :key="n">
+        <div class="row rtl" v-if="Me.addresses && Me.addresses.length">
+            <div class="col-12 col-lg-6 mb-3" v-for="address in Me.addresses" :key="address.id">
                 <el-card class="am-shadow" :body-style="{ padding: 0 }">
                     <div class="box-address">
-                        <h4 class="address-fullname"> سید ایمان اصنافی </h4>
-                        <p class="address-text"> استان خراسان رضوی، ‌شهر مشهد، سناباد 44 ، ساختمان 52 ، واحد 7 </p>
+                        <h4 class="address-fullname"> {{ address.full_name }} </h4>
+                        <p class="address-text"> {{ address.address }} </p>
 
                         <ul class="address-data">
                             <li>
                                 <i class="far fa-envelope"></i>
                                 کدپستی :
-                                {{ 1234567899 | Num2Fa(false) }}
+                                {{ address.postal_code | Num2Fa(false) }}
                             </li>
                             <li>
                                 <i class="fas fa-phone"></i>
                                 تلفن همراه :
-                                {{ 1234567899 | Num2Fa(false) }}
+                                {{ address.phone_number | Num2Fa(false) }}
                             </li>
                         </ul>
                     </div>
@@ -33,7 +33,7 @@
                         <v-btn class="col-4" text color="#dc3545">
                             حذف
                         </v-btn>
-                        <v-btn class="col-8" text color="#0ecfc6" @click="openModal( 'edit-' + n )">
+                        <v-btn class="col-8" text color="#0ecfc6" @click="openModal(address)">
                             ویرایش
                         </v-btn>
                     </div>
@@ -41,16 +41,18 @@
             </div>
         </div>
 
-        <AddAddress :modal="addressModal" :title="addressModalTitle" :close-modal="() => addressModal = false"/>
+        <no-data v-else :buttonTitle="null" message="آدرسی ثبت نشده است"></no-data>
+
+        <AddAddress ref="AddAddress" :modal="addressModal" :title="addressModalTitle" :close-modal="() => addressModal = false"/>
     </section>
 </template>
 
 <script>
     import AddAddress from '~/components/AddAddress.vue';
+    import { mapState } from 'vuex';
     export default {
         async asyncData({ $axios }) {
             let { data } = await $axios({
-                base$url: '' ,
                 url: 'http://maskanshow.com/graphql' ,
                 method: 'POST' ,
                 data: {
@@ -80,8 +82,47 @@
 
             return {
                 provinces: data.data.provinces ,
-                cities: data.data.cities
             }
+        } ,
+
+        async fetch({ $axios , store }) {
+            let { data } = await $axios({
+                method: 'POST' ,
+                data: {
+                query: `
+                    {
+                        me {
+                            addresses {
+                                id
+                                full_name
+                                phone_number
+                                type
+                                address
+                                postal_code
+                                city {
+                                    id
+                                    name
+                                    province {
+                                        id
+                                        name
+                                    }
+                                }
+                                coordinates {
+                                    lat
+                                    lng
+                                }
+                            }
+                        }
+                    }
+                `
+                }
+            })
+
+            store.commit( 'Set_state' , {
+                Prop : 'Me' ,
+                Val : data.data.me ,
+                Obj_Assign: true
+            })
         } ,
 
         data() {
@@ -89,6 +130,12 @@
                 addressModal: false ,
                 addressModalTitle: 'افزودن آدرس جدید' ,
             }
+        } ,
+
+        computed: {
+            ...mapState([
+                'Me'
+            ])
         } ,
 
         components: {
@@ -99,9 +146,18 @@
             openModal(editable_address) {
                 if(!editable_address) {
                     this.addressModalTitle = 'افزودن آدرس جدید';
+                    this.$refs.AddAddress.newAddress.id = null;
                     this.addressModal = true;
                 } else {
                     this.addressModalTitle = 'ویرایش آدرس';
+                    let clone = { ...editable_address };
+                    clone.city = null;
+                    clone.coordinates = null;
+                    clone.city_id = editable_address.city.id;
+                    clone.lat = editable_address.coordinates.lat;
+                    clone.lng = editable_address.coordinates.lng;
+                    clone.id = eval(clone.id);
+                    this.$refs.AddAddress.newAddress = { ...this.$refs.AddAddress.newAddress , ...clone };
                     this.addressModal = true;
                 }
             }

@@ -112,14 +112,14 @@
                     { index: 'orders' , title: 'لیست سفارشات' , icon: 'el-icon-sold-out' } ,
                     { index: 'comments' , title: 'نقد و نظرات' , icon: 'el-icon-s-comment' } ,
                     { index: 'addresses' , title: 'آدرس ها' , icon: 'el-icon-guide' } ,
-                    { index: 'history' , title: 'بازدیدهای اخیر' , icon: 'el-icon-time' } ,
+                    // { index: 'history' , title: 'بازدیدهای اخیر' , icon: 'el-icon-time' } ,
                 ]    
             }
         } ,
 
         mounted() {
             this.$nextTick(function() {
-                if(!this.Res) this.DynamicSidebar('#profile-aside' , '#profile-content' , 16)
+                if(!this.Res) this.DynamicSidebar('#profile-aside' , '#profile-content' , 0)
             })
         } ,
 

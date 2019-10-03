@@ -379,7 +379,7 @@
         computed: {
             ...mapState({
                 $url: '$url' ,
-                Accessories: state => state.product.Products ,
+                Accessories: state => state.product.Single_Product.accessories ,
                 Product: state => state.product.Single_Product ,
                 Variations_Select: state => state.product.Variations_Select ,
                 Validate_Price: state => state.product.Validate_Price

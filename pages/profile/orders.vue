@@ -1,27 +1,60 @@
 <template>
-    <section class="orders" v-if="!$route.params.id">
+    <section class="orders">
         <span class="headline-info"> همه سفارش‌ها </span>
 
         <el-card class="am-shadow rtl" :body-style="{ padding: 0 }">
             <v-data-table
                 :headers="tableHeaders"
-                :items="Orders"
+                :items="valid_orders"
                 :disable-sort="$nuxt.$res"
                 hide-default-footer>
                 <template #item.order-more="{item}">
-                    <nuxt-link :to="$route.path + '/' + item.id">
+                    <nuxt-link :to="'/profile/order/' + item.id">
                         <v-icon :small="$nuxt.$res">fas fa-chevron-left</v-icon>
                     </nuxt-link>
                 </template>
                 </v-data-table>
         </el-card>
     </section>
-
-    <nuxt v-else/>
 </template>
 
 <script>
     export default {
+        async asyncData({ $axios , params }) {
+            let { data } = await $axios({
+                method: 'POST' ,
+                data: {
+                    query: `
+                        {   
+                            me {
+                                orders {
+                                    id
+                                    offer
+                                    total
+                                    shipping_cost
+                                    paid_at
+                                    created_at
+                                    order_status {
+                                        id
+                                        title
+                                        color
+                                    }
+                                    shipping_method {
+                                        name
+                                    }
+                                }
+                            }
+                        }
+                    `
+                }
+            })
+
+            return {
+                orders: data.data.me.orders
+            }
+        } ,
+
+
         data() {
             return {
                 tableHeaders: [
@@ -43,8 +76,8 @@
                         value: 'order_delivery_date'
                     } ,
                     {
-                        text: 'مبلغ قابل پرداخت',
-                        value: 'final_price'
+                        text: 'تخفیف',
+                        value: 'offer'
                     } ,
                     {
                         text: 'مبلغ قابل پرداخت',
@@ -65,21 +98,21 @@
         } ,
 
         computed: {
-            Orders() {
+            valid_orders() {
                 let arr = [];
 
-                for (let idx = 1; idx <= 5; idx++) {
+                this.orders.map( (el,idx) => {
                     arr.push({
-                        id: 'order-' + idx ,
+                        id: el.id ,
                         index: idx.toLocaleString('fa-IR') ,
-                        order_number: 'DKC-69453565' ,
-                        created_at: '۲۶ شهریور ۱۳۹۸' ,
-                        order_delivery_date: 'لغو شده' ,
-                        final_price: (idx * 10000).toLocaleString('fa-IR') ,
-                        total_price: (idx * 10000).toLocaleString('fa-IR') ,
-                        operation: 'لغو شده' ,
+                        order_number: el.id ,
+                        created_at: el.created_at || '---' ,
+                        order_delivery_date: el.paid_at || '---' ,
+                        offer: el.offer.toLocaleString('fa-IR') || '---' ,
+                        total_price: el.total.toLocaleString('fa-IR') || '---' ,
+                        operation: el.order_status.title || '---' ,
                     })
-                }
+                })
 
                 return arr;
             }

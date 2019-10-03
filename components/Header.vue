@@ -459,7 +459,7 @@
 
             finalPrice() {
                 return this.Shopping_Cart.reduce( (total,el) => total + el.count * el.variation.sales_price , 0 )
-                + 10000 - 7500;
+                + 0 - 0;
             }
         } ,
 

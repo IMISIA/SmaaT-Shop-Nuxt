@@ -23,7 +23,7 @@
                                 :items="provinces"
                                 item-text="name"
                                 item-value="id"
-                                @change="(id) => setCenterMap( this.provinces.find(el => el.id == id).coordinates )"
+                                @change="setCities"
                                 no-data-text="موردی وجود ندارد"
                                 label="استان مورد نظر خود را انتخاب کنید"
                                 outlined
@@ -52,6 +52,7 @@
                                 :no-data-text=" this.province.select ? 'موردی وجود ندارد' : 'ابتدا استان را انتخاب کنید' "
                                 label="شهر مورد نظر خود را انتخاب کنید"
                                 outlined
+                                :loading="city.loading"
                                 single-line>
                                 <template #prepend-item>
                                     <div class="text-right mb-1 px-2">
@@ -100,17 +101,32 @@
                         :rules="[rules.required]"
                     ></v-text-field>
 
-                    <span class="title-field required"> شماره موبایل </span>
-                    <v-text-field
-                        class="rtl"
-                        v-model="newAddress.phone_number"
-                        type="number"
-                        label="09XXXXXXXXX"
-                        reverse
-                        single-line
-                        outlined
-                        :rules="[rules.required,rules.phone_number]"
-                    ></v-text-field>
+                    <div class="row rtl">
+                        <div class="col-md-6">
+                            <span class="title-field required"> شماره موبایل </span>
+                            <v-text-field
+                                class="rtl"
+                                v-model="newAddress.phone_number"
+                                type="number"
+                                label="09XXXXXXXXX"
+                                reverse
+                                single-line
+                                outlined
+                                :rules="[rules.required,rules.phone_number]"
+                            ></v-text-field>
+                        </div>
+
+                        <div class="col-md-6">
+                            <span class="title-field required"> نوع آدرس </span>
+                            <v-select
+                                v-model="newAddress.type"
+                                :items="['خانه','محل کار','سایر']"
+                                label="نوع آدرس را انتخاب کنید"
+                                outlined
+                                single-line>
+                            </v-select>
+                        </div>
+                    </div>
 
                     <span class="title-field required"> آدرس پستی </span>
                     <v-textarea
@@ -136,7 +152,7 @@
                     ></v-text-field>
 
                     <v-btn class="text-white" :disabled="!newAddress.valid || newAddress.loading"
-                        color="#00B0FF" large block :loading="newAddress.loading">
+                        color="#00B0FF" large block :loading="newAddress.loading" @click="Submit(!!newAddress.id)">
                         ثبت
                         <i class="flaticon-correct ml-2 bold fs-16"></i>
                     </v-btn>
@@ -156,6 +172,7 @@
         LTooltip ,
     } = process.client ? require('vue2-leaflet'): {};
     import 'leaflet/dist/leaflet.css';
+    import { mapActions } from 'vuex';
 
     export default {
         props: {
@@ -213,8 +230,10 @@
                 } ,
 
                 city: {
+                    all: [] ,
                     select: '' ,
-                    query: ''
+                    query: '' ,
+                    loading: false
                 }
             }
         } ,
@@ -225,14 +244,95 @@
             } ,
 
             cities() {
-                return this.$parent.cities.filter( el => el.name.search(this.city.query) !== -1 );
+                return this.city.all.filter( el => el.name.search(this.city.query) !== -1 );
             }
         } ,
 
         methods: {
+            ...mapActions([
+                'Request'
+            ]) ,
+
+            setCities(id) {
+                this.setCenterMap( this.provinces.find(el => el.id == id).coordinates )
+
+                this.city.loading = true;
+
+                this.$nuxt.$axios({
+                    method: 'POST' ,
+                    data: {
+                        query: `
+                            {
+                                cities(province: ${id}) {
+                                    id
+                                    name
+                                    coordinates {
+                                        lat
+                                        lng
+                                    }   
+                                }
+                            }
+                        `
+                    }
+                })
+                .then( ({data}) => {
+                    if(data.data && data.data.cities) {
+                        this.city.all = data.data.cities;
+                        this.city.loading = false;
+                    } 
+                })
+                .catch( Err => console.log(Err) )
+            } ,
+
             setCenterMap(coordinates) {
                 this.map.center = [coordinates.lat , coordinates.lng];
                 this.map.marker = [coordinates.lat , coordinates.lng];
+
+                this.newAddress.lat = coordinates.lat;
+                this.newAddress.lng = coordinates.lng;
+            } ,
+
+            Submit(isEdit) {
+                let name = isEdit ? 'updateUserAddress' : 'createUserAddress';
+                this.newAddress.loading = true;
+                if(!this.newAddress.city_id) this.newAddress.city_id = this.city.select;
+
+                let clone = { ...this.newAddress };
+                clone.valid = null;
+                clone.loading = null;
+
+                this.Request({
+                    type: 'mutation' ,
+                    name: name ,
+                    params: clone ,
+                    resQuery: 'id' ,
+                    resolverAfter: ({data}) => {
+                        if(data.errors && data.errors.length) {
+                            Object.keys(data.errors[0].validation).map( el => {
+                                this.Notif(data.errors[0].validation[el], 'warning', 'error');
+                            })
+                            this.newAddress.loading = false;
+                        } else if(data.data && data.data[name] && data.data[name].id) {
+                            let msg = isEdit ? 'آدرس با موفقیت آپدیت شد' : 'آدرس شما با موفقیت ثبت گردید'
+                            this.newAddress.loading = false;
+                            location.reload();
+                            // this.closeModal();
+                            // this.Notif(msg, 'success', 'check'); 
+                        } else {
+                            this.Notif('متاسفانه عملیات با موفقیت انجام نشد', 'warning', 'error');
+                        }
+                    }
+                })
+            } ,
+
+            Notif(msg, color,  icon, time = 3000)  {
+                this.$vs.notify({
+                    text: `${msg}` ,
+                    color: color ,
+                    icon: icon ,
+                    position: 'top-left',
+                    time: time
+                })
             }
         }
     }

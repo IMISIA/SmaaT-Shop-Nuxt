@@ -1,5 +1,7 @@
 <template>
     <el-card class="am-shadow" id="no-data">
+        <slot name="before"></slot>
+
         <img v-if="src" :src="src" alt="not-found">
 
         <svg v-else-if="svg" height="512pt" viewBox="0 0 512.00037 512" width="512pt" xmlns="http://www.w3.org/2000/svg">
@@ -21,6 +23,8 @@
         <v-btn v-if="buttonTitle" class="as-btn px-5" large :to="buttonLink">
             {{ buttonTitle }}
         </v-btn>
+
+        <slot name="after"></slot>
     </el-card>
 </template>
 

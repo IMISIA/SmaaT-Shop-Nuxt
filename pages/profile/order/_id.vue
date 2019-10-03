@@ -1,18 +1,34 @@
 <template>
     <section class="orders">
+        <p class="alert alert-success" v-if="from_gateway">
+            سفارش شما با موفقیت ثبت شد
+        </p>
+
         <div class="d-flex rtl">
             <v-btn class="my-auto" color="#767676" text @click="$router.push('/profile/orders')">
                 <v-icon right>fas fa-arrow-right</v-icon>
                 <span class="fs-13"> بازگشت </span>
             </v-btn>
-            <span class="headline-info border-right"> سفارش DKC-69453565 </span>
+            <span class="headline-info border-right"> سفارش {{ order.id }} </span>
         </div>
 
         <el-card class="am-shadow" :body-style="{ padding : '0' }">
             <div class="row order-info">
                 <div class="col-md-6" v-for="item in order_keys" :key="item.key">
                     <span> {{ item.title }} : </span>
-                    <p> {{ false || '---' }} </p>
+                    <p> {{ item.prop ? order[item.key][item.prop] : order[item.key] || '---' }} </p>
+                </div>
+                <div class="col-md-6">
+                    <span> درگاه پرداخت : </span>
+                    <p> {{ order.gateway && order.gateway.payment_gateway ? order.gateway.payment_gateway.title : '---' }} </p>
+                </div>
+                <div class="col-md-6">
+                    <span> تاریخ پرداخت : </span>
+                    <p> {{ (order.paid_at || '---') | created }} </p>
+                </div>
+                <div class="col-md-6">
+                    <span> تاریخ سفارش : </span>
+                    <p> {{ (order.created_at || '---') | created }} </p>
                 </div>
             </div>
         </el-card>
@@ -26,7 +42,7 @@
                 hide-default-footer>
                 <template #item.product="{item: {index}}">
                     <mini-card
-                        :variation="Shopping_Cart[index].variation"
+                        :variation="order.items[index].variation"
                         mini
                         all-small-variations
                         image-class="col-4 pr-0"
@@ -51,7 +67,7 @@
             </v-data-table>
 
             <swiper v-else class="checkout p-3" :options="SwiperOption">
-                <swiper-slide v-for="product in Shopping_Cart" :key="product.id">
+                <swiper-slide v-for="product in order.items" :key="product.id">
                     <mini-card
                         :variation="product.variation"
                         :image-size="100"
@@ -74,22 +90,105 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex';
     import MiniCard from '~/components/MiniCard.vue';
+    import moment from '~/mixins/moment'
     export default {
+        async asyncData({ $axios , params }) {
+            let { data } = await $axios({
+                method: 'POST' ,
+                data: {
+                    query: `
+                        {
+                            myOrder( id:"${params.id}" ) {
+                                id
+                                destination
+                                phone_number
+                                postal_code
+                                offer
+                                total
+                                shipping_cost
+                                paid_at
+                                created_at
+                                user_address {
+                                    address
+                                    full_name
+                                }
+                                order_status {
+                                    id
+                                    title
+                                    color
+                                }
+                                shipping_method {
+                                    name
+                                }
+                                gateway {
+                                    id
+                                    payment_gateway {
+                                        title
+                                    }
+                                }
+                                payment {
+                                    tracking_code
+                                }
+                                items {
+                                    price
+                                    offer
+                                    count
+                                    variation {
+                                        id
+                                        color {
+                                            name
+                                            code
+                                        }
+                                        size {
+                                            name
+                                        }
+                                        warranty {
+                                            title
+                                        }
+                                        product {
+                                            slug
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    `
+                }
+            })
+
+            return {
+                order: data.data.myOrder
+            }
+        } ,
+
+        mixins: [moment] ,
+
+        created() {
+            if(this.$route.query.from_gateway) {
+                this.from_gateway = true;
+                this.$router.replace({query:null});
+            }
+        } ,
+
         components: {
             MiniCard
         } ,
 
         data() {
             return {
+                from_gateway: false ,
+
                 order_keys: [
-                    { key: 'user' , title: 'تحویل گیرنده' , size: 'col-md-6' } ,
+                    { key: 'user_address' , prop: 'full_name' , title: 'تحویل گیرنده' , size: 'col-md-6' } ,
                     { key: 'phone_number' , title: 'شماره تماس تحویل گیرنده' , size: 'col-md-6' } ,
-                    { key: 'address' , title: 'آدرس تحویل گیرنده' , size: 'col-md-6' } ,
-                    { key: 'count' , title: 'تعداد مرسوله' , size: 'col-md-6' } ,
-                    { key: 'price' , title: 'مبلغ قابل پرداخت' , size: 'col-md-6' } ,
-                    { key: 'مبلغ کل' , title: 'مبلغ کل' , size: 'col-md-6' } ,
+                    { key: 'destination' , title: 'آدرس تحویل گیرنده' , size: 'col-md-6' } ,
+                    { key: 'payment' , prop: 'tracking_code' , title: 'کد رهگیری' , size: 'col-md-6' } ,
+                    { key: 'shipping_method' , prop: 'name' , title: 'روش ارسال' , size: 'col-md-6' } ,
+                    { key: 'shipping_cost' , title: 'هزینه ارسال' , size: 'col-md-6' } ,
+                    { key: 'offer' , title: 'تخفیف' , size: 'col-md-6' } ,
+                    { key: 'total' , title: 'مبلغ کل' , size: 'col-md-6' } ,
+                    { key: 'order_status' , prop: 'title' , title: 'وضعیت سفارش' , size: 'col-md-6' } ,
                 ] ,
 
                 tableOrderHeaders: [
@@ -151,23 +250,19 @@
         } ,
 
         computed: {
-            ...mapState([
-                'Shopping_Cart'
-            ]) ,
-
             orderProducts() {
                 let arr = [];
 
-                this.Shopping_Cart.map( (item,idx) => {
+                this.order.items.map( (item,idx) => {
                     arr.push({
                         index: idx ,
                         index_fa: idx.toLocaleString('fa-IR') ,
                         slug: item.variation.product.slug ,
                         count: (item.count).toLocaleString('fa-IR') ,
-                        sales_price: (item.variation.sales_price).toLocaleString('fa-IR') + ' تومان' ,
-                        total: (item.variation.sales_price * item.count).toLocaleString('fa-IR') + ' تومان' ,
-                        offer: (0).toLocaleString('fa-IR') ,
-                        final_price: (item.variation.sales_price * item.count).toLocaleString('fa-IR') + ' تومان'
+                        sales_price: (item.price).toLocaleString('fa-IR') + ' تومان' ,
+                        total: (item.price * item.count).toLocaleString('fa-IR') + ' تومان' ,
+                        offer: (item.offer).toLocaleString('fa-IR') ,
+                        final_price: ((item.price * item.count) - item.offer ).toLocaleString('fa-IR') + ' تومان'
                     })
                 })
 

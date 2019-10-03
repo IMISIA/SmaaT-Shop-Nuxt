@@ -195,8 +195,17 @@
                         }
                     }
                 })
+            } ,
+
+            Notif(msg, color,  icon, time = 3000)  {
+                this.$vs.notify({
+                    text: `${msg}` ,
+                    color: color ,
+                    icon: icon ,
+                    position: 'top-left',
+                    time: time
+                })
             }
         }
-            
     }
 </script>
