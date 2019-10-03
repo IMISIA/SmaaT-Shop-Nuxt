@@ -101,7 +101,7 @@
     computed: {
       ...mapState({
         SiteSetting: 'SiteSetting' ,
-        Products: state => state.product.Products
+        Products: state => state.product ? state.product.Products : []
       })
     }
   }

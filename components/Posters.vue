@@ -1,6 +1,6 @@
 <template>
-    <section class="row mx-2 rtl">
-        <div class="mb-3 px-2" :class="autoGrid[idx]" v-for="(poster,idx) in Valid_Posters" :key="idx">
+    <section class="row mx-2 rtl" v-if="Valid_Posters">
+        <div class="px-2" :class="autoGrid[idx]" v-for="(poster,idx) in Valid_Posters" :key="idx">
             <nuxt-link to="/">
                 <img
                     :src="$url + poster.image.large"
@@ -24,7 +24,11 @@
             ]) ,
 
             Valid_Posters() {
-                return this.Posters.filter( poster => !!poster.image && !!poster.image.large );
+                if(this.Posters && this.Posters.length) {
+                    return this.Posters.filter( poster => !!poster.image && !!poster.image.large );
+                } else {
+                    return null;
+                }
             } ,
 
             autoGrid() {

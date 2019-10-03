@@ -1,5 +1,5 @@
 <template>
-    <section class="row m-0 rtl">
+    <section class="row m-0 rtl mb-3">
         <div v-if="Products.data && Products.data.length && Products.size"
             :class="[ `col-md-${Products.size}` , dual ? (!firstOffers ? 'order-1' : 'order-2 pr-md-0 pt-3 pt-md-0') : '' ]">
             <el-card class="product-slider">
