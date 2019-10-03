@@ -20,7 +20,7 @@
       }"
     />
 
-    <posters class="mb-3" :Posters="SiteSetting.posters"/>
+    <posters :Posters="SiteSetting.posters"/>
     
     <brands-slider />
   </div>

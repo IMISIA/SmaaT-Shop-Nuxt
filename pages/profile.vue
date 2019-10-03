@@ -57,12 +57,19 @@
 <script>
     import { mapState, mapActions } from 'vuex';
     import mixin from '~/mixins/mixin';
-    export default {
-        validate({ store }) {
-            return typeof store.state.Me === 'object' && Object.keys(store.state.Me).length !== 0 ? true : false;
-        } ,
+    import Cookie from '~/plugins/cookie';
 
-        async fetch({ $axios , store }) {
+    export default {
+        // validate({ store }) {
+        //     return typeof store.state.Me === 'object' && Object.keys(store.state.Me).length !== 0 ? true : false;
+        // } ,
+
+        async fetch({ $axios , store , req }) {
+            let JWT = Cookie.get('JWT' , req.headers.cookie);
+
+            $axios.setToken(JWT , 'Bearer');
+            if(JWT) $axios.defaults.baseURL = $axios.defaults.baseURL + '/auth';
+
             let { data } = await $axios({
                 method: 'POST' ,
                 data: {
@@ -95,7 +102,7 @@
                 }
             })
 
-            store.commit( 'Set_state' , {
+            if(data.data && data.data.me) store.commit( 'Set_state' , {
                 Prop : 'Me' ,
                 Val : data.data.me ,
                 Obj_Assign: true

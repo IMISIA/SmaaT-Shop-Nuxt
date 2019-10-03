@@ -37,12 +37,6 @@
                                 {{ SiteSetting.address || 'تعریف نشده' }} 
                             </address>
                         </li>
-                        <li>
-                            <a :href="`mailto:${SiteSetting.email || ''}`">
-                                آدرس ایمیل :
-                                {{ SiteSetting.email || 'تعریف نشده' }} 
-                            </a>
-                        </li>
                     </ul>
                 </div>
 

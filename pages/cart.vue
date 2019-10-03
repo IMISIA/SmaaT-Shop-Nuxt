@@ -5,7 +5,7 @@
                 :total="Total"
                 :offer="Offer"
                 :shipping="Shipping"
-                submit-btn="/checkout">
+                :submit-btn="openCart">
             </cart-aside>
 
             <div class="col-md-8 col-lg-9 carts">
@@ -62,7 +62,7 @@
 <script>
     import mixin from '~/mixins/mixin';
     import user from '~/mixins/user';
-    import { mapState } from 'vuex';
+    import { mapState, mapMutations } from 'vuex';
     import cartAside from '~/components/CartAside.vue';
     import miniCard from '~/components/MiniCard.vue';
     
@@ -96,7 +96,8 @@
         computed: {
             ...mapState({
                 Cart: 'Shopping_Cart' ,
-                $url: '$url'
+                $url: '$url' ,
+                $auth: '$auth'
             }) ,
 
             Total() {
@@ -107,6 +108,24 @@
 
                 return total;
             } ,
+        } ,
+
+        methods: {
+            ...mapMutations([
+                'openModal'
+            ]) ,
+
+            openCart() {
+                if(!this.$auth) {
+                    this.openModal('login');
+                    setTimeout(() => {
+                        $('#alert-login').removeClass('d-none');
+                    }, 50);
+                    return;
+                } else {
+                    this.$router.push('/checkout');
+                }
+            }
         }
     }
 </script>

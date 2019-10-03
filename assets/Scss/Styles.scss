@@ -73,6 +73,12 @@ ul {
     list-style-type: none;
 }
 
+body {
+    h1, h2, h3, h4, h5, h6 {
+        line-height: 2;
+    }
+}
+
 article, aside, footer, header, nav, section {
     display: block;
 }

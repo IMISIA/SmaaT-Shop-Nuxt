@@ -76,6 +76,8 @@ export default {
         } ,
 
         DynamicSidebar(target, checker, top = 0, overflowSidebar = 0) {
+            return;
+
             if(isNaN(overflowSidebar)) overflowSidebar = 0;
 
             let firstPosition = $(target).offset().top;

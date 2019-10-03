@@ -7,7 +7,7 @@ export default {
 
         str.split(';').map(item => {
             let prop = item.split('=');
-            objCookie[prop[0].trim()] = prop[1].trim()
+            if(prop.length && prop[0] && prop[1]) objCookie[prop[0].trim()] = prop[1].trim();
         })
 
         return objCookie || {};

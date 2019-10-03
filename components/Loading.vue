@@ -1,7 +1,7 @@
 <template>
     <transition name="fade" mode="in-out">
         <div id="loading" v-if="loading">
-            <div>
+            <div v-show="init">
                 <img
                     class="loading-logo"
                     :src=" SiteSetting.logo && SiteSetting.logo.medium ? $url + SiteSetting.logo.medium : '/images/none.png' "
@@ -26,7 +26,8 @@
     export default {
         data() {
             return {
-                loading: true    
+                loading: true ,
+                init: false ,
             }
         } ,
 
@@ -38,6 +39,7 @@
             finish() {
                 setTimeout(() => {
                     this.loading = false;
+                    this.init = true;
                 }, 500);
             }
         } ,

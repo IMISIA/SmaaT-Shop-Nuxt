@@ -52,6 +52,16 @@
                                 <vs-dropdown-menu class="rtl">
                                     <v-list dense shaped class="py-0" v-if="is_exist(Me)">
                                         <v-list-item-group :color="web_color">
+                                            <v-list-item href="/panel"
+                                                v-if="Me.allPermissions && Me.allPermissions.length">
+                                                <v-list-item-action class="pl-2">
+                                                    <i class="fs-18 ml-2 lnr lnr-pie-chart"></i>
+                                                </v-list-item-action>
+                                                <v-list-item-content>
+                                                    <v-list-item-title class="fs-12 text-right"> پنل ادمین </v-list-item-title>
+                                                </v-list-item-content>
+                                            </v-list-item>
+
                                             <v-list-item to="/profile">
                                                 <v-list-item-action class="pl-2">
                                                     <i class="fs-18 ml-2 lnr lnr-user"></i>
@@ -107,6 +117,7 @@
                             v-model="Search.query"
                             filterable
                             remote
+                            @change="Search.query = ''"
                             no-data-text="متاسفانه محصولی یافت نشد"
                             loading-text="در حال جستجو ..."
                             placeholder="جستجو در فروشگاه ..."
@@ -119,9 +130,9 @@
                                     mini
                                     :has-variations="false"
                                     :has-price="true"
-                                    image-class="col-3 pr-0"
+                                    image-class="col-4 col-md-3 pr-1"
                                     :image-size="80"
-                                    info-class="col-9 pr-0 py-2">
+                                    info-class="col-8 col-md-9 pr-0 py-2">
                                 </mini-card>
                             </el-option>
                             <el-option class="fs-13 text-center rtl" v-if="is_exist(Search.result) && Search.total > 10">
@@ -209,6 +220,14 @@
                 <span class="d-block border-top w-75 m-auto"></span>
 
                 <v-list class="ctg-list" dense shaped>
+                    <v-list-item v-if="Me.allPermissions && Me.allPermissions.length"
+                        :color="web_color" href="/panel">
+                        <v-list-item-icon>
+                            <v-icon>dashboard</v-icon>
+                        </v-list-item-icon>
+
+                        <v-list-item-title>پنل ادمین</v-list-item-title>
+                    </v-list-item>
                     <template v-for="ctg in Categories">
                         <v-list-group v-if="is_exist(ctg.childs)" :key="ctg.id"
                             :prepend-icon="ctg.icon || 'category'" :color="web_color" no-action>
@@ -228,18 +247,18 @@
                                     </template>
 
                                     <v-list-item v-for="sub_2 in sub_1.childs" :key="sub_2.id"
-                                        :to="`category/${sub_2.id}`">
+                                        :to="`/category/${sub_2.id}`">
                                         <v-list-item-title> {{ sub_2.title }} </v-list-item-title>
                                     </v-list-item>
                                 </v-list-group>
 
-                                <v-list-item v-else class="sub-1" :key="sub_1.id" :to="`category/${sub_1.id}`">
+                                <v-list-item v-else class="sub-1" :key="sub_1.id" :to="`/category/${sub_1.id}`">
                                     <v-list-item-title> {{ sub_1.title }} </v-list-item-title>
                                 </v-list-item>
                             </template>
                         </v-list-group>
 
-                        <v-list-item v-else :key="ctg.id" :color="web_color" :to="`category/${ctg.id}`">
+                        <v-list-item v-else :key="ctg.id" :color="web_color" :to="`/category/${ctg.id}`">
                             <v-list-item-icon>
                                 <v-icon> {{ ctg.icon || 'category' }} </v-icon>
                             </v-list-item-icon>
@@ -306,7 +325,7 @@
                         </span>
                     </div>
 
-                    <v-btn class="as-btn" large block to="/checkout">
+                    <v-btn class="as-btn" large block @click="openCart">
                         نهایی کردن سفارش
                         <v-icon class="ml-3">check</v-icon>
                     </v-btn>
@@ -679,6 +698,18 @@
                 setTimeout(() => {
                     offline_is_ok = false;
                 }, 5 * 60 * 1000);
+            } ,
+
+            openCart() {
+                if(!this.$auth) {
+                    this.openModal('login');
+                    setTimeout(() => {
+                        $('#alert-login').removeClass('d-none');
+                    }, 50);
+                    return;
+                } else {
+                    this.$router.push('/checkout');
+                }
             }
         }
     }

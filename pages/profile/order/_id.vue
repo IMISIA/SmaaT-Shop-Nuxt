@@ -91,7 +91,7 @@
 
 <script>
     import MiniCard from '~/components/MiniCard.vue';
-    import moment from '~/mixins/moment'
+    import moment from '~/mixins/moment';
     export default {
         async asyncData({ $axios , params }) {
             let { data } = await $axios({

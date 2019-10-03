@@ -52,9 +52,15 @@
 </template>
 
 <script>
-    import { mapState, mapActions } from 'vuex'
+    import { mapState, mapActions } from 'vuex';
+    import Cookie from '~/plugins/cookie';
     export default {
-        async fetch({ $axios , store }) {
+        async fetch({ $axios , store , req }) {
+            let JWT = Cookie.get('JWT' , req.headers.cookie);
+
+            $axios.setToken(JWT , 'Bearer');
+            if(JWT) $axios.defaults.baseURL = $axios.defaults.baseURL + '/auth';
+
             let { data } = await $axios({
                 method: 'POST' ,
                 data: {
@@ -115,7 +121,7 @@
                 }
             })
 
-            store.commit( 'Set_state' , {
+            if(data.data) store.commit( 'Set_state' , {
                 Prop : 'Me' ,
                 Val : data.data.me ,
                 Obj_Assign: true

@@ -195,6 +195,15 @@
     import { mapState , mapMutations , mapActions } from 'vuex';
     import Cookie from '~/plugins/cookie';
     export default {
+        mounted() {
+            this.$nextTick(function() {
+                if(this.$route.hash == '#login' && !this.$auth) {
+                    this.openModal('login');
+                    this.$router.replace({ hash: null });
+                }
+            })
+        } ,
+
         data() {
             return {
                 login: {
@@ -236,6 +245,7 @@
 
         computed: {
             ...mapState([
+                '$auth' ,
                 '$modals'
             ]) ,
 
@@ -298,6 +308,7 @@
                             this.login.loading = false;
                         } else {
                             Cookie.set('JWT' ,  data.data.login.token);
+                            localStorage.setItem('JWT' , data.data.login.token);
                             location.reload();
                         }
                     }
@@ -327,6 +338,7 @@
                             this.register.loading = false;
                         } else {
                             Cookie.set('JWT' ,  data.data.register.token);
+                            localStorage.setItem('JWT' , data.data.register.token);
                             location.reload();
                         }
                     }

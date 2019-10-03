@@ -10,7 +10,8 @@
                             <v-img
                                 :src="img.src"
                                 width="100%"
-                                max-height="350px"
+                                class="bg-white"
+                                min-height="350px"
                                 contain
                             />
                         </swiper-slide>
@@ -21,8 +22,7 @@
                             <div class="thumb">
                                 <v-img
                                     :src="img.src"
-                                    max-width="80"
-                                    max-height="80"
+                                    min-height="60"
                                     contain
                                     class="m-auto"
                                 />
@@ -30,7 +30,7 @@
                         </swiper-slide>
                     </swiper>
 
-                    <ul class="product-options">
+                    <ul class="product-options" v-if="false">
                         <li>
                             <el-tooltip class="item" effect="dark" content="علاقه مندی" placement="left">
                                 <v-btn color="#9b9b9b" fab text @click="AddFav(Product.id)">
@@ -69,7 +69,7 @@
                                     <div class="row">
                                         <div class="col-12 col-lg-6 mb-2" v-if="Product.brand">
                                             برند :
-                                            <router-link class="web-color" :to="`/brand/${Product.brand.slug}`">
+                                            <router-link class="web-color" :to="`/brand/${Product.brand.id}`">
                                                 {{ Product.brand.name }}
                                             </router-link>
                                         </div>
@@ -100,8 +100,10 @@
                                     <Variations v-if="is_exist(Product.variations)" :SyncColor="SyncColor"/>
 
                                     <div class="active-spec">
-                                        <span> ویژگی های محصول </span>
-                                        <ul class="mb-0">
+                                        <p v-html="Product.short_review.slice(0,500) + ' ...'"></p>
+
+                                        <!-- <span> ویژگی های محصول </span> -->
+                                        <ul class="mb-0" v-if="false">
                                             <li> حافظه داخلی: 256 گیگابایت </li>
                                             <li> مقدار RAM: 3 گیگابایت </li>
                                             <li> رزولوشن عکس: 12.0 مگاپیکسل </li>
@@ -159,7 +161,7 @@
                         </div>
                     </div>
 
-                    <div class="features">
+                    <div class="features" v-if="false">
                         <div class="border rounded h-100">
                             0
                         </div>
@@ -207,6 +209,12 @@
     import ProductSlider from '~/components/ProductSlider.vue';
 
     export default {
+        head() {
+            return {
+                title: this.Product.name
+            }
+        } ,
+
         mixins: [mixin,user] ,
 
         validate({ params }) {
@@ -246,6 +254,7 @@
                                 id
                                 file_name
                                 watermark
+                                medium
                                 custom_properties {
                                     color
                                 }
@@ -388,8 +397,8 @@
             Valid_Images() {
                 if(this.is_exist(this.Product.photos)) {
                     return this.Product.photos.map( img => {
-                        if(img.watermark) return {
-                            src: this.$url + img.watermark ,
+                        if(img.medium) return {
+                            src: this.$url + img.medium ,
                             color_code : img.custom_properties.color 
                         }; 
                     });

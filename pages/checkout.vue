@@ -19,14 +19,6 @@
                     complete-icon="flaticon-correct">
                     تکمیل اطلاعات پرداخت
                 </v-stepper-step>
-
-                <v-divider></v-divider>
-
-                <v-stepper-step
-                    step="۳"
-                    :color="web_color">
-                    اتمام خرید و ارسال
-                </v-stepper-step>
             </v-stepper-header>
 
             <div class="row mx-md-0 pt-3">
@@ -231,16 +223,14 @@
                                 </el-link>
                             </div>
                         </v-stepper-content>
-
-                        <v-stepper-content step="۳">
-                                <div class="alert alert-success" role="alert">
-                                    شما به‌ زودی به درگاه بانک منتقل می‌شوید ...
-                                </div>
-                        </v-stepper-content>
                     </v-stepper-items>
                 </div>
             </div>
         </v-stepper>
+
+        <v-snackbar class="rtl" v-model="snackbar" :timeout="0" color="#00C853">
+            شما به زودی به درگاه پرداخت منتقل میشوید ...
+        </v-snackbar>
 
         <AddAddress ref="AddAddress" :modal="addressModal" :title="addressModalTitle" :close-modal="() => addressModal = false"/>
     </section>
@@ -252,9 +242,15 @@
     import cartAside from '~/components/CartAside.vue';
     import miniCard from '~/components/MiniCard.vue';
     import AddAddress from '~/components/AddAddress.vue';
+    import Cookie from '~/plugins/cookie';
 
     export default {
-        async asyncData({ $axios }) {
+        async asyncData({ $axios , req }) {
+            let JWT = Cookie.get('JWT' , req.headers.cookie);
+
+            $axios.setToken(JWT , 'Bearer');
+            if(JWT) $axios.defaults.baseURL = $axios.defaults.baseURL + '/auth';
+
             let { data } = await $axios({
                 method: 'POST' ,
                 data: {
@@ -302,14 +298,27 @@
                 }
             })
 
-            return {
-                provinces: data.data.provinces ,
-                gateways: data.data.gateways.data ,
-                shipping_methods: data.data.shipping_methods.data
+            if(data.data) {
+                return {
+                    provinces: data.data.provinces ,
+                    gateways: data.data.gateways.data ,
+                    shipping_methods: data.data.shipping_methods.data
+                }
+            } else {
+                return {
+                    provinces: [] ,
+                    gateways: [] ,
+                    shipping_methods: []
+                }
             }
         } ,
 
-        async fetch({ $axios , store }) {
+        async fetch({ $axios , store , req }) {
+            let JWT = Cookie.get('JWT' , req.headers.cookie);
+
+            $axios.setToken(JWT , 'Bearer');
+            if(JWT) $axios.defaults.baseURL = $axios.defaults.baseURL + '/auth';
+
             let { data } = await $axios({
                 method: 'POST' ,
                 data: {
@@ -342,18 +351,18 @@
                 }
             })
 
-            store.commit( 'Set_state' , {
+            if(data.data && data.data.me) store.commit( 'Set_state' , {
                 Prop : 'Me' ,
                 Val : data.data.me ,
                 Obj_Assign: true
             })
         } ,
 
-        validate({ store }) {
-            return typeof store.state.Me === 'object' && Object.keys(store.state.Me).length !== 0
-                typeof store.state.Shopping_Cart === 'object' && Object.keys(store.state.Shopping_Cart).length
-                ? true : false;
-        } ,
+        // validate({ store }) {
+        //     return typeof store.state.Me === 'object' && Object.keys(store.state.Me).length !== 0
+        //         typeof store.state.Shopping_Cart === 'object' && Object.keys(store.state.Shopping_Cart).length
+        //         ? true : false;
+        // } ,
 
         mixins: [mixin] ,
 
@@ -364,8 +373,8 @@
         } ,
 
         mounted() {
-            this.sendingType = this.shipping_methods[0].id;
-            this.paymentType = this.gateways[0].id;
+            this.sendingType = this.is_exist(this.shipping_methods) ? this.shipping_methods[0].id : '';
+            this.paymentType = this.is_exist(this.gateways) ? this.gateways[0].id : '';
             this.$nextTick(function() {
                 this.showSlider = true;
                 if(!this.Res) this.DynamicSidebar('.checkout-box', '.v-stepper__items', 16)
@@ -375,6 +384,8 @@
         data() {
             return {
                 Stepper: '۱' ,
+
+                snackbar: false ,
 
                 Offer: 0 ,
 
@@ -470,6 +481,7 @@
             } ,
 
             ToPortal() {
+                this.snackbar = true;
                 this.Request({
                     type: 'mutation' ,
                     name: 'createPayment' ,
@@ -483,6 +495,7 @@
                         if(data.data && data.data.createPayment && data.data.createPayment.code) {
                             location.href = '/api/v1/payment/' + data.data.createPayment.code;
                         } else if(data.status == 400) {
+                            this.snackbar = false;
                             this.Stepper = '۱';
                             this.Notif(data.message , 'warning', 'error' , 5000);
                         }

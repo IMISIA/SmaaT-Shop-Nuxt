@@ -105,6 +105,7 @@
 .element-search {
   height: auto !important;
   padding: 0px !important;
+  min-width: 300px;
 }
 .element-search .con-vs-alert {
   height: unset !important;
@@ -1084,6 +1085,11 @@
 .single-product .active-spec li:last-child {
   margin-bottom: 0;
 }
+.single-product .active-spec p * {
+  font-size: 13px !important;
+  line-height: 2;
+  color: #767676;
+}
 .single-product .row-title {
   background: #f5f5f5;
   color: #777777;
@@ -1999,6 +2005,7 @@ footer .col-list a:hover {
 .trust-symbol img {
   height: 100px;
   width: 100px;
+  filter: grayscale(1);
 }
 
 @media (max-width: 768px) {
@@ -2065,6 +2072,10 @@ p {
 ul {
   margin: 0;
   list-style-type: none;
+}
+
+body h1, body h2, body h3, body h4, body h5, body h6 {
+  line-height: 2;
 }
 
 article, aside, footer, header, nav, section {

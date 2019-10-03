@@ -1,8 +1,8 @@
 import Cookie from '~/plugins/cookie';
 
 export const state = () => ({
-    // $url: 'http://luxbuystore.ir' ,
-    $url: '' ,
+    $url: 'http://luxbuystore.ir' ,
+    // $url: '' ,
 
     $auth: false ,
     $reload: false ,
@@ -83,6 +83,8 @@ export const mutations = {
 
 export const actions = {
     async nuxtServerInit ({ state } , { req , app }) {
+        return;
+
         let JWT = Cookie.get('JWT' , req.headers.cookie);
 
         let query = {
@@ -328,6 +330,7 @@ export const actions = {
 
     Logout() {
         Cookie.remove('JWT');
-        location.reload();
+        localStorage.removeItem('JWT');
+        location.href = '/';
     }
 }
