@@ -242,15 +242,9 @@
     import cartAside from '~/components/CartAside.vue';
     import miniCard from '~/components/MiniCard.vue';
     import AddAddress from '~/components/AddAddress.vue';
-    import Cookie from '~/plugins/cookie';
 
     export default {
         async asyncData({ $axios , req }) {
-            let JWT = Cookie.get('JWT' , req.headers.cookie);
-
-            $axios.setToken(JWT , 'Bearer');
-            if(JWT) $axios.defaults.baseURL = $axios.defaults.baseURL + '/auth';
-
             let { data } = await $axios({
                 method: 'POST' ,
                 data: {
@@ -314,11 +308,6 @@
         } ,
 
         async fetch({ $axios , store , req }) {
-            let JWT = Cookie.get('JWT' , req.headers.cookie);
-
-            $axios.setToken(JWT , 'Bearer');
-            if(JWT) $axios.defaults.baseURL = $axios.defaults.baseURL + '/auth';
-
             let { data } = await $axios({
                 method: 'POST' ,
                 data: {
@@ -358,11 +347,15 @@
             })
         } ,
 
-        // validate({ store }) {
-        //     return typeof store.state.Me === 'object' && Object.keys(store.state.Me).length !== 0
-        //         typeof store.state.Shopping_Cart === 'object' && Object.keys(store.state.Shopping_Cart).length
-        //         ? true : false;
-        // } ,
+        validate({ store , redirect }) {
+            if(typeof store.state.Me === 'object' && Object.keys(store.state.Me).length !== 0 &&
+                typeof store.state.Shopping_Cart === 'object' && Object.keys(store.state.Shopping_Cart).length) {
+                    return true;
+            } else {
+                redirect('/');
+                return false
+            }
+        } ,
 
         mixins: [mixin] ,
 
@@ -373,8 +366,6 @@
         } ,
 
         mounted() {
-            this.sendingType = this.is_exist(this.shipping_methods) ? this.shipping_methods[0].id : '';
-            this.paymentType = this.is_exist(this.gateways) ? this.gateways[0].id : '';
             this.$nextTick(function() {
                 this.showSlider = true;
                 if(!this.Res) this.DynamicSidebar('.checkout-box', '.v-stepper__items', 16)
@@ -395,7 +386,7 @@
                 addressModal: false ,
                 addressModalTitle: 'افزودن آدرس جدید' ,
 
-                sendingType: 0 ,
+                sendingType: '' ,
                 sendReceipt: false ,
 
                 showSlider: false ,
@@ -418,7 +409,7 @@
                     }
                 } ,   
 
-                paymentType: '1' ,
+                paymentType: '' ,
                 offCode: ''
             }
         } ,
@@ -435,7 +426,6 @@
 
             Shipping() {
                 let obj = this.shipping_methods.find(el => el.id == this.sendingType);
-                console.log(obj);
                 return obj ? obj.cost : 0;
             } ,
 
@@ -517,7 +507,6 @@
                     clone.lat = editable_address.coordinates.lat;
                     clone.lng = editable_address.coordinates.lng;
                     clone.id = eval(clone.id);
-                    console.log(clone);
                     this.$refs.AddAddress.newAddress = { ...this.$refs.AddAddress.newAddress , ...clone };
                     this.addressModal = true;
                 }

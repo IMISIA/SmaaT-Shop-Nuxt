@@ -1,5 +1,5 @@
 <template>
-    <section class="orders">
+    <section class="orders" v-if="valid_orders && valid_orders.length">
         <span class="headline-info"> همه سفارش‌ها </span>
 
         <el-card class="am-shadow rtl" :body-style="{ padding: 0 }">
@@ -15,64 +15,29 @@
                 </template>
                 <template #item.created_at="{item}">
                     <template v-if="item.created_at">
-                        {{ item.created_at | created }}
+                        {{ item.created_at | created('') }}
                     </template>
                     <span v-else>---</span>
                 </template>
-                <template #item.order_delivery_date="{item}">
-                    <template v-if="item.order_delivery_date">
-                        {{ item.order_delivery_date | created }}
+                <template #item.paid_at="{item}">
+                    <template v-if="item.paid_at">
+                        <span class="text-success">
+                            {{ item.paid_at | created('') }}
+                        </span>
                     </template>
-                    <span v-else>---</span>
+                    <el-tag v-else type="danger">پرداخت نشده</el-tag>
                 </template>
-                </v-data-table>
+            </v-data-table>
         </el-card>
     </section>
+
+    <no-data v-else :buttonTitle="null" message="سفارشی ثبت نشده است"></no-data>
 </template>
 
 <script>
+    import { mapState } from 'vuex';
     import moment from '~/mixins/moment';
-    import Cookie from '~/plugins/cookie';
     export default {
-        async asyncData({ $axios , params , req }) {
-            let JWT = Cookie.get('JWT' , req.headers.cookie);
-
-            $axios.setToken(JWT , 'Bearer');
-            if(JWT) $axios.defaults.baseURL = $axios.defaults.baseURL + '/auth';
-
-            let { data } = await $axios({
-                method: 'POST' ,
-                data: {
-                    query: `
-                        {   
-                            me {
-                                orders {
-                                    id
-                                    offer
-                                    total
-                                    shipping_cost
-                                    paid_at
-                                    created_at
-                                    order_status {
-                                        id
-                                        title
-                                        color
-                                    }
-                                    shipping_method {
-                                        name
-                                    }
-                                }
-                            }
-                        }
-                    `
-                }
-            })
-
-            return {
-                orders: data.data ? data.data.me.orders : []
-            }
-        } ,
-
         mixins: [moment] ,
 
         data() {
@@ -92,8 +57,8 @@
                         value: 'created_at'
                     } ,
                     {
-                        text: 'زمان تحویل سفارش',
-                        value: 'order_delivery_date'
+                        text: 'تاربخ پرداخت',
+                        value: 'paid_at'
                     } ,
                     {
                         text: 'تخفیف',
@@ -101,11 +66,11 @@
                     } ,
                     {
                         text: 'مبلغ قابل پرداخت',
-                        value: 'total_price'
+                        value: 'total'
                     } ,
                     {
-                        text: 'عملیات پرداخت',
-                        value: 'operation',
+                        text: 'وضعیت سفارش',
+                        value: 'order_status',
                         sortable: false
                     } ,
                     {
@@ -118,23 +83,23 @@
         } ,
 
         computed: {
+            ...mapState({
+                orders: state => state.Me.orders
+            }) ,
+
             valid_orders() {
-                let arr = [];
-
-                this.orders.map( (el,idx) => {
-                    arr.push({
+                return this.orders.map( (el,idx) => {
+                    return {
+                        index: (idx + 1).toLocaleString('fa-IR') ,
                         id: el.id ,
-                        index: idx.toLocaleString('fa-IR') ,
-                        order_number: el.id ,
+                        order_number: el.id.toUpperCase() + '#' ,
                         created_at: el.created_at ,
-                        order_delivery_date: el.paid_at ,
-                        offer: el.offer.toLocaleString('fa-IR') || '---' ,
-                        total_price: el.total.toLocaleString('fa-IR') || '---' ,
-                        operation: el.order_status.title || '---' ,
-                    })
+                        paid_at: el.paid_at ,
+                        offer: el.offer ? el.offer.toLocaleString('fa-IR') + ' تومان' : '---' ,
+                        total: el.total ? el.total.toLocaleString('fa-IR') + ' تومان' : '---' ,
+                        order_status: el.order_status
+                    }
                 })
-
-                return arr;
             }
         }
     }

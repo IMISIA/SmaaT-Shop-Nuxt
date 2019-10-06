@@ -133,7 +133,7 @@
                                 v-for="(item,idx) in NewComment.advantages.value"
                                 :key="idx"
                                 :title="item"
-                                class="mt-2"
+                                class="mb-2"
                                 type="success"
                                 @close="Delete_Adv(true,item)">
                             </el-alert>
@@ -159,7 +159,7 @@
                                 v-for="(item,idx) in NewComment.disadvantages.value"
                                 :key="idx"
                                 :title="item"
-                                class="mt-2"
+                                class="mb-2"
                                 type="error"
                                 @close="Delete_Adv(false,item)">
                             </el-alert>
@@ -218,8 +218,6 @@
                 `
                 }
             });
-
-            console.log(data);
 
             store.commit( 'Set_state' , {
                 Module : 'product' ,

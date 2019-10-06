@@ -13,11 +13,8 @@
     </div>
 
     <product-slider class="pt-3"
-      :Products="{
-        title: 'محصولات' ,
-        data: Products ,
-        size: 12
-      }"
+      :Products="{ title: 'محصولات' , data: Products , size: 12 }"
+      :Link="{ title: 'نمایش همه' , to: '/category' }"
     />
 
     <posters :Posters="SiteSetting.posters"/>

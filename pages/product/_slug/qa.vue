@@ -198,8 +198,6 @@
                 }
             })
 
-            console.log(data);
-
             store.commit( 'Set_state' , {
                 Module : 'product' ,
                 Prop : 'Single_Product' ,

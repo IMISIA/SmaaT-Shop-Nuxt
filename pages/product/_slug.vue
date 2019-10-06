@@ -30,7 +30,7 @@
                         </swiper-slide>
                     </swiper>
 
-                    <ul class="product-options" v-if="false">
+                    <ul class="product-options">
                         <li>
                             <el-tooltip class="item" effect="dark" content="علاقه مندی" placement="left">
                                 <v-btn color="#9b9b9b" fab text @click="AddFav(Product.id)">
@@ -221,7 +221,7 @@
             return params.slug ? true : false;
         } ,
 
-        async fetch({ $axios , store , params }) {
+        async fetch({ $axios , store , params , error }) {
             let { data } = await $axios({
                 method: 'POST' ,
                 data: {
@@ -320,6 +320,8 @@
                 `
                 }
             })
+
+            if(!data.data.product) error({ statusCode: 404, message: 'محصول مورد نظر پیدا نشد' });
 
             store.commit( 'Set_state' , {
                 Module : 'product' ,

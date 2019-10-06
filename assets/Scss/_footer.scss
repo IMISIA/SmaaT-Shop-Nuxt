@@ -61,15 +61,31 @@ footer {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    div {
+    > div {
         background: #fff;
         padding: 10px;
         border: 1px solid map-get($colors , "border");
         border-radius: 4px;
+        position: relative;
+        overflow: hidden;
+        &::before {
+            content: 'در انتظار تایید';
+            position: absolute;
+            top: 15px;
+            right: -30px;
+            width: 120px;
+            text-align: center;
+            background: #FF1744;
+            color: #fff;
+            font-size: 9px;
+            padding: 5px 10px;
+            transform: rotate(40deg);
+            z-index: 2;
+        }
     }
     img {
-        height: 100px;
-        width: 100px;
+        height: 85px;
+        width: 85px;
         filter: grayscale(1);
     }
 }

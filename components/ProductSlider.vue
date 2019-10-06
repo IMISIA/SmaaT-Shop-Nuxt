@@ -5,6 +5,9 @@
             <el-card class="product-slider">
                 <div slot="header" class="text-right bold">
                     <span> {{ Products.title }} </span>
+                    <nuxt-link v-if="Link" :to="Link.to" class="fs-10 mr-2">
+                        ( {{ Link.title }} )
+                    </nuxt-link>
                     <div :style="{ display: 'contents !important' }">
                         <vs-button
                             class="next-product"
@@ -58,7 +61,6 @@
                     }
                 }
             } ,
-
             Offers: {
                 type: Object ,
                 default() {
@@ -69,9 +71,12 @@
                     }
                 }
             } ,
-
             firstOffers: {
                 default: null
+            } ,
+            Link: {
+                type: Object
+                // Props : title , to
             }
         } ,
 

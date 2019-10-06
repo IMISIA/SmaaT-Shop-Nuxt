@@ -1,5 +1,5 @@
 <template>
-    <section class="user-reviews">
+    <section class="user-reviews" v-if="reviews && reviews.length && questions && questions.length">
         <template v-if="reviews && reviews.length">
             <span class="headline-info"> نقدها </span>
             <div class="row rtl">
@@ -49,18 +49,14 @@
             </div>
         </template>
     </section>
+
+    <no-data v-else message="نظری ثبت نشده است" :buttonTitle="null"></no-data>
 </template>
 
 <script>
     import { mapState, mapActions } from 'vuex';
-    import Cookie from '~/plugins/cookie';
     export default {
         async fetch({ $axios , store , req }) {
-            let JWT = Cookie.get('JWT' , req.headers.cookie);
-
-            $axios.setToken(JWT , 'Bearer');
-            if(JWT) $axios.defaults.baseURL = $axios.defaults.baseURL + '/auth';
-
             let { data } = await $axios({
                 method: 'POST' ,
                 data: {

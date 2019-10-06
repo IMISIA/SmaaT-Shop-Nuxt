@@ -52,7 +52,7 @@
         </el-card>
 
         <!-- Available Products -->
-        <el-card class="am-shadow">
+        <el-card class="am-shadow" v-if="false">
             <v-app class="available-products">
                 <v-switch
                     v-model="Available_Products"
@@ -239,7 +239,7 @@
                             range
                             :show-tooltip="false"
                             :step="10"
-                            :max="1000">
+                            :max="100000">
                         </el-slider>
 
                         <div class="row">
@@ -259,7 +259,8 @@
                             </div>
                         </div>
 
-                        <v-btn class="as-btn mt-3" large block>
+                        <v-btn class="as-btn mt-3" large block
+                            @click="SetPrices">
                             اعمال محدوده قیمت
                         </v-btn>
                     </v-expansion-panel-content>
@@ -328,7 +329,7 @@
                 
                 Available_Products: false ,
 
-                PriceRange: [100,800] ,
+                PriceRange: [0,100000] ,
 
                 TreeDefaultProps: {
                     children: 'childs' ,
@@ -387,10 +388,21 @@
                         })
                     }
                 })
+
+                if(QueryStr.min) this.PriceRange[0] = parseInt(QueryStr.min) / 1000;
+                if(QueryStr.max) this.PriceRange[1] = parseInt(QueryStr.max) / 1000;
             } ,
 
             DeleteAllFilters() {
                 this.$router.replace({ query: { page: 1 } })
+            } ,
+
+            SetPrices() {
+                let QueryStr = {};
+                if(this.PriceRange[0]) QueryStr.min = this.PriceRange[0] * 1000;
+                if(this.PriceRange[1]) QueryStr.max = this.PriceRange[1] * 1000;
+
+                this.$router.replace({query: QueryStr});
             } ,
 
             NodeClick(data, node) {

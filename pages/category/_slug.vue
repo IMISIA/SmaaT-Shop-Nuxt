@@ -32,7 +32,16 @@
                     ? QueryParams += `${el}: [${ObjectParams[el]}] , \n`
                     : QueryParams += `${el}: ${ObjectParams[el]} , \n`
                 }
+
             })
+            if(query.min || query.max) {
+                QueryParams += `
+                    sales_price : {
+                        min : "${query.min || ''}" ,
+                        max : "${query.max || ''}"
+                    } ,
+                `
+            }
 
             let QueryFilters = `
                 category(id:${params.slug}) {

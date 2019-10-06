@@ -2,7 +2,7 @@
     <section class="slider">
         <swiper :options="SwiperOptions">
             <swiper-slide v-for="(slide,idx) in slides" :key="idx" dir="rtl">
-                <nuxt-link to="/">
+                <nuxt-link :to="slide.link || '/'">
                     <img
                         :src=" slide.image && slide.image.wide
                             ? $url + slide.image.wide

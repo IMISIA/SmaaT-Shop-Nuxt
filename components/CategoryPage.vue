@@ -56,14 +56,14 @@
 
                     <div class="row mx-0 rtl">
                         <template v-if="!Res">
-                            <div class="col-md-4 col-lg-3 col-sm-6 product"
+                            <div class="col-md-4 col-xl-3 col-sm-6 product"
                                 v-for="(product,idx) in Products_Ctg" :key="idx">
                                 <card :Product="product" :Hover="false" :Info="false" absolute-colors/>
                             </div>
                         </template>
 
                         <template v-else>
-                            <div class="col-md-4 col-lg-3 col-sm-6 product"
+                            <div class="col-12 product"
                                 v-for="(product,idx) in Products_Ctg" :key="`res-${idx}`">
                                 <mini-card
                                     :variation="{ product , sales_price: product.variation ? product.variation.sales_price : null }"
@@ -223,6 +223,7 @@
 
                 if( !_.isEqual(QueryStr , this.$route.query) ) {
                     this.$router.replace({ query : QueryStr })
+                    this.$vuetify.goTo(0 , { duration : 1000 });
                 }
             } ,
 

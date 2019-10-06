@@ -1,7 +1,7 @@
 import Cookie from '~/plugins/cookie';
 
 export const state = () => ({
-    $url: 'http://luxbuystore.ir' ,
+    $url: 'http://metro-market.ir' ,
     // $url: '' ,
 
     $auth: false ,
@@ -65,6 +65,10 @@ export const mutations = {
             ? _.pull(state[pld.Prop], pld.Val)
             : state[pld.Prop].splice(pld.Idx, 1)
         }
+    } ,
+
+    Resolver(state , pld) {
+        pld.resolver(state);
     } ,
 
     openModal(state , name) {
@@ -309,7 +313,7 @@ export const actions = {
             }
         `;
 
-        console.log(query);
+        // console.log(query);
 
         this.$axios({
             method: 'POST' ,

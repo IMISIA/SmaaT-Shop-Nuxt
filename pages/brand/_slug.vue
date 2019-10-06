@@ -21,7 +21,7 @@
     import { mapState } from 'vuex';
 
     export default {
-        // watchQuery: true ,
+        watchQuery: true ,
 
         async fetch({ $axios , store , params , query }) {
             let ObjectParams = {
@@ -48,6 +48,14 @@
                     : QueryParams += `${el}: ${ObjectParams[el]} , \n`
                 }
             })
+            if(query.min || query.max) {
+                QueryParams += `
+                    sales_price : {
+                        min : "${query.min || ''}" ,
+                        max : "${query.max || ''}"
+                    } ,
+                `
+            }
 
             let QueryFilters = `
                 category(id:${params.slug}) {
@@ -132,8 +140,6 @@
                 `
                 }
             })
-
-            console.log(data);
 
             store.commit( 'Set_state' , {
                 Module : 'product' ,

@@ -18,7 +18,7 @@
 
                 <hr>
 
-                <div class="col-12 col-sm-6 col-md-4">
+                <div class="col-12 col-md-6 col-lg-4 mb-3 mb-md-0">
                     <div class="col-header">
                         اطلاعات
                         {{ SiteSetting.title }}
@@ -26,10 +26,13 @@
 
                     <ul class="col-list">
                         <li>
-                            <a :href="`tel:${SiteSetting.phone || '09105009868'}`">
+                            <a v-if="SiteSetting.phone" :href="`tel:${SiteSetting.phone}`">
                                 شماره تماس :
-                                {{ (SiteSetting.phone || '9105009868') | Num2Fa(false) }} 
+                                {{ SiteSetting.phone | Num2Fa(false) }} 
                             </a>
+                            <span v-else>
+                                شماره تماس : تعریف نشده
+                            </span>
                         </li>
                         <li>
                             <address class="d-inline-block m-0">
@@ -40,7 +43,7 @@
                     </ul>
                 </div>
 
-                <div class="col-6 col-sm-3 col-md-2">
+                <div class="col-6 col-md-3 col-lg-2">
                     <div class="col-header"> دسته‌بندی ها </div>
 
                     <ul class="col-list">
@@ -57,7 +60,7 @@
                     </ul>
                 </div>
 
-                <div class="col-6 col-sm-3 col-md-2">
+                <div class="col-6 col-md-3 col-lg-2">
                     <ul class="col-list">
                         <li v-for="(item,idx) in Categories.slice(2,6)" :key="idx">
                             <nuxt-link :to="`/category/${item.id}`">
@@ -67,7 +70,7 @@
                     </ul>
                 </div>
 
-                <div class="col-12 col-md-4">
+                <div class="col-12 col-md-12 col-lg-4 mt-3 mt-lg-0">
                     <div class="trust-symbol">
                         <div v-for="idx in 3" :key="idx">
                             <img :src="`/images/TrustSymbol/ts${idx}.png`" alt="trust-symbol">

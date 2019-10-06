@@ -1,3 +1,4 @@
+@charset "UTF-8";
 .header-banner {
   z-index: 999;
 }
@@ -1236,6 +1237,9 @@
   margin-top: 1rem;
   font-size: 13px;
 }
+.single-product .v-text-field.v-text-field--enclosed .v-input__prepend-inner {
+  margin-top: 10px !important;
+}
 
 .product-description {
   color: #6b6b6b;
@@ -1996,15 +2000,31 @@ footer .col-list a:hover {
   align-items: center;
   justify-content: space-evenly;
 }
-.trust-symbol div {
+.trust-symbol > div {
   background: #fff;
   padding: 10px;
   border: 1px solid #dcdee2;
   border-radius: 4px;
+  position: relative;
+  overflow: hidden;
+}
+.trust-symbol > div::before {
+  content: "در انتظار تایید";
+  position: absolute;
+  top: 15px;
+  right: -30px;
+  width: 120px;
+  text-align: center;
+  background: #FF1744;
+  color: #fff;
+  font-size: 9px;
+  padding: 5px 10px;
+  transform: rotate(40deg);
+  z-index: 2;
 }
 .trust-symbol img {
-  height: 100px;
-  width: 100px;
+  height: 85px;
+  width: 85px;
   filter: grayscale(1);
 }
 
@@ -2157,14 +2177,15 @@ legend {
   box-shadow: 0 5px 10px -8px #00bcd421, 0 6px 25px -12px rgba(0, 0, 0, 0.1);
 }
 #error-page h1 {
-  font-size: 32px;
+  font-size: 28px;
   font-weight: bold;
+  margin-bottom: 32px;
   line-height: 1.5;
 }
 #error-page h2 {
-  font-size: 150px;
+  font-size: 140px;
   font-weight: bold;
-  margin-top: 30px;
+  line-height: 1;
 }
 
 #no-data {

@@ -3,14 +3,14 @@
         <div class="container-fuild py-2 px-md-3">
             <div class="row rtl py-md-2 mx-0">
                 <div class="col-lg-2 col-md-2 col-sm-3 d-flex align-items-center justify-content-center">
-                    <div class="hamburger hamburger--spin js-hamburger" v-show="Res"
-                         @click="drawerCtg = true">
+                    <div class="hamburger hamburger--spin js-hamburger"
+                        v-show="!$vuetify.breakpoint.lgAndUp" @click="drawerCtg = true">
                         <div class="hamburger-box">
                             <div class="hamburger-inner"></div>
                         </div>
                     </div>
 
-                    <v-spacer v-show="Res"></v-spacer>
+                    <v-spacer v-show="!$vuetify.breakpoint.lgAndUp"></v-spacer>
 
                     <nuxt-link to="/" class="d-inline-block link-logo">
                         <img
@@ -149,7 +149,7 @@
             </div>
         </div>
 
-        <nav class="categories" v-if="!Res && is_exist(Categories)">
+        <nav class="categories" v-if="$vuetify.breakpoint.lgAndUp && is_exist(Categories)">
             <ul class="rtl">
                 <span class="ctg-hover web-bg"></span>
                 <li class="ctg-item" v-for="ctg in Categories" :key="ctg.id">
@@ -376,7 +376,7 @@
 
         created() {
             if(process.client) this.Dynamic_Color();
-            if(true && process.client) this.AutoSize();
+            if(false && process.client) this.AutoSize();
         } ,
 
         mounted() {

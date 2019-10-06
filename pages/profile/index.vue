@@ -53,10 +53,34 @@
             </el-card>
         </div>
 
-        <div class="col-12">
+        <div class="col-12" v-if="false">
             <span class="headline-info"> آخرین سفارشات </span>
 
-            <el-card v-if="false" class="am-shadow"></el-card>
+            <el-card v-if="valid_orders && valid_orders.length" class="am-shadow">
+            <v-data-table
+                :headers="tableHeaders"
+                :items="valid_orders"
+                :disable-sort="$nuxt.$res"
+                hide-default-footer>
+                <template #item.order-more="{item}">
+                    <nuxt-link :to="'/profile/order/' + item.id">
+                        <v-icon :small="$nuxt.$res">fas fa-chevron-left</v-icon>
+                    </nuxt-link>
+                </template>
+                <template #item.created_at="{item}">
+                    <template v-if="item.created_at">
+                        {{ item.created_at | created }}
+                    </template>
+                    <span v-else>---</span>
+                </template>
+                <template #item.paid_at="{item}">
+                    <template v-if="item.paid_at">
+                        {{ item.paid_at | created }}
+                    </template>
+                    <span v-else>---</span>
+                </template>
+            </v-data-table>
+            </el-card>
             <no-data v-else :buttonTitle="null" message="سفارشی ثبت نشده است"></no-data>
         </div>
 
@@ -79,12 +103,25 @@
                     <div :class="item.size" v-for="item in information_keys" :key="item.key">
                         <span class="title-field required"> {{ item.title }} </span>
                         <v-text-field
+                            v-if="item.key != 'gender'"
                             v-model="editUser[item.key]"
                             :label="`${item.title} خود را وارد نمایید`"
                             reverse
+                            :rules="[rules[item.rule]]"
                             single-line
                             outlined
                         ></v-text-field>
+
+                        <v-select
+                            v-else
+                            v-model="editUser[item.key]"
+                            :items="genders"
+                            item-text="name"
+                            item-value="value"
+                            :label="`${item.title} خود را وارد نمایید`"
+                            outlined
+                            single-line>
+                        </v-select>
                     </div>
 
                     <div class="col-12">
@@ -117,7 +154,6 @@
 
         created() {
             this.information_keys.map( el => {
-                console.log(this.Me , el);
                 this.editUser[el.key] = this.Me[el.key];
             })
         } ,
@@ -125,12 +161,12 @@
         data() {
             return {
                 information_keys: [
-                    { key: 'first_name' , title: 'نام' , size: 'col-md-6' } ,
-                    { key: 'last_name' , title: 'نام خانوداگی' , size: 'col-md-6' } ,
+                    { key: 'first_name' , title: 'نام' , rule: 'required' , size: 'col-md-6' } ,
+                    { key: 'last_name' , title: 'نام خانوداگی' , rule: 'required' , size: 'col-md-6' } ,
                     // { key: 'phone_number' , title: 'شماره تلفن همراه' , size: 'col-md-6' } ,
-                    { key: 'national_code' , title: 'کد ملی' , size: 'col-md-6' } ,
-                    { key: 'gender' , title: 'جنسیت' , size: 'col-md-6' } ,
-                    { key: 'email' , title: 'پست الکترونیک' , size: 'col-12' } ,
+                    { key: 'national_code' , title: 'کد ملی' , rule: 'maxCode' , size: 'col-md-6' } ,
+                    { key: 'gender' , title: 'جنسیت' , rule: '' , size: 'col-md-6' } ,
+                    { key: 'email' , title: 'پست الکترونیک' , rule: 'email' , size: 'col-12' } ,
                 ] ,
 
                 editUser: {
@@ -145,13 +181,88 @@
                         valid: false ,
                         loading: false
                     }
-                }
+                } ,
+
+                genders: [
+                    { name: 'مرد' , value: true } ,
+                    { name: 'زن' , value: false } ,
+                    { name: 'غیره' , value: null }
+                ] ,
+
+                rules : {
+                    required: value => !!value || 'این فیلد الزامی است',
+                    maxCode: value => value ? value.length <= 10 || 'رمز عبور حداکثر باید 10 کاراکتر باشد' : true,
+                    email: value => {
+                        const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+                        return pattern.test(value) || 'پست الکترونیک نامعتبر است'
+                    }
+                } ,
+
+                tableHeaders: [
+                    {
+                        text: '#',
+                        value: 'index'
+                    } ,
+                    {
+                        text: 'شماره سفارش',
+                        value: 'order_number',
+                        sortable: false
+                    } ,
+                    {
+                        text: 'تاریخ ثبت سفارش',
+                        value: 'created_at'
+                    } ,
+                    {
+                        text: 'زمان تحویل سفارش',
+                        value: 'paid_at'
+                    } ,
+                    {
+                        text: 'تخفیف',
+                        value: 'offer'
+                    } ,
+                    {
+                        text: 'مبلغ قابل پرداخت',
+                        value: 'total_price'
+                    } ,
+                    {
+                        text: 'وضعیت سفارش',
+                        value: 'operation',
+                        sortable: false
+                    } ,
+                    {
+                        text: 'جزییات',
+                        value: 'order-more',
+                        sortable: false ,
+                    }
+                ]
             }
         } ,
 
-        computed: mapState([
-            'Me'
-        ]) ,
+        computed: {
+            ...mapState({
+                Me: state => state.Me ,
+                orders: state => state.Me.orders
+            }) ,
+
+            valid_orders() {
+                let arr = [];
+
+                this.orders.map( (el,idx) => {
+                    arr.push({
+                        id: el.id ,
+                        index: idx.toLocaleString('fa-IR') ,
+                        order_number: el.id ,
+                        created_at: el.created_at ,
+                        paid_at: el.paid_at ,
+                        offer: el.offer.toLocaleString('fa-IR') || '---' ,
+                        total_price: el.total.toLocaleString('fa-IR') || '---' ,
+                        operation: el.order_status.title || '---' ,
+                    })
+                })
+
+                return arr;
+            }
+        } ,
 
         methods: {
             ...mapActions([

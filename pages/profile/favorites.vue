@@ -3,7 +3,7 @@
         <span class="headline-info"> لیست علاقه‌مندی ها </span>
 
         <div class="row rtl">
-            <div class="col-lg-6 mb-3" v-for="fav in Me.favorites" :key="fav.id">
+            <div class="col-lg-6 mb-3" v-for="(fav,idx) in Me.favorites" :key="idx">
                 <el-card class="am-shadow" :body-style="{ padding: 0 }">
                     <mini-card
                         :variation="{ product: fav , sales_price: fav.variation ? fav.variation.sales_price : null }"
@@ -16,7 +16,7 @@
                     </mini-card>
 
                     <div class="box-actions small row">
-                        <v-btn class="col-4" text color="#dc3545" >
+                        <v-btn class="col-4" text color="#dc3545" @click="DelFav(fav.id , idx)">
                             حذف
                         </v-btn>
                         <v-btn class="col-8" text color="#0ecfc6" :to="`/product/${fav.slug}`">
@@ -32,9 +32,12 @@
 </template>
 
 <script>
-    import {mapState} from 'vuex';
+    import { mapState } from 'vuex';
     import miniCard from '~/components/MiniCard.vue';
+    import user from '~/mixins/user';
     export default {
+        mixins: [user] ,
+
         components: {
             miniCard
         } ,

@@ -16,7 +16,12 @@
             <div class="row order-info">
                 <div class="col-md-6" v-for="item in order_keys" :key="item.key">
                     <span> {{ item.title }} : </span>
-                    <p> {{ item.prop ? order[item.key][item.prop] : order[item.key] || '---' }} </p>
+                    <p>
+                        {{ item.prop
+                        ? order[item.key] ? order[item.key][item.prop] : '---'
+                        : order[item.key] || '---'
+                        }}
+                    </p>
                 </div>
                 <div class="col-md-6">
                     <span> درگاه پرداخت : </span>
@@ -24,11 +29,13 @@
                 </div>
                 <div class="col-md-6">
                     <span> تاریخ پرداخت : </span>
-                    <p> {{ (order.paid_at || '---') | created }} </p>
+                    <p v-if="order.paid_at"> {{ order.paid_at | created }} </p>
+                    <p v-else>---</p>
                 </div>
                 <div class="col-md-6">
                     <span> تاریخ سفارش : </span>
-                    <p> {{ (order.created_at || '---') | created }} </p>
+                    <p v-if="order.created_at"> {{ order.created_at | created }} </p>
+                    <p v-else>---</p>
                 </div>
             </div>
         </el-card>

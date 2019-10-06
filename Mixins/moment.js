@@ -6,8 +6,8 @@ export default {
         moment.locale('fa')
     } ,
     filters: {
-        created(date) {
-            return 'ثبت شده در ' + moment(date, "YYYY-MM-DD ساعت HH:mm:ss").format('jYYYY/jM/jD ساعت HH:mm:ss');
+        created(date , str = 'ثبت شده در ') {
+            return str + moment(date, "YYYY-MM-DD ساعت HH:mm:ss").format('jYYYY/jM/jD ساعت HH:mm:ss');
         },
         edited(date) {
             return 'اصلاح شده در ' + moment(date, "YYYY-MM-DD ساعت HH:mm:ss").format('jYYYY/jM/jD ساعت HH:mm:ss');

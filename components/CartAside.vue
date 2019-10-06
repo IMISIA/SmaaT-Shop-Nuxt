@@ -12,7 +12,10 @@
                 </li>
                 <li>
                     هزینه ارسال        
-                    <span data-price="تومان"> {{ shipping | Num2Fa }} </span>
+                    <span v-if="shipping && shipping > 0" data-price="تومان">
+                        {{ shipping | Num2Fa }}
+                    </span>
+                    <span v-else> رایگان </span>
                 </li>
             </ul>
 
@@ -21,8 +24,11 @@
 
             <div class="final-price">
                 <span class="final-price-title"> : مبلغ قابل پرداخت </span>
-                <span class="final-price-topay web-color" data-price="تومان">
+                <span v-if="FinalPrice && FinalPrice > 0" class="final-price-topay web-color" data-price="تومان">
                     {{ FinalPrice | Num2Fa }}
+                </span>
+                <span v-else class="final-price-topay text-success">
+                    رایگان
                 </span>
             </div>
 

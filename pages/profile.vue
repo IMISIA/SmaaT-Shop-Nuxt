@@ -57,20 +57,19 @@
 <script>
     import { mapState, mapActions } from 'vuex';
     import mixin from '~/mixins/mixin';
-    import Cookie from '~/plugins/cookie';
-
     export default {
-        // validate({ store }) {
-        //     return typeof store.state.Me === 'object' && Object.keys(store.state.Me).length !== 0 ? true : false;
-        // } ,
+        validate({ store , redirect }) {
+            if(typeof store.state.Me === 'object' && Object.keys(store.state.Me).length !== 0) {
+                return true;
+            } else {
+                redirect('/');
+                return false;
+            }
+        } ,
 
         async fetch({ $axios , store , req }) {
-            let JWT = Cookie.get('JWT' , req.headers.cookie);
-
-            $axios.setToken(JWT , 'Bearer');
-            if(JWT) $axios.defaults.baseURL = $axios.defaults.baseURL + '/auth';
-
             let { data } = await $axios({
+                baseURL: 'https://cors-anywhere.herokuapp.com/http://luxbuystore.ir/graphql/auth' ,
                 method: 'POST' ,
                 data: {
                 query: `
@@ -94,6 +93,22 @@
                                 variation {
                                     id
                                     sales_price
+                                }
+                            }
+                            orders {
+                                id
+                                offer
+                                total
+                                shipping_cost
+                                paid_at
+                                created_at
+                                order_status {
+                                    id
+                                    title
+                                    color
+                                }
+                                shipping_method {
+                                    name
                                 }
                             }
                         }
