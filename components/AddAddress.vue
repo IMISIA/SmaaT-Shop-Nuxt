@@ -23,7 +23,6 @@
                                 :items="provinces"
                                 item-text="name"
                                 item-value="id"
-                                @change="setCities"
                                 no-data-text="موردی وجود ندارد"
                                 label="استان مورد نظر خود را انتخاب کنید"
                                 outlined
@@ -248,12 +247,20 @@
             }
         } ,
 
+        watch: {
+            'province.select'(val) {
+                this.setCities(val);
+            }
+        } ,
+
         methods: {
             ...mapActions([
                 'Request'
             ]) ,
 
             setCities(id) {
+                if(!id) return;
+
                 this.setCenterMap( this.provinces.find(el => el.id == id).coordinates )
 
                 this.city.loading = true;

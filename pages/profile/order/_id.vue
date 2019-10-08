@@ -1,15 +1,19 @@
 <template>
     <section class="orders">
-        <p class="alert alert-success" v-if="from_gateway">
-            سفارش شما با موفقیت ثبت شد
-        </p>
+        <div class="alert alert-success" v-if="from_gateway">
+            <i class="flaticon-correct"></i>
+            <p>
+                سفارش شما با موفقیت ثبت شد
+                <span> از خرید شما متشکریم </span>
+            </p>
+        </div>
 
         <div class="d-flex rtl">
             <v-btn class="my-auto" color="#767676" text @click="$router.push('/profile/orders')">
                 <v-icon right>fas fa-arrow-right</v-icon>
                 <span class="fs-13"> بازگشت </span>
             </v-btn>
-            <span class="headline-info border-right"> سفارش {{ order.id }} </span>
+            <span class="headline-info border-right"> سفارش {{ order.id.toUpperCase() + '#' }} </span>
         </div>
 
         <el-card class="am-shadow" :body-style="{ padding : '0' }">
@@ -102,6 +106,7 @@
     export default {
         async asyncData({ $axios , params }) {
             let { data } = await $axios({
+                // baseURL: 'https://cors-anywhere.herokuapp.com/http://luxbuystore.ir/graphql/auth' ,
                 method: 'POST' ,
                 data: {
                     query: `
@@ -258,22 +263,18 @@
 
         computed: {
             orderProducts() {
-                let arr = [];
-
-                this.order.items.map( (item,idx) => {
-                    arr.push({
+                return this.order.items.map( (item,idx) => {
+                    return {
                         index: idx ,
-                        index_fa: idx.toLocaleString('fa-IR') ,
+                        index_fa: (idx + 1).toLocaleString('fa-IR') ,
                         slug: item.variation.product.slug ,
                         count: (item.count).toLocaleString('fa-IR') ,
                         sales_price: (item.price).toLocaleString('fa-IR') + ' تومان' ,
                         total: (item.price * item.count).toLocaleString('fa-IR') + ' تومان' ,
                         offer: (item.offer).toLocaleString('fa-IR') ,
                         final_price: ((item.price * item.count) - item.offer ).toLocaleString('fa-IR') + ' تومان'
-                    })
+                    }
                 })
-
-                return arr;
             }
         } ,
     }

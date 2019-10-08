@@ -5,7 +5,7 @@
             <el-card class="product-slider">
                 <div slot="header" class="text-right bold">
                     <span> {{ Products.title }} </span>
-                    <nuxt-link v-if="Link" :to="Link.to" class="fs-10 mr-2">
+                    <nuxt-link v-if="Link" :to="Link.to" class="fs-10 mr-2 web-color">
                         ( {{ Link.title }} )
                     </nuxt-link>
                     <div :style="{ display: 'contents !important' }">
@@ -139,11 +139,11 @@
     }
 
     .includeIconOnly.small.next-product , .includeIconOnly.small.prev-product {
-        height: 23px !important;
-        width: 24px !important;
+        height: 21px !important;
+        width: 22px !important;
         padding: 3px !important;
         i {
-            font-size: 19px !important;
+            font-size: 16px !important;
         }
     }
 </style>

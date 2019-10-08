@@ -216,6 +216,27 @@
         font-size: 13px;
         text-align: center;
     }
+
+    .alert.alert-success {
+        display: flex;
+        i {
+            display: inline-flex;
+            font-size: 80px;
+            line-height: 1;
+            margin-left: 20px;
+        }
+        p {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            margin-bottom: 0px;
+        }
+        span {
+            display: block;
+            font-weight: 700;
+            font-size: 22px;
+        }
+    }
 }
 
 .user-reviews {

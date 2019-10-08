@@ -49,7 +49,7 @@
     } ,
 
     created() {
-      this.$nuxt.$axios.defaults.baseURL = 'https://cors-anywhere.herokuapp.com/' + this.$nuxt.$axios.defaults.baseURL;
+      // this.$nuxt.$axios.defaults.baseURL = 'https://cors-anywhere.herokuapp.com/' + this.$nuxt.$axios.defaults.baseURL;
       this.$nuxt.$res = process.client ? this.$nuxt.$el.clientWidth < 770 : false;
       // if(process.client) {
       //   if(this.$reload) {

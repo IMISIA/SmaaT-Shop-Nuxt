@@ -69,7 +69,7 @@
 
         async fetch({ $axios , store , req }) {
             let { data } = await $axios({
-                baseURL: 'https://cors-anywhere.herokuapp.com/http://luxbuystore.ir/graphql/auth' ,
+                // baseURL: 'https://cors-anywhere.herokuapp.com/http://luxbuystore.ir/graphql/auth' ,
                 method: 'POST' ,
                 data: {
                 query: `

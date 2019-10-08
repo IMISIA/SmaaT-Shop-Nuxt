@@ -1,6 +1,6 @@
 <template>
     <div class="filter-bar" :class="{ 'p-3' : Res }">
-        <!-- Categories Tree -->
+        <!-- Applyed Filters -->
         <el-card class="am-shadow" v-if="is_exist(ApplyedFilters)">
             <div class="position-relative" slot="header">
                 <span>فیلتر های اعمال شده:</span>
@@ -389,8 +389,24 @@
                     }
                 })
 
-                if(QueryStr.min) this.PriceRange[0] = parseInt(QueryStr.min) / 1000;
-                if(QueryStr.max) this.PriceRange[1] = parseInt(QueryStr.max) / 1000;
+                if(QueryStr.min) {
+                    this.PriceRange[0] = parseInt(QueryStr.min) / 1000;
+                    this.ApplyedFilters.push({
+                        title: 'از' ,
+                        value: this.PriceRange[0] ,
+                        name: 'min' ,
+                        displayName: parseInt(QueryStr.min).toLocaleString('fa-IR') + ' تومان'
+                    })
+                }
+                if(QueryStr.max) {
+                    this.PriceRange[1] = parseInt(QueryStr.max) / 1000;
+                    this.ApplyedFilters.push({
+                        title: 'تا' ,
+                        value: this.PriceRange[1] ,
+                        name: 'max' ,
+                        displayName: parseInt(QueryStr.max).toLocaleString('fa-IR') + ' تومان'
+                    })
+                }
             } ,
 
             DeleteAllFilters() {
@@ -406,7 +422,8 @@
             } ,
 
             NodeClick(data, node) {
-                if(node.isLeaf) this.$router.replace({ params: {slug: data.id} });
+                // if(node.isLeaf) this.$router.replace({ params: {slug: data.id} });
+                this.$router.replace({ params: {slug: data.id} });
             } ,
 
             beforeEnter(el) {

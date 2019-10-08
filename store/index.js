@@ -1,8 +1,8 @@
 import Cookie from '~/plugins/cookie';
 
 export const state = () => ({
-    $url: 'http://metro-market.ir' ,
-    // $url: '' ,
+    // $url: 'http://metro-market.ir' ,
+    $url: '' ,
 
     $auth: false ,
     $reload: false ,

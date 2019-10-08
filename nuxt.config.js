@@ -1,8 +1,8 @@
 import pkg from './package'
 
 export default {
-  mode: 'universal',
-  // mode: 'spa',
+  // mode: 'universal',
+  mode: 'spa',
 
   /*
   ** Headers of the page
@@ -69,9 +69,9 @@ export default {
     // See https://github.com/nuxt-community/axios-module#options
     // baseURL : 'http://luxbuystore.ir/graphql' ,
     // baseURL : 'http://metro-market.ir/graphql' ,
-    baseURL : 'http://smaat.ir/graphql' ,
+    // baseURL : 'http://smaat.ir/graphql' ,
     // baseURL : 'https://cors-anywhere.herokuapp.com/http://metro-market.ir/graphql' ,
-    // baseURL : '/graphql'
+    baseURL : '/graphql'
   },
 
   /*

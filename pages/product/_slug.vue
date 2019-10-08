@@ -76,7 +76,7 @@
 
                                         <div class="col-12 col-lg-6 mb-2" v-if="is_exist(Product.categories)">
                                             دسته بندی :
-                                            <nuxt-link class="web-color" :to="`/category/${Product.categories[0].slug}`">
+                                            <nuxt-link class="web-color" :to="`/category/${Product.categories[0].id}`">
                                                 {{ Product.categories[0].title }}
                                             </nuxt-link>
                                         </div>

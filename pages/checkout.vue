@@ -496,7 +496,12 @@
             openModal(editable_address) {
                 if(!editable_address) {
                     this.addressModalTitle = 'افزودن آدرس جدید';
-                    this.$refs.AddAddress.newAddress.id = null;
+                    Object.keys(this.$refs.AddAddress.newAddress).map( el => {
+                        if(el != 'valid' && el != 'loading') this.$refs.AddAddress.newAddress[el] = '';
+                    });
+                    this.$refs.AddAddress.province.select = '';
+                    this.$refs.AddAddress.city.select = '';                    
+                    this.addressModal = true;
                     this.addressModal = true;
                 } else {
                     this.addressModalTitle = 'ویرایش آدرس';
@@ -507,6 +512,8 @@
                     clone.lat = editable_address.coordinates.lat;
                     clone.lng = editable_address.coordinates.lng;
                     clone.id = eval(clone.id);
+                    this.$refs.AddAddress.province.select = editable_address.city.province.id;
+                    this.$refs.AddAddress.city.select = editable_address.city.id;
                     this.$refs.AddAddress.newAddress = { ...this.$refs.AddAddress.newAddress , ...clone };
                     this.addressModal = true;
                 }

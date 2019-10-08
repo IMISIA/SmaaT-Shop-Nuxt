@@ -1890,6 +1890,26 @@
   font-size: 13px;
   text-align: center;
 }
+.orders .alert.alert-success {
+  display: flex;
+}
+.orders .alert.alert-success i {
+  display: inline-flex;
+  font-size: 80px;
+  line-height: 1;
+  margin-left: 20px;
+}
+.orders .alert.alert-success p {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-bottom: 0px;
+}
+.orders .alert.alert-success span {
+  display: block;
+  font-weight: 700;
+  font-size: 22px;
+}
 
 .user-reviews {
   direction: rtl;

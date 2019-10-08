@@ -27,6 +27,15 @@
                     </template>
                     <el-tag v-else type="danger">پرداخت نشده</el-tag>
                 </template>
+                <template #item.order_status="{item}">
+                    <el-tag v-if="item.order_status" effect="plain"
+                        :style="{ color: item.order_status.color , borderColor: item.order_status.color }">
+                        {{ item.order_status.title }}
+                    </el-tag>
+                    <el-tag v-else effect="plain" type="info">
+                        تعریف نشده
+                    </el-tag>
+                </template>
             </v-data-table>
         </el-card>
     </section>
