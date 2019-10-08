@@ -563,9 +563,12 @@ span.title-field {
     -ms-transform: translateY(50%);
     transform: translateY(50%);
     width: 25px !important;
-    height: 25px !important;
+    height: 20px !important;
     -webkit-filter: drop-shadow(0 2px 4px #616161);
     filter: drop-shadow(0 2px 4px #616161);
+    @media (max-width:576px) {
+        display: none;
+    }
 }
 
 .swiper-button-prev {
@@ -593,6 +596,10 @@ span.title-field {
 .image-slider {
     width: 100%;
     max-height: 400px;
+}
+
+.swiper-container-horizontal > .swiper-pagination-bullets {
+    bottom: 5% !important;
 }
 // Slider And Posters Style
 

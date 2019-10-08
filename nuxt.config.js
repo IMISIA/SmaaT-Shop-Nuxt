@@ -1,8 +1,8 @@
 import pkg from './package'
 
 export default {
-  // mode: 'universal',
-  mode: 'spa',
+  mode: 'universal',
+  // mode: 'spa',
 
   /*
   ** Headers of the page
@@ -31,7 +31,8 @@ export default {
     '~/assets/Css/Styles.css' ,
     '~/assets/Css/bootstrap.min.css' ,
     '~/assets/Fonts/Linearicons/style.css' ,
-    '~/assets/Fonts/Flaticon/flaticon.css'
+    '~/assets/Fonts/Flaticon/flaticon.css' ,
+    '~/plugins/magiczoom/magiczoom.css' ,
   ],
 
   /*
@@ -44,6 +45,7 @@ export default {
     { src : '~/plugins/otherClient' , mode : 'client' } ,
     { src : '~/plugins/swiper' , mode : 'client' } ,
     { src : '~/plugins/jquery-3.4.1.min.js' , mode : 'client' } ,
+    // { src : '~/plugins/magiczoom/magiczoom.js' , mode : 'client' } ,
   ] ,
 
   devModules: [
@@ -69,9 +71,9 @@ export default {
     // See https://github.com/nuxt-community/axios-module#options
     // baseURL : 'http://luxbuystore.ir/graphql' ,
     // baseURL : 'http://metro-market.ir/graphql' ,
-    // baseURL : 'http://smaat.ir/graphql' ,
+    baseURL : 'http://smaat.ir/graphql' ,
     // baseURL : 'https://cors-anywhere.herokuapp.com/http://metro-market.ir/graphql' ,
-    baseURL : '/graphql'
+    // baseURL : '/graphql'
   },
 
   /*

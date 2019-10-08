@@ -44,12 +44,16 @@
         meta: [
           { hid: 'description', name: 'description', content: this.SiteSetting.description } ,
           { name: 'theme-color', content: this.SiteSetting.theme_color } ,
+        ] ,
+        link: [
+          { rel: 'icon', type: 'image/x-icon',
+            href: this.SiteSetting.logo ? this.$url + this.SiteSetting.logo.thumb : '' }
         ]
       }
     } ,
 
     created() {
-      // this.$nuxt.$axios.defaults.baseURL = 'https://cors-anywhere.herokuapp.com/' + this.$nuxt.$axios.defaults.baseURL;
+      this.$nuxt.$axios.defaults.baseURL = 'https://cors-anywhere.herokuapp.com/' + this.$nuxt.$axios.defaults.baseURL;
       this.$nuxt.$res = process.client ? this.$nuxt.$el.clientWidth < 770 : false;
       // if(process.client) {
       //   if(this.$reload) {
@@ -201,6 +205,7 @@
                             logo {
                                 id
                                 name
+                                thumb
                                 medium
                             }
                             banner {
@@ -315,5 +320,4 @@
       }
     }
   }
-
 </script>

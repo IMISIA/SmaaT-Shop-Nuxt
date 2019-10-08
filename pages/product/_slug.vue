@@ -5,15 +5,25 @@
                 <div class="col-md-4 pb-3 pb-md-0" :class="[ Res ? 'border-bottom' : 'border-left' ]">
                     <swiper :options="SwiperOption" ref="SwiperBig">
                         <swiper-slide
-                            v-for="(img,idx) in Valid_Images" :key="idx"
+                            v-for="(img,idx) in Valid_Images" :key="idx" class="text-center"
                             :data-color="img.color_code" :data-index="idx">
-                            <v-img
+                            <!-- <v-img
                                 :src="img.src"
                                 width="100%"
                                 class="bg-white"
                                 min-height="350px"
                                 contain
-                            />
+                            /> -->
+
+                            <a :href="img.src" class="MagicZoom" id="MagicZoom" :data-options="MagicZoomOptions">
+                                <img
+                                    :src="img.src"
+                                    class="product-image"
+                                    id="product-image"
+                                    alt="product-image"
+                                >
+                            </a>
+
                         </swiper-slide>
                     </swiper>
 
@@ -89,9 +99,10 @@
                                         <div class="col-12 col-lg-6 mb-2">
                                             وضعیت :
                                             <span class="web-color">
-                                                {{ Product.variations && Product.variations.some(el => el.inventory)
+                                                {{ is_exist(Product.variations) && Product.label == null
+                                                    && Product.variations.some(el => el.inventory)
                                                     ? 'آماده ارسال'
-                                                    : 'نا موجود'
+                                                    : Product.label ? Product.label.title : 'ناموجود'
                                                 }}
                                             </span>
                                         </div>
@@ -152,8 +163,8 @@
                                     </p>
 
                                     <div class="add-to-cart">
-                                        <v-btn class="as-btn" large block>
-                                            موجود شد اطلاع بده
+                                        <v-btn class="as-btn" large block @click="AddFav(Product.id)">
+                                            افزودن به علاقه‌مندی
                                         </v-btn>
                                     </div>
                                 </div>
@@ -207,6 +218,7 @@
     import { mapState } from 'vuex';
     import Variations from '~/components/Variations.vue';
     import ProductSlider from '~/components/ProductSlider.vue';
+    if(process.client) require('~/plugins/magiczoom/magiczoom.js');
 
     export default {
         head() {
@@ -359,6 +371,8 @@
                         $(this).removeClass('v-application');
                     })
                 })
+
+                MagicZoom.start();
             })
         } ,
 
@@ -374,6 +388,14 @@
                     touchRatio: 0.2 ,
                     slideToClickedSlide: true
                 } ,
+
+                MagicZoomOptions: `
+                    zoomMode: magnifier;
+                    zoomWidth: 50;
+                    zoomheight: 50;
+                    variableZoom: true;
+                    textClickZoomHint: برای بزرگنمایی دوبار ضربه بزنید;
+                ` ,
 
                 Quantity: 1 ,
 
