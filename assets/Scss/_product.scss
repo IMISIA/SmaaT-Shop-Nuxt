@@ -244,6 +244,13 @@
     .v-text-field.v-text-field--enclosed .v-input__prepend-inner {
         margin-top: 10px !important;
     }
+
+    figure.mz-figure {
+        [id*="crMz"] , [id^="crMz"] ,
+        [id*="mzCr"] , [id^="mzCr"] {
+            display: none !important;
+        }
+    }
 }
 
 .product-image {
@@ -422,6 +429,12 @@
     }
 }
 
+.mz-hint-message {
+    &::before {
+        display: none !important;
+    }
+}
+
 @media (max-width:768px) {
     .single-product {
         .title {
@@ -499,6 +512,10 @@
             display: none;
         }
     }
+
+    .mz-hint-message {
+        font-size: 9px;
+    }
 }
 
 @media (max-width:767px) {
@@ -515,8 +532,4 @@
 
 .el-radio.is-bordered.is-checked {
     transition: border-color .3s;
-}
-
-[id^="crMz"] , [id*="crMz"] {
-    display: none !important;
 }

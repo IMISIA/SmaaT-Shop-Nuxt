@@ -4,9 +4,8 @@
             <div class="row mx-0 rtl">
                 <div class="col-md-4 pb-3 pb-md-0" :class="[ Res ? 'border-bottom' : 'border-left' ]">
                     <swiper :options="SwiperOption" ref="SwiperBig">
-                        <swiper-slide
-                            v-for="(img,idx) in Valid_Images" :key="idx" class="text-center"
-                            :data-color="img.color_code" :data-index="idx">
+                        <swiper-slide v-for="(img,idx) in Valid_Images" :key="idx"
+                            class="text-center" :data-color="img.color_code" :data-index="idx">
                             <!-- <v-img
                                 :src="img.src"
                                 width="100%"
@@ -15,15 +14,10 @@
                                 contain
                             /> -->
 
-                            <a :href="img.src" class="MagicZoom" id="MagicZoom" :data-options="MagicZoomOptions">
-                                <img
-                                    :src="img.src"
-                                    class="product-image"
-                                    id="product-image"
-                                    alt="product-image"
-                                >
+                            <a :href="img.src" class="MagicZoom" :data-options="MagicZoomOptions" 
+                                :data-mobile-options="MagicZoomMobileOptions">
+                                <img :src="img.src" class="product-image" alt="product-image">
                             </a>
-
                         </swiper-slide>
                     </swiper>
 
@@ -136,7 +130,8 @@
                                     </p>
 
                                     <div class="input-number">
-                                        <vs-input-number v-model="Quantity" label="عدد" :color="web_color_dark"/>
+                                        <vs-input-number v-model="Quantity" :color="web_color_dark"
+                                            :label=" Product.unit ? Product.unit.title : 'عدد' "/>
                                     </div>
 
                                     <div class="add-to-cart">
@@ -335,7 +330,7 @@
 
             if(!data.data.product) error({ statusCode: 404, message: 'محصول مورد نظر پیدا نشد' });
 
-            store.commit( 'Set_state' , {
+            store.commit('Set_state' , {
                 Module : 'product' ,
                 Prop : 'Single_Product' ,
                 Val : data.data.product
@@ -361,10 +356,10 @@
 
         mounted() {
             this.$nextTick(() => {
-                const SwiperBig = this.$refs.SwiperBig.swiper
-                const SwiperThumbs = this.$refs.SwiperThumbs.swiper
-                SwiperBig.controller.control = SwiperThumbs
-                SwiperThumbs.controller.control = SwiperBig
+                const SwiperBig = this.$refs.SwiperBig.swiper;
+                const SwiperThumbs = this.$refs.SwiperThumbs.swiper;
+                SwiperBig.controller.control = SwiperThumbs;
+                SwiperThumbs.controller.control = SwiperBig;
 
                 $('.single-product').ready(function() {
                     $('.remove-app-class').each(function() {
@@ -393,9 +388,14 @@
                     zoomMode: magnifier;
                     zoomWidth: 50;
                     zoomheight: 50;
+                    zoomDistance: 30;
                     variableZoom: true;
-                    textClickZoomHint: برای بزرگنمایی دوبار ضربه بزنید;
+                    textHoverZoomHint: برای بزرگنمایی موس را روی عکس حرکت دهید;
                 ` ,
+
+                MagicZoomMobileOptions: `
+                    textClickZoomHint: برای بزرگنمایی دوبار ضربه بزنید;
+                `,
 
                 Quantity: 1 ,
 

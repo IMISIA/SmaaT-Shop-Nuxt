@@ -2,7 +2,7 @@
     <section class="slider">
         <swiper :options="SwiperOptions">
             <swiper-slide v-for="(slide,idx) in slides" :key="idx" dir="rtl">
-                <nuxt-link :to="slide.link || '/'">
+                <a :href="slide.link || '/'">
                     <img
                         :src=" slide.image && slide.image.wide
                             ? $url + slide.image.wide
@@ -10,7 +10,7 @@
                         class="image-slider"
                         :alt="`slide-${idx}`"
                     />
-                </nuxt-link>
+                </a>
             </swiper-slide>
             <div class="swiper-pagination" slot="pagination"></div>
             <div class="swiper-button-prev swiper-button-white" slot="button-prev"></div>

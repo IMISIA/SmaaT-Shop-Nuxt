@@ -1,13 +1,13 @@
 <template>
     <section class="row mx-2 rtl" v-if="Valid_Posters">
         <div class="px-2 mb-3" :class="autoGrid[idx]" v-for="(poster,idx) in Valid_Posters" :key="idx">
-            <nuxt-link :to="poster.link || '/'">
+            <a :href="poster.link || '/'">
                 <img
                     :src="$url + poster.image.large"
                     class="poster"
                     :alt="`poster-${idx}`"
                 >
-            </nuxt-link>
+            </a>
         </div>
     </section>
 </template>

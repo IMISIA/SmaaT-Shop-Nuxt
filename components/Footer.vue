@@ -78,7 +78,32 @@
                     </div>
                 </div>
             </div>
+
         </section>
+        
+        <div class="footer-info">
+            <div class="row container">
+                <div class="col-lg-6">
+                    © 2017 - 2019
+                    <p class="d-inline-block mr-3">
+                        طراحی و توسعه توسط     
+                        <a href="https://www.smaat.ir">
+                            SmaaT Co
+                        </a>
+                    </p>
+                </div>
+                <div class="col-lg-6">
+                    <a class="" href="tel:+989105009868">
+                        <i class="fas fa-laptop"></i>
+                        تماس با تیم توسعه دهنده
+                    </a>
+                    <a class=" mr-lg-5" :href="'tel:'+SiteSetting.phone">
+                        <i class="fas fa-life-ring"></i>
+                        تماس با پشتیبانی
+                    </a>
+                </div>
+            </div>
+        </div>
     </footer>
 </template>
 
