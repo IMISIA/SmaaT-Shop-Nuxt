@@ -58,8 +58,11 @@
 
                         <p> {{ review.message }} </p>
 
+                        <v-spacer></v-spacer>
+
                         <div class="comment-actions">
-                            <div class="alert alert-danger" v-if="!review.is_accept">تایید نشده</div>
+                            <div class="alert alert-danger" v-if="review.is_accept == false">تایید نشده</div>
+                            <div class="alert alert-warning" v-else-if="!review.is_accept">در انتظار تایید</div>
                             <v-spacer></v-spacer>
                         </div>
                     </div>
@@ -316,13 +319,35 @@
                     name: 'createReview' ,
                     params: {
                         product_id: this.Product.id ,
-                        title: this.NewComment.title ,
-                        message: this.NewComment.content ,
+                        title: this.NewComment.title.trim() ,
+                        message: this.NewComment.content.trim() ,
                         advantages: this.NewComment.advantages.value.map(el => `"${el}"`) ,
                         disadvantages: this.NewComment.disadvantages.value.map(el => `"${el}"`)
                     } ,
-                    resQuery: 'id' ,
-                    resolverAfter: ({data}) => {
+                    resQuery: `
+                        id
+                        title
+                        message
+                        is_accept
+                        created_at
+                        writer {
+                            id
+                            first_name
+                            last_name
+                            full_name
+                            avatar {
+                                small
+                            }
+                        }
+                        ranks {
+                            id
+                            title
+                            value
+                        }
+                        advantages
+                        disadvantages
+                    ` ,
+                    resolverAfter: ({store , data}) => {
                         if(data.errors && data.errors.length) {
                             Object.keys(data.errors[0].validation).map( el => {
                                 this.Notif(data.errors[0].validation[el], 'warning', 'error');
@@ -332,6 +357,16 @@
                             this.NewComment.actions.loading = false;
                             this.NewComment.actions.modal = false;
                             this.Notif('نظر شما با موفقیت ثبت و در انتظار تایید میباشد', 'success', 'check');
+
+                            store.commit('Resolver' , function(state) {
+                                if(!state.product.Single_Product.review) {
+                                    state.product.Single_Product.review = [];
+                                }
+
+                                if(!data.data.createReview.is_accept) data.data.createReview.is_accept = null;
+
+                                state.product.Single_Product.reviews.unshift(data.data.createReview);
+                            })
                         } else {
                             this.NewComment.actions.loading = false;
                             this.Notif('متاسفانه عملیات با موفقیت انجام نشد', 'warning', 'error');

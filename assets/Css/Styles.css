@@ -1325,6 +1325,10 @@
   padding-right: 5px;
 }
 
+.comment-content {
+  display: flex;
+  flex-direction: column;
+}
 .comment-content > span {
   display: block;
   font-size: 16px;

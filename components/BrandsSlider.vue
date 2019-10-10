@@ -1,5 +1,5 @@
 <template>
-    <section class="row m-0 rtl">
+    <section class="row m-0 rtl" v-if="Brands && Brands.length">
         <div class="col-12">
             <el-card class="product-slider">
                 <div slot="header" class="text-right bold">

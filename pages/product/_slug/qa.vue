@@ -71,8 +71,11 @@
 
                             <p> {{ question.message }} </p>
 
+                            <v-spacer></v-spacer>
+
                             <div class="comment-actions">
-                                <div class="alert alert-danger" v-if="!question.is_accept">تایید نشده</div>
+                                <div class="alert alert-danger" v-if="question.is_accept == false">تایید نشده</div>
+                                <div class="alert alert-warning" v-else-if="!question.is_accept">در انتظار تایید</div>
 
                                 <v-spacer></v-spacer>
 
@@ -84,7 +87,7 @@
                     </li>
 
                     <!-- Answers -->
-                    <li class="row answer" v-for="answer in question.aswers" :key="answer.id">
+                    <li class="row answer" v-for="answer in question.answers" :key="answer.id">
                         <div class="col-md-3 col-lg-2 comment-writer" :key="'answer-'+question.id">
                             <v-avatar size="70">
                                 <img :src="answer.writer.avatar && answer.writer.avatar.small
@@ -105,8 +108,11 @@
 
                             <p> {{ answer.message }} </p>
 
+                            <v-spacer></v-spacer>
+
                             <div class="comment-actions">
-                                <div class="alert alert-danger" v-if="!answer.is_accept">تایید نشده</div>
+                                <div class="alert alert-danger" v-if="answer.is_accept == false">تایید نشده</div>
+                                <div class="alert alert-warning" v-else-if="!answer.is_accept">در انتظار تایید</div>
                                 <v-spacer></v-spacer>
                             </div>
                         </div>
@@ -189,6 +195,22 @@
                                     full_name
                                     avatar {
                                         small
+                                    }
+                                }
+                                answers {
+                                    id
+                                    title
+                                    message
+                                    is_accept
+                                    created_at
+                                    writer {
+                                        id
+                                        first_name
+                                        last_name
+                                        full_name
+                                        avatar {
+                                            small
+                                        }
                                     }
                                 }
                             }
@@ -274,12 +296,27 @@
                     name: 'createQuestionAndAnswer' ,
                     params: {
                         product_id: this.Product.id ,
-                        title: isAnswer ? this.NewAnswer.title : this.NewQuestion.title ,
-                        message: isAnswer ? this.NewAnswer.content : this.NewQuestion.content ,
+                        title: isAnswer ? this.NewAnswer.title.trim() : this.NewQuestion.title.trim() ,
+                        message: isAnswer ? this.NewAnswer.content.trim() : this.NewQuestion.content.trim() ,
                         question_id: isAnswer ? this.NewAnswer.parent_id : null
                     } ,
-                    resQuery: 'id' ,
-                    resolverAfter: ({data}) => {
+                    resQuery: `
+                        id
+                        title
+                        message
+                        is_accept
+                        created_at
+                        writer {
+                            id
+                            first_name
+                            last_name
+                            full_name
+                            avatar {
+                                small
+                            }
+                        }
+                    ` ,
+                    resolverAfter: ({store , data}) => {
                         if(data.errors && data.errors.length) {
                             Object.keys(data.errors[0].validation).map( el => {
                                 this.Notif(data.errors[0].validation[el], 'warning', 'error');
@@ -290,6 +327,34 @@
                             isAnswer ? this.NewAnswer.actions.loading = false : this.NewQuestion.actions.loading = false;
                             this.Notif(`${isAnswer ? 'پاسخ' : 'پرسش'} شما با موفقیت ثبت و در انتظار تایید میباشد`
                             , 'success', 'check');
+
+                            if(isAnswer) {
+                                store.commit('Resolver' , (state) => {
+                                    let index = state.product.Single_Product.questions.map( (el,idx) => {
+                                        if(el.id == this.NewAnswer.parent_id) {
+                                            return idx;
+                                        }
+                                    })[0];
+
+                                    if(!state.product.Single_Product.questions[index].answers) {
+                                        state.product.Single_Product.questions[index].answers = [];
+                                    }
+    
+                                    if(!data.data.createQuestionAndAnswer.is_accept) data.data.createQuestionAndAnswer.is_accept = null;
+    
+                                    state.product.Single_Product.questions[index].answers.unshift(data.data.createQuestionAndAnswer);
+                                })
+                            } else {
+                                store.commit('Resolver' , function(state) {
+                                    if(!state.product.Single_Product.questions) {
+                                        state.product.Single_Product.questions = [];
+                                    }
+    
+                                    if(!data.data.createQuestionAndAnswer.is_accept) data.data.createQuestionAndAnswer.is_accept = null;
+    
+                                    state.product.Single_Product.questions.unshift(data.data.createQuestionAndAnswer);
+                                })
+                            }
                         } else {
                             isAnswer ? this.NewAnswer.actions.loading = false : this.NewQuestion.actions.loading = false;
                             this.Notif('متاسفانه عملیات با موفقیت انجام نشد', 'warning', 'error');

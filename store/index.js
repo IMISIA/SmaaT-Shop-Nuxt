@@ -67,8 +67,9 @@ export const mutations = {
         }
     } ,
 
-    Resolver(state , pld) {
-        pld.resolver(state);
+    Resolver(state , func) {
+        // pld.resolver(state);
+        func(state);
     } ,
 
     openModal(state , name) {
@@ -314,7 +315,7 @@ export const actions = {
             }
         `;
 
-        // console.log(query);
+        console.log(query);
 
         this.$axios({
             method: 'POST' ,
